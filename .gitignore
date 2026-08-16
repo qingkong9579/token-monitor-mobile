@@ -1,0 +1,31 @@
+# Gradle
+.gradle/
+build/
+.gradle-home/
+
+# Kotlin
+.kotlin/
+
+# Local / IDE
+local.properties
+.idea/
+*.iml
+.vscode/
+.capture/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Claude (local settings)
+.claude/
+
+# Signing keys (never commit)
+*.jks
+*.keystore
+*.p12
+
+# macOS
+.DS_Store
+
+# Logs
+*.log

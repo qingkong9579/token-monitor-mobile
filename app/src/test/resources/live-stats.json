@@ -1,0 +1,3555 @@
+{
+  "updatedAt": "2026-08-14T14:13:49.082Z",
+  "periods": {
+    "today": {
+      "capabilities": {
+        "tokenComponents": true
+      },
+      "totalTokens": 0,
+      "costUsd": 0,
+      "cacheReadTokens": 0,
+      "cacheWriteTokens": 0,
+      "outputTokens": 0,
+      "unclassifiedTokens": 0,
+      "timedTokens": 0,
+      "timedOutputTokens": 0,
+      "timedDurationMs": 0,
+      "clients": {},
+      "clientCosts": {},
+      "clientCacheReads": {},
+      "clientCacheWrites": {},
+      "clientOutputs": {},
+      "clientUnclassifiedTokens": {},
+      "models": {},
+      "modelCosts": {},
+      "modelCacheReads": {},
+      "modelCacheWrites": {},
+      "modelOutputs": {},
+      "modelUnclassifiedTokens": {},
+      "clientModels": {},
+      "clientModelCosts": {},
+      "projects": {},
+      "sessions": {}
+    },
+    "month": {
+      "capabilities": {
+        "tokenComponents": true
+      },
+      "totalTokens": 848572210,
+      "costUsd": 3.129117,
+      "cacheReadTokens": 834774400,
+      "cacheWriteTokens": 0,
+      "outputTokens": 878560,
+      "unclassifiedTokens": 0,
+      "timedTokens": 849054089,
+      "timedOutputTokens": 878560,
+      "timedDurationMs": 56617972,
+      "clients": {
+        "claude": 16613146,
+        "opencode": 830276787,
+        "codex": 1682277
+      },
+      "clientCosts": {
+        "claude": 0.466556,
+        "opencode": 2.630295,
+        "codex": 0.032265
+      },
+      "clientCacheReads": {
+        "claude": 13992960,
+        "opencode": 819210624,
+        "codex": 1570816
+      },
+      "clientCacheWrites": {},
+      "clientOutputs": {
+        "claude": 84358,
+        "opencode": 748583,
+        "codex": 45619
+      },
+      "clientUnclassifiedTokens": {},
+      "models": {
+        "deepseek-v4-flash": 845783315,
+        "deepseek-v4-pro": 1925686,
+        "deepseek-v4-flash-free": 863209
+      },
+      "modelCosts": {
+        "deepseek-v4-flash": 3.052983,
+        "deepseek-v4-pro": 0.076134
+      },
+      "modelCacheReads": {
+        "deepseek-v4-flash": 832304896,
+        "deepseek-v4-pro": 1770112,
+        "deepseek-v4-flash-free": 699392
+      },
+      "modelCacheWrites": {},
+      "modelOutputs": {
+        "deepseek-v4-flash": 867875,
+        "deepseek-v4-pro": 4696,
+        "deepseek-v4-flash-free": 5989
+      },
+      "modelUnclassifiedTokens": {},
+      "clientModels": {
+        "claude": {
+          "deepseek-v4-flash": 14687460,
+          "deepseek-v4-pro": 1925686
+        },
+        "opencode": {
+          "deepseek-v4-flash": 829413578,
+          "deepseek-v4-flash-free": 863209
+        },
+        "codex": {
+          "deepseek-v4-flash": 1682277
+        }
+      },
+      "clientModelCosts": {
+        "claude": {
+          "deepseek-v4-flash": 0.390422,
+          "deepseek-v4-pro": 0.076134
+        },
+        "opencode": {
+          "deepseek-v4-flash": 2.630295
+        },
+        "codex": {
+          "deepseek-v4-flash": 0.032265
+        }
+      },
+      "projects": {
+        "easytier-miuix": {
+          "label": "easytier-miuix",
+          "tokens": 14687460,
+          "costUsd": 0.390422,
+          "clients": {
+            "claude": 14687460
+          }
+        },
+        "blog": {
+          "label": "Blog",
+          "tokens": 1695910,
+          "costUsd": 0.057092,
+          "clients": {
+            "claude": 1695910
+          }
+        },
+        "flowscript": {
+          "label": "flowscript",
+          "tokens": 817754116,
+          "costUsd": 2.587535,
+          "clients": {
+            "opencode": 817754116
+          }
+        },
+        "ai_ideas": {
+          "label": "ai_ideas",
+          "tokens": 2545486,
+          "costUsd": 0.032265,
+          "clients": {
+            "codex": 1682277,
+            "opencode": 863209
+          }
+        },
+        "exam": {
+          "label": "exam",
+          "tokens": 11311535,
+          "costUsd": 0.033855,
+          "clients": {
+            "opencode": 11311535
+          }
+        },
+        "logs": {
+          "label": "logs",
+          "tokens": 229776,
+          "costUsd": 0.019042,
+          "clients": {
+            "claude": 229776
+          }
+        },
+        "opencode": {
+          "label": "opencode",
+          "tokens": 305299,
+          "costUsd": 0.007334,
+          "clients": {
+            "opencode": 305299
+          }
+        },
+        "system32": {
+          "label": "System32",
+          "tokens": 42628,
+          "costUsd": 0.00157,
+          "clients": {
+            "opencode": 42628
+          }
+        }
+      },
+      "sessions": {
+        "claude:4e019f1f-83d8-41af-bb2a-8f6ac79a6c61": {
+          "client": "claude",
+          "sessionId": "4e019f1f-83d8-41af-bb2a-8f6ac79a6c61",
+          "totalTokens": 13487207,
+          "costUsd": 0.346305,
+          "messageCount": 112,
+          "inputTokens": 2143092,
+          "outputTokens": 52339,
+          "cacheReadTokens": 11291776,
+          "cacheWriteTokens": 0,
+          "reasoningTokens": 0,
+          "startedAt": "",
+          "lastUsedAt": "2026-08-11T14:30:44.382Z",
+          "projectId": "sha256:8ebb8abaa5d6186d39ddc85a96423489cf3411afafb186c57f92345f2290fdbe",
+          "projectLabel": "easytier-miuix",
+          "models": {
+            "deepseek-v4-flash": 13487207
+          },
+          "modelCosts": {
+            "deepseek-v4-flash": 0.346305
+          },
+          "providers": {
+            "deepseek": 13487207
+          }
+        },
+        "claude:ecfa55fd-94f4-42d5-89ef-432afce24940": {
+          "client": "claude",
+          "sessionId": "ecfa55fd-94f4-42d5-89ef-432afce24940",
+          "totalTokens": 1695910,
+          "costUsd": 0.057092,
+          "messageCount": 18,
+          "inputTokens": 111382,
+          "outputTokens": 3344,
+          "cacheReadTokens": 1581184,
+          "cacheWriteTokens": 0,
+          "reasoningTokens": 0,
+          "startedAt": "",
+          "lastUsedAt": "2026-08-11T08:51:37.128Z",
+          "projectId": "sha256:cfdce6702b531ef39835de51f0c9920781831b513e08dd83b0b8255806dadeb2",
+          "projectLabel": "Blog",
+          "models": {
+            "deepseek-v4-pro": 1695910
+          },
+          "modelCosts": {
+            "deepseek-v4-pro": 0.057092
+          },
+          "providers": {
+            "deepseek": 1695910
+          }
+        },
+        "claude:1c8f941a-9e07-4151-92d9-754346b50686": {
+          "client": "claude",
+          "sessionId": "1c8f941a-9e07-4151-92d9-754346b50686",
+          "totalTokens": 1200253,
+          "costUsd": 0.044118,
+          "messageCount": 17,
+          "inputTokens": 241858,
+          "outputTokens": 27323,
+          "cacheReadTokens": 931072,
+          "cacheWriteTokens": 0,
+          "reasoningTokens": 0,
+          "startedAt": "",
+          "lastUsedAt": "2026-08-11T10:23:55.433Z",
+          "projectId": "sha256:8ebb8abaa5d6186d39ddc85a96423489cf3411afafb186c57f92345f2290fdbe",
+          "projectLabel": "easytier-miuix",
+          "models": {
+            "deepseek-v4-flash": 1200253
+          },
+          "modelCosts": {
+            "deepseek-v4-flash": 0.044118
+          },
+          "providers": {
+            "deepseek": 1200253
+          }
+        },
+        "opencode:ses_02e247189ffefVPf2OxhFSfuz3": {
+          "client": "opencode",
+          "sessionId": "ses_02e247189ffefVPf2OxhFSfuz3",
+          "totalTokens": 774550946,
+          "costUsd": 2.370312,
+          "messageCount": 1754,
+          "inputTokens": 9629417,
+          "outputTokens": 606265,
+          "cacheReadTokens": 764315264,
+          "cacheWriteTokens": 0,
+          "reasoningTokens": 435640,
+          "startedAt": "2026-08-05T12:17:34.838Z",
+          "lastUsedAt": "2026-08-12T09:17:18.686Z",
+          "projectId": "sha256:e551c7b643e1f22a480907fa7e4af2f418ce5f129de5f793ed848f8d6d7951e8",
+          "projectLabel": "flowscript",
+          "models": {
+            "deepseek-v4-flash": 774550946
+          },
+          "modelCosts": {
+            "deepseek-v4-flash": 2.370312
+          },
+          "providers": {
+            "opencode_go": 774550946
+          }
+        },
+        "opencode:ses_02b336ffaffeDvfvjgB4ZiSyse": {
+          "client": "opencode",
+          "sessionId": "ses_02b336ffaffeDvfvjgB4ZiSyse",
+          "totalTokens": 43203170,
+          "costUsd": 0.217223,
+          "messageCount": 236,
+          "inputTokens": 346336,
+          "outputTokens": 89730,
+          "cacheReadTokens": 42767104,
+          "cacheWriteTokens": 0,
+          "reasoningTokens": 85229,
+          "startedAt": "2026-08-06T02:00:03.845Z",
+          "lastUsedAt": "2026-08-08T00:53:54.382Z",
+          "projectId": "sha256:e551c7b643e1f22a480907fa7e4af2f418ce5f129de5f793ed848f8d6d7951e8",
+          "projectLabel": "flowscript",
+          "models": {
+            "deepseek-v4-flash": 43203170
+          },
+          "modelCosts": {
+            "deepseek-v4-flash": 0.217223
+          },
+          "providers": {
+            "opencode_go": 43203170
+          }
+        },
+        "codex:rollout-2026-08-03T16-41-20-019fc6c8-dd1c-7732-8f4a-5827fed8fd53": {
+          "client": "codex",
+          "sessionId": "rollout-2026-08-03T16-41-20-019fc6c8-dd1c-7732-8f4a-5827fed8fd53",
+          "totalTokens": 1682277,
+          "costUsd": 0.032265,
+          "messageCount": 30,
+          "inputTokens": 65842,
+          "outputTokens": 45619,
+          "cacheReadTokens": 1570816,
+          "cacheWriteTokens": 0,
+          "reasoningTokens": 20984,
+          "startedAt": "2026-08-03T08:41:20.000Z",
+          "lastUsedAt": "2026-08-03T09:34:10.036Z",
+          "projectId": "sha256:68a609bec46b04216d3862f282f672bc9bb11d771ed3c5663bb461c1b33c1bb2",
+          "projectLabel": "ai_ideas",
+          "models": {
+            "deepseek-v4-flash": 1682277
+          },
+          "modelCosts": {
+            "deepseek-v4-flash": 0.032265
+          },
+          "providers": {
+            "deepseek": 1682277
+          }
+        },
+        "opencode:ses_005149642ffeBK2QfUo7H3XYq4": {
+          "client": "opencode",
+          "sessionId": "ses_005149642ffeBK2QfUo7H3XYq4",
+          "totalTokens": 10813814,
+          "costUsd": 0.029514,
+          "messageCount": 121,
+          "inputTokens": 91191,
+          "outputTokens": 38079,
+          "cacheReadTokens": 10684544,
+          "cacheWriteTokens": 0,
+          "reasoningTokens": 20291,
+          "startedAt": "2026-08-13T11:39:19.869Z",
+          "lastUsedAt": "2026-08-13T13:46:43.010Z",
+          "projectId": "sha256:b9788c2771f495ef2fc051ec3c160bb05156217ac6c3372e6c451e85c08149fd",
+          "projectLabel": "exam",
+          "models": {
+            "deepseek-v4-flash": 10813814
+          },
+          "modelCosts": {
+            "deepseek-v4-flash": 0.029514
+          },
+          "providers": {
+            "opencode_go": 10813814
+          }
+        },
+        "claude:0907d578-076c-4213-84c2-21d9aca2ece1": {
+          "client": "claude",
+          "sessionId": "0907d578-076c-4213-84c2-21d9aca2ece1",
+          "totalTokens": 229776,
+          "costUsd": 0.019042,
+          "messageCount": 5,
+          "inputTokens": 39496,
+          "outputTokens": 1352,
+          "cacheReadTokens": 188928,
+          "cacheWriteTokens": 0,
+          "reasoningTokens": 0,
+          "startedAt": "",
+          "lastUsedAt": "2026-08-04T02:19:59.093Z",
+          "projectId": "sha256:d39b80e5b7d39a38695928a7a0da0fb7b847a5cd8fc52450e8b8c1e6e48e5731",
+          "projectLabel": "logs",
+          "models": {
+            "deepseek-v4-pro": 229776
+          },
+          "modelCosts": {
+            "deepseek-v4-pro": 0.019042
+          },
+          "providers": {
+            "deepseek": 229776
+          }
+        },
+        "opencode:ses_02872c004ffev5S2uEy8oe5TrM": {
+          "client": "opencode",
+          "sessionId": "ses_02872c004ffev5S2uEy8oe5TrM",
+          "totalTokens": 305299,
+          "costUsd": 0.007334,
+          "messageCount": 12,
+          "inputTokens": 41394,
+          "outputTokens": 1249,
+          "cacheReadTokens": 262656,
+          "cacheWriteTokens": 0,
+          "reasoningTokens": 1622,
+          "startedAt": "2026-08-06T14:49:46.235Z",
+          "lastUsedAt": "2026-08-06T15:02:38.009Z",
+          "projectId": "sha256:31174da99592287374887d787e0792af67dbc5e722f704815daf9361e510f4b5",
+          "projectLabel": "opencode",
+          "models": {
+            "deepseek-v4-flash": 305299
+          },
+          "modelCosts": {
+            "deepseek-v4-flash": 0.007334
+          },
+          "providers": {
+            "opencode_go": 305299
+          }
+        },
+        "opencode:ses_0051c2421ffeV0i9oQRfmTdDUa": {
+          "client": "opencode",
+          "sessionId": "ses_0051c2421ffeV0i9oQRfmTdDUa",
+          "totalTokens": 497721,
+          "costUsd": 0.004342,
+          "messageCount": 21,
+          "inputTokens": 30221,
+          "outputTokens": 6956,
+          "cacheReadTokens": 460544,
+          "cacheWriteTokens": 0,
+          "reasoningTokens": 4342,
+          "startedAt": "2026-08-13T11:31:04.798Z",
+          "lastUsedAt": "2026-08-13T11:33:30.711Z",
+          "projectId": "sha256:b9788c2771f495ef2fc051ec3c160bb05156217ac6c3372e6c451e85c08149fd",
+          "projectLabel": "exam",
+          "models": {
+            "deepseek-v4-flash": 497721
+          },
+          "modelCosts": {
+            "deepseek-v4-flash": 0.004342
+          },
+          "providers": {
+            "opencode_go": 497721
+          }
+        },
+        "opencode:ses_0069e5dcbffelFqKM0KHO65Y8x": {
+          "client": "opencode",
+          "sessionId": "ses_0069e5dcbffelFqKM0KHO65Y8x",
+          "totalTokens": 21810,
+          "costUsd": 0.000801,
+          "messageCount": 3,
+          "inputTokens": 10771,
+          "outputTokens": 159,
+          "cacheReadTokens": 10880,
+          "cacheWriteTokens": 0,
+          "reasoningTokens": 68,
+          "startedAt": "2026-08-13T04:29:13.140Z",
+          "lastUsedAt": "2026-08-13T04:31:04.026Z",
+          "projectId": "sha256:30e17e764c9e669dcba46297843272d09d5a87817fc131ab943c37110bdf624a",
+          "projectLabel": "System32",
+          "models": {
+            "deepseek-v4-flash": 21810
+          },
+          "modelCosts": {
+            "deepseek-v4-flash": 0.000801
+          },
+          "providers": {
+            "opencode-opencode_go": 21810
+          }
+        },
+        "opencode:ses_0069c70b7ffeqpJKQraCEsEhTQ": {
+          "client": "opencode",
+          "sessionId": "ses_0069c70b7ffeqpJKQraCEsEhTQ",
+          "totalTokens": 20818,
+          "costUsd": 0.000769,
+          "messageCount": 2,
+          "inputTokens": 10422,
+          "outputTokens": 156,
+          "cacheReadTokens": 10240,
+          "cacheWriteTokens": 0,
+          "reasoningTokens": 25,
+          "startedAt": "2026-08-13T04:31:19.368Z",
+          "lastUsedAt": "2026-08-13T04:31:40.054Z",
+          "projectId": "sha256:30e17e764c9e669dcba46297843272d09d5a87817fc131ab943c37110bdf624a",
+          "projectLabel": "System32",
+          "models": {
+            "deepseek-v4-flash": 20818
+          },
+          "modelCosts": {
+            "deepseek-v4-flash": 0.000769
+          },
+          "providers": {
+            "opencode_go": 20818
+          }
+        },
+        "opencode:ses_03023ea4dffeD3VOugON2a21hk": {
+          "client": "opencode",
+          "sessionId": "ses_03023ea4dffeD3VOugON2a21hk",
+          "totalTokens": 863209,
+          "costUsd": 0,
+          "messageCount": 27,
+          "inputTokens": 157828,
+          "outputTokens": 5989,
+          "cacheReadTokens": 699392,
+          "cacheWriteTokens": 0,
+          "reasoningTokens": 3079,
+          "startedAt": "2026-08-05T02:58:55.026Z",
+          "lastUsedAt": "2026-08-11T13:04:45.543Z",
+          "projectId": "sha256:68a609bec46b04216d3862f282f672bc9bb11d771ed3c5663bb461c1b33c1bb2",
+          "projectLabel": "ai_ideas",
+          "models": {
+            "deepseek-v4-flash-free": 863209
+          },
+          "modelCosts": {},
+          "providers": {
+            "opencode": 863209
+          }
+        }
+      }
+    },
+    "allTime": {
+      "capabilities": {
+        "tokenComponents": false
+      },
+      "totalTokens": 1886515603,
+      "costUsd": 125.387727,
+      "cacheReadTokens": 1826901289,
+      "cacheWriteTokens": 0,
+      "outputTokens": 4953846,
+      "unclassifiedTokens": 2590227,
+      "timedTokens": 1087559374,
+      "timedOutputTokens": 1841281,
+      "timedDurationMs": 157601636,
+      "clients": {
+        "antigravity": 207030675,
+        "codex": 51870045,
+        "micode": 85784955,
+        "pi": 319742528,
+        "copilot": 682849,
+        "claude": 391127764,
+        "opencode": 830276787
+      },
+      "clientCosts": {
+        "antigravity": 84.230018,
+        "codex": 25.346962,
+        "micode": 3.8041,
+        "pi": 1.926638,
+        "copilot": 1.560702,
+        "claude": 5.889013,
+        "opencode": 2.630295
+      },
+      "clientCacheReads": {
+        "antigravity": 176319225,
+        "codex": 48228480,
+        "micode": 84697856,
+        "pi": 316097584,
+        "claude": 382347520,
+        "opencode": 819210624
+      },
+      "clientCacheWrites": {},
+      "clientOutputs": {
+        "antigravity": 1633497,
+        "codex": 396253,
+        "micode": 151393,
+        "pi": 553287,
+        "copilot": 4693,
+        "claude": 1466140,
+        "opencode": 748583
+      },
+      "clientUnclassifiedTokens": {
+        "claude": 2590227
+      },
+      "models": {
+        "gemini-3.1-pro": 49679408,
+        "claude-opus-4-6": 25912433,
+        "gpt-5.4": 44453745,
+        "gemini-3-flash-preview": 126580953,
+        "gpt-5.5": 1427004,
+        "mimo-v2.5-pro": 49587725,
+        "claude-sonnet-4-6": 4988238,
+        "deepseek-v4-pro": 714405056,
+        "claude-sonnet-4-5": 378493,
+        "deepseek-v4-flash": 846221567,
+        "auto": 173999,
+        "tencent/hy3:free": 21843773,
+        "deepseek-v4-flash-free": 863209
+      },
+      "modelCosts": {
+        "gemini-3.1-pro": 33.805515,
+        "claude-opus-4-6": 29.543267,
+        "gpt-5.4": 21.388717,
+        "gemini-3-flash-preview": 18.04434,
+        "gpt-5.5": 3.700943,
+        "mimo-v2.5-pro": 4.947036,
+        "claude-sonnet-4-6": 3.232454,
+        "deepseek-v4-pro": 6.493703,
+        "claude-sonnet-4-5": 1.165143,
+        "deepseek-v4-flash": 3.066608
+      },
+      "modelCacheReads": {
+        "gemini-3.1-pro": 40926295,
+        "claude-opus-4-6": 23082675,
+        "gpt-5.4": 41765760,
+        "gemini-3-flash-preview": 107852658,
+        "gpt-5.5": 1083776,
+        "mimo-v2.5-pro": 47905280,
+        "claude-sonnet-4-6": 4457597,
+        "deepseek-v4-pro": 706633344,
+        "deepseek-v4-flash": 832660096,
+        "tencent/hy3:free": 19834416,
+        "deepseek-v4-flash-free": 699392
+      },
+      "modelCacheWrites": {},
+      "modelOutputs": {
+        "gemini-3.1-pro": 483011,
+        "claude-opus-4-6": 192657,
+        "gpt-5.4": 281850,
+        "gemini-3-flash-preview": 932932,
+        "gpt-5.5": 45263,
+        "mimo-v2.5-pro": 169784,
+        "claude-sonnet-4-6": 25271,
+        "deepseek-v4-pro": 1709045,
+        "claude-sonnet-4-5": 2472,
+        "deepseek-v4-flash": 875043,
+        "auto": 1847,
+        "tencent/hy3:free": 228682,
+        "deepseek-v4-flash-free": 5989
+      },
+      "modelUnclassifiedTokens": {
+        "deepseek-v4-pro": 2590227
+      },
+      "clientModels": {
+        "antigravity": {
+          "gemini-3.1-pro": 49679408,
+          "claude-opus-4-6": 25912433,
+          "gemini-3-flash-preview": 126580953,
+          "claude-sonnet-4-6": 4857881
+        },
+        "codex": {
+          "gpt-5.4": 44453745,
+          "gpt-5.5": 1427004,
+          "mimo-v2.5-pro": 4307019,
+          "deepseek-v4-flash": 1682277
+        },
+        "micode": {
+          "mimo-v2.5-pro": 41443824,
+          "deepseek-v4-pro": 44341131
+        },
+        "pi": {
+          "deepseek-v4-pro": 297898755,
+          "tencent/hy3:free": 21843773
+        },
+        "copilot": {
+          "claude-sonnet-4-5": 378493,
+          "claude-sonnet-4-6": 130357,
+          "auto": 173999
+        },
+        "claude": {
+          "mimo-v2.5-pro": 3836882,
+          "deepseek-v4-flash": 15125712,
+          "deepseek-v4-pro": 372165170
+        },
+        "opencode": {
+          "deepseek-v4-flash": 829413578,
+          "deepseek-v4-flash-free": 863209
+        }
+      },
+      "clientModelCosts": {
+        "antigravity": {
+          "gemini-3.1-pro": 33.805515,
+          "claude-opus-4-6": 29.543267,
+          "gemini-3-flash-preview": 18.04434,
+          "claude-sonnet-4-6": 2.836895
+        },
+        "codex": {
+          "gpt-5.4": 21.388717,
+          "gpt-5.5": 3.700943,
+          "mimo-v2.5-pro": 0.225036,
+          "deepseek-v4-flash": 0.032265
+        },
+        "micode": {
+          "mimo-v2.5-pro": 3.8041
+        },
+        "pi": {
+          "deepseek-v4-pro": 1.926638
+        },
+        "copilot": {
+          "claude-sonnet-4-5": 1.165143,
+          "claude-sonnet-4-6": 0.395559
+        },
+        "claude": {
+          "mimo-v2.5-pro": 0.9179,
+          "deepseek-v4-flash": 0.404048,
+          "deepseek-v4-pro": 4.567065
+        },
+        "opencode": {
+          "deepseek-v4-flash": 2.630295
+        }
+      },
+      "projects": {
+        "智文古籍辅助校对系统": {
+          "label": "智文古籍辅助校对系统",
+          "tokens": 37934009,
+          "costUsd": 17.068161,
+          "clients": {
+            "codex": 37934009
+          }
+        },
+        "final": {
+          "label": "final",
+          "tokens": 7946740,
+          "costUsd": 8.0215,
+          "clients": {
+            "codex": 7946740
+          }
+        },
+        "blog": {
+          "label": "Blog",
+          "tokens": 6957119,
+          "costUsd": 1.020631,
+          "clients": {
+            "claude": 6957119
+          }
+        },
+        "easytier-miuix": {
+          "label": "easytier-miuix",
+          "tokens": 45153932,
+          "costUsd": 0.806597,
+          "clients": {
+            "claude": 45153932
+          }
+        },
+        "du": {
+          "label": "du",
+          "tokens": 4307019,
+          "costUsd": 0.225036,
+          "clients": {
+            "codex": 4307019
+          }
+        },
+        "cbdb": {
+          "label": "cbdb",
+          "tokens": 2624703,
+          "costUsd": 0.099159,
+          "clients": {
+            "claude": 2624703
+          }
+        },
+        "adarshah": {
+          "label": "adarshah",
+          "tokens": 2920324,
+          "costUsd": 0.130206,
+          "clients": {
+            "claude": 2920324
+          }
+        },
+        "buddhistinformatics": {
+          "label": "buddhistinformatics",
+          "tokens": 6204971,
+          "costUsd": 0.147487,
+          "clients": {
+            "claude": 6204971
+          }
+        },
+        "function": {
+          "label": "Function",
+          "tokens": 1131817,
+          "costUsd": 0.077829,
+          "clients": {
+            "claude": 1131817
+          }
+        },
+        "民国人物大辞典": {
+          "label": "民国人物大辞典",
+          "tokens": 99091225,
+          "costUsd": 0.747077,
+          "clients": {
+            "claude": 99091225
+          }
+        },
+        "cnbksy": {
+          "label": "cnbksy",
+          "tokens": 82910512,
+          "costUsd": 0.974119,
+          "clients": {
+            "claude": 82910512
+          }
+        },
+        "audio-to-text": {
+          "label": "audio-to-text",
+          "tokens": 51659804,
+          "costUsd": 0.479197,
+          "clients": {
+            "claude": 51659804
+          }
+        },
+        "authority": {
+          "label": "authority",
+          "tokens": 8964808,
+          "costUsd": 0.189134,
+          "clients": {
+            "claude": 8964808
+          }
+        },
+        "exam": {
+          "label": "exam",
+          "tokens": 21480114,
+          "costUsd": 0.21391,
+          "clients": {
+            "claude": 10168579,
+            "opencode": 11311535
+          }
+        },
+        "cnthinkers": {
+          "label": "cnthinkers",
+          "tokens": 7278180,
+          "costUsd": 0.14865,
+          "clients": {
+            "claude": 7278180
+          }
+        },
+        "nlcpress": {
+          "label": "nlcpress",
+          "tokens": 6276523,
+          "costUsd": 0.098655,
+          "clients": {
+            "claude": 6276523
+          }
+        },
+        "flowscript": {
+          "label": "flowscript",
+          "tokens": 817754116,
+          "costUsd": 2.587535,
+          "clients": {
+            "opencode": 817754116
+          }
+        },
+        "ai": {
+          "label": "ai",
+          "tokens": 59157918,
+          "costUsd": 0.728663,
+          "clients": {
+            "claude": 59157918
+          }
+        },
+        "logs": {
+          "label": "logs",
+          "tokens": 524105,
+          "costUsd": 0.044971,
+          "clients": {
+            "claude": 524105
+          }
+        },
+        "ai_ideas": {
+          "label": "ai_ideas",
+          "tokens": 2545486,
+          "costUsd": 0.032265,
+          "clients": {
+            "codex": 1682277,
+            "opencode": 863209
+          }
+        },
+        ".claude": {
+          "label": ".claude",
+          "tokens": 103244,
+          "costUsd": 0.016583,
+          "clients": {
+            "claude": 103244
+          }
+        },
+        "opencode": {
+          "label": "opencode",
+          "tokens": 305299,
+          "costUsd": 0.007334,
+          "clients": {
+            "opencode": 305299
+          }
+        },
+        "system32": {
+          "label": "System32",
+          "tokens": 42628,
+          "costUsd": 0.00157,
+          "clients": {
+            "opencode": 42628
+          }
+        }
+      },
+      "sessions": {}
+    }
+  },
+  "devices": [
+    {
+      "deviceId": "device-mac",
+      "hostname": "MacBook-Pro",
+      "platform": "win32-x64",
+      "osName": "Windows 11",
+      "osVersion": "25H2",
+      "agentVersion": "0.44.0",
+      "agentRuntime": "electron-widget",
+      "updatedAt": "2026-08-14T14:13:46.730Z",
+      "receivedAt": "2026-08-14T14:13:47.125Z",
+      "ageMs": 1957,
+      "stale": false,
+      "trackedClients": [
+        "claude",
+        "codex",
+        "hermes",
+        "opencode",
+        "openclaw",
+        "cursor",
+        "antigravity",
+        "cline",
+        "kimi",
+        "qwen",
+        "grok",
+        "copilot",
+        "pi",
+        "zed",
+        "micode",
+        "zcode"
+      ],
+      "clientStatus": {
+        "claude": "active",
+        "codex": "active",
+        "hermes": "missing",
+        "opencode": "missing",
+        "openclaw": "missing",
+        "cursor": "missing",
+        "antigravity": "active",
+        "cline": "missing",
+        "kimi": "missing",
+        "qwen": "missing",
+        "grok": "missing",
+        "copilot": "active",
+        "pi": "active",
+        "zed": "waiting",
+        "micode": "active",
+        "zcode": "waiting"
+      },
+      "clientHealth": {
+        "version": 1,
+        "clients": {
+          "claude": {
+            "source": {
+              "state": "detected",
+              "detectedCount": 1,
+              "checkedCount": 2
+            },
+            "collection": {
+              "state": "direct"
+            },
+            "data": {
+              "liveTokens": 59873806,
+              "lastActivityDay": "2026-08-11"
+            },
+            "overall": "healthy"
+          },
+          "codex": {
+            "source": {
+              "state": "detected",
+              "detectedCount": 1,
+              "checkedCount": 1
+            },
+            "collection": {
+              "state": "direct"
+            },
+            "data": {
+              "liveTokens": 50187768,
+              "lastActivityDay": "2026-07-03"
+            },
+            "overall": "healthy"
+          },
+          "hermes": {
+            "source": {
+              "state": "missing",
+              "detectedCount": 0,
+              "checkedCount": 1,
+              "checks": [
+                {
+                  "id": "hermes-home",
+                  "exists": false
+                }
+              ]
+            },
+            "collection": {
+              "state": "direct"
+            },
+            "data": {
+              "liveTokens": 0
+            },
+            "diagnostics": [
+              {
+                "code": "source-missing"
+              }
+            ],
+            "overall": "unavailable"
+          },
+          "opencode": {
+            "source": {
+              "state": "missing",
+              "detectedCount": 0,
+              "checkedCount": 1,
+              "checks": [
+                {
+                  "id": "opencode-data",
+                  "exists": false
+                }
+              ]
+            },
+            "collection": {
+              "state": "direct"
+            },
+            "data": {
+              "liveTokens": 0
+            },
+            "diagnostics": [
+              {
+                "code": "source-missing"
+              }
+            ],
+            "overall": "unavailable"
+          },
+          "openclaw": {
+            "source": {
+              "state": "missing",
+              "detectedCount": 0,
+              "checkedCount": 1,
+              "checks": [
+                {
+                  "id": "openclaw-agents",
+                  "exists": false
+                }
+              ]
+            },
+            "collection": {
+              "state": "direct"
+            },
+            "data": {
+              "liveTokens": 0
+            },
+            "diagnostics": [
+              {
+                "code": "source-missing"
+              }
+            ],
+            "overall": "unavailable"
+          },
+          "cursor": {
+            "source": {
+              "state": "missing",
+              "detectedCount": 0,
+              "checkedCount": 1,
+              "checks": [
+                {
+                  "id": "tokscale-cursor-cache",
+                  "exists": false
+                }
+              ]
+            },
+            "collection": {
+              "state": "idle"
+            },
+            "data": {
+              "liveTokens": 0
+            },
+            "diagnostics": [
+              {
+                "code": "source-missing"
+              }
+            ],
+            "overall": "unavailable"
+          },
+          "antigravity": {
+            "source": {
+              "state": "detected",
+              "detectedCount": 1,
+              "checkedCount": 3
+            },
+            "collection": {
+              "state": "ok",
+              "lastAttemptAt": "2026-08-14T14:11:14.116Z",
+              "lastSuccessAt": "2026-08-14T14:11:15.101Z"
+            },
+            "data": {
+              "liveTokens": 207030675,
+              "lastActivityDay": "2026-05-07"
+            },
+            "overall": "healthy"
+          },
+          "cline": {
+            "source": {
+              "state": "missing",
+              "detectedCount": 0,
+              "checkedCount": 2,
+              "checks": [
+                {
+                  "id": "cline-tasks",
+                  "exists": false
+                },
+                {
+                  "id": "cline-cli-sessions",
+                  "exists": false
+                }
+              ]
+            },
+            "collection": {
+              "state": "direct"
+            },
+            "data": {
+              "liveTokens": 0
+            },
+            "diagnostics": [
+              {
+                "code": "source-missing"
+              }
+            ],
+            "overall": "unavailable"
+          },
+          "kimi": {
+            "source": {
+              "state": "missing",
+              "detectedCount": 0,
+              "checkedCount": 2,
+              "checks": [
+                {
+                  "id": "kimi-sessions",
+                  "exists": false
+                },
+                {
+                  "id": "kimi-code-sessions",
+                  "exists": false
+                }
+              ]
+            },
+            "collection": {
+              "state": "direct"
+            },
+            "data": {
+              "liveTokens": 0
+            },
+            "diagnostics": [
+              {
+                "code": "source-missing"
+              }
+            ],
+            "overall": "unavailable"
+          },
+          "qwen": {
+            "source": {
+              "state": "missing",
+              "detectedCount": 0,
+              "checkedCount": 1,
+              "checks": [
+                {
+                  "id": "qwen-projects",
+                  "exists": false
+                }
+              ]
+            },
+            "collection": {
+              "state": "direct"
+            },
+            "data": {
+              "liveTokens": 0
+            },
+            "diagnostics": [
+              {
+                "code": "source-missing"
+              }
+            ],
+            "overall": "unavailable"
+          },
+          "grok": {
+            "source": {
+              "state": "missing",
+              "detectedCount": 0,
+              "checkedCount": 2,
+              "checks": [
+                {
+                  "id": "grok-sessions",
+                  "exists": false
+                },
+                {
+                  "id": "grok-unified-log",
+                  "exists": false
+                }
+              ]
+            },
+            "collection": {
+              "state": "direct"
+            },
+            "data": {
+              "liveTokens": 0
+            },
+            "diagnostics": [
+              {
+                "code": "source-missing"
+              }
+            ],
+            "overall": "unavailable"
+          },
+          "copilot": {
+            "source": {
+              "state": "detected",
+              "detectedCount": 1,
+              "checkedCount": 3
+            },
+            "collection": {
+              "state": "direct"
+            },
+            "data": {
+              "liveTokens": 682849,
+              "lastActivityDay": "2026-03-12"
+            },
+            "overall": "healthy"
+          },
+          "pi": {
+            "source": {
+              "state": "detected",
+              "detectedCount": 1,
+              "checkedCount": 2
+            },
+            "collection": {
+              "state": "direct"
+            },
+            "data": {
+              "liveTokens": 319742528,
+              "lastActivityDay": "2026-07-12"
+            },
+            "overall": "healthy"
+          },
+          "zed": {
+            "source": {
+              "state": "detected",
+              "detectedCount": 1,
+              "checkedCount": 1
+            },
+            "collection": {
+              "state": "direct"
+            },
+            "data": {
+              "liveTokens": 0
+            },
+            "diagnostics": [
+              {
+                "code": "no-usage-observed"
+              }
+            ],
+            "overall": "waiting"
+          },
+          "micode": {
+            "source": {
+              "state": "detected",
+              "detectedCount": 1,
+              "checkedCount": 2
+            },
+            "collection": {
+              "state": "direct"
+            },
+            "data": {
+              "liveTokens": 85784955,
+              "lastActivityDay": "2026-06-14"
+            },
+            "overall": "healthy"
+          },
+          "zcode": {
+            "source": {
+              "state": "detected",
+              "detectedCount": 1,
+              "checkedCount": 2,
+              "checks": [
+                {
+                  "id": "zcode-projects",
+                  "exists": false
+                },
+                {
+                  "id": "zcode-cli-db",
+                  "exists": true
+                }
+              ]
+            },
+            "collection": {
+              "state": "direct"
+            },
+            "data": {
+              "liveTokens": 0
+            },
+            "diagnostics": [
+              {
+                "code": "no-usage-observed"
+              }
+            ],
+            "overall": "waiting"
+          }
+        },
+        "observedAt": "2026-08-14T14:13:46.730Z"
+      },
+      "wslStatus": {
+        "state": "not-running",
+        "detected": [],
+        "withData": []
+      },
+      "projectsEnabled": true,
+      "syncUploadIntervalMs": 0,
+      "periodWindows": {
+        "today": {
+          "endsAt": "2026-08-14T16:00:00.000Z",
+          "key": "2026-08-14"
+        },
+        "month": {
+          "endsAt": "2026-08-31T16:00:00.000Z",
+          "key": "2026-08"
+        },
+        "timeZone": "Asia/Shanghai"
+      },
+      "periods": {
+        "today": {
+          "capabilities": {
+            "tokenComponents": true
+          },
+          "totalTokens": 0,
+          "costUsd": 0,
+          "cacheReadTokens": 0,
+          "cacheWriteTokens": 0,
+          "outputTokens": 0,
+          "unclassifiedTokens": 0,
+          "timedTokens": 0,
+          "timedOutputTokens": 0,
+          "timedDurationMs": 0,
+          "clients": {},
+          "clientCosts": {},
+          "clientCacheReads": {},
+          "clientCacheWrites": {},
+          "clientOutputs": {},
+          "clientUnclassifiedTokens": {},
+          "models": {},
+          "modelCosts": {},
+          "modelCacheReads": {},
+          "modelCacheWrites": {},
+          "modelOutputs": {},
+          "modelUnclassifiedTokens": {},
+          "clientModels": {},
+          "clientModelCosts": {},
+          "projects": {},
+          "sessions": {}
+        },
+        "month": {
+          "capabilities": {
+            "tokenComponents": true
+          },
+          "totalTokens": 16383370,
+          "costUsd": 0.44751457640000036,
+          "cacheReadTokens": 13804032,
+          "cacheWriteTokens": 0,
+          "outputTokens": 83006,
+          "unclassifiedTokens": 0,
+          "timedTokens": 16297185,
+          "timedOutputTokens": 83006,
+          "timedDurationMs": 1944921,
+          "clients": {
+            "claude": 16383370
+          },
+          "clientCosts": {
+            "claude": 0.44751457640000036
+          },
+          "clientCacheReads": {
+            "claude": 13804032
+          },
+          "clientCacheWrites": {},
+          "clientOutputs": {
+            "claude": 83006
+          },
+          "clientUnclassifiedTokens": {},
+          "models": {
+            "deepseek-v4-flash": 14687460,
+            "deepseek-v4-pro": 1695910
+          },
+          "modelCosts": {
+            "deepseek-v4-flash": 0.39042233440000035,
+            "deepseek-v4-pro": 0.057092242000000015
+          },
+          "modelCacheReads": {
+            "deepseek-v4-flash": 12222848,
+            "deepseek-v4-pro": 1581184
+          },
+          "modelCacheWrites": {},
+          "modelOutputs": {
+            "deepseek-v4-flash": 79662,
+            "deepseek-v4-pro": 3344
+          },
+          "modelUnclassifiedTokens": {},
+          "clientModels": {
+            "claude": {
+              "deepseek-v4-flash": 14687460,
+              "deepseek-v4-pro": 1695910
+            }
+          },
+          "clientModelCosts": {
+            "claude": {
+              "deepseek-v4-flash": 0.39042233440000035,
+              "deepseek-v4-pro": 0.057092242000000015
+            }
+          },
+          "projects": {
+            "easytier-miuix": {
+              "label": "easytier-miuix",
+              "tokens": 14687460,
+              "costUsd": 0.39042233440000035,
+              "clients": {
+                "claude": 14687460
+              }
+            },
+            "blog": {
+              "label": "Blog",
+              "tokens": 1695910,
+              "costUsd": 0.057092242000000015,
+              "clients": {
+                "claude": 1695910
+              }
+            }
+          },
+          "sessions": {
+            "claude:4e019f1f-83d8-41af-bb2a-8f6ac79a6c61": {
+              "client": "claude",
+              "sessionId": "4e019f1f-83d8-41af-bb2a-8f6ac79a6c61",
+              "totalTokens": 13487207,
+              "costUsd": 0.3463047728000003,
+              "messageCount": 112,
+              "inputTokens": 2143092,
+              "outputTokens": 52339,
+              "cacheReadTokens": 11291776,
+              "cacheWriteTokens": 0,
+              "reasoningTokens": 0,
+              "startedAt": "",
+              "lastUsedAt": "2026-08-11T14:30:44.382Z",
+              "projectId": "sha256:8ebb8abaa5d6186d39ddc85a96423489cf3411afafb186c57f92345f2290fdbe",
+              "projectLabel": "easytier-miuix",
+              "models": {
+                "deepseek-v4-flash": 13487207
+              },
+              "modelCosts": {
+                "deepseek-v4-flash": 0.3463047728000003
+              },
+              "providers": {
+                "deepseek": 13487207
+              }
+            },
+            "claude:ecfa55fd-94f4-42d5-89ef-432afce24940": {
+              "client": "claude",
+              "sessionId": "ecfa55fd-94f4-42d5-89ef-432afce24940",
+              "totalTokens": 1695910,
+              "costUsd": 0.057092242000000015,
+              "messageCount": 18,
+              "inputTokens": 111382,
+              "outputTokens": 3344,
+              "cacheReadTokens": 1581184,
+              "cacheWriteTokens": 0,
+              "reasoningTokens": 0,
+              "startedAt": "",
+              "lastUsedAt": "2026-08-11T08:51:37.128Z",
+              "projectId": "sha256:cfdce6702b531ef39835de51f0c9920781831b513e08dd83b0b8255806dadeb2",
+              "projectLabel": "Blog",
+              "models": {
+                "deepseek-v4-pro": 1695910
+              },
+              "modelCosts": {
+                "deepseek-v4-pro": 0.057092242000000015
+              },
+              "providers": {
+                "deepseek": 1695910
+              }
+            },
+            "claude:1c8f941a-9e07-4151-92d9-754346b50686": {
+              "client": "claude",
+              "sessionId": "1c8f941a-9e07-4151-92d9-754346b50686",
+              "totalTokens": 1200253,
+              "costUsd": 0.04411756160000001,
+              "messageCount": 17,
+              "inputTokens": 241858,
+              "outputTokens": 27323,
+              "cacheReadTokens": 931072,
+              "cacheWriteTokens": 0,
+              "reasoningTokens": 0,
+              "startedAt": "",
+              "lastUsedAt": "2026-08-11T10:23:55.433Z",
+              "projectId": "sha256:8ebb8abaa5d6186d39ddc85a96423489cf3411afafb186c57f92345f2290fdbe",
+              "projectLabel": "easytier-miuix",
+              "models": {
+                "deepseek-v4-flash": 1200253
+              },
+              "modelCosts": {
+                "deepseek-v4-flash": 0.04411756160000001
+              },
+              "providers": {
+                "deepseek": 1200253
+              }
+            }
+          }
+        },
+        "allTime": {
+          "capabilities": {
+            "tokenComponents": false
+          },
+          "totalTokens": 994771272,
+          "costUsd": 121.93494985539995,
+          "cacheReadTokens": 947397801,
+          "cacheWriteTokens": 0,
+          "outputTokens": 3895622,
+          "unclassifiedTokens": 2590227,
+          "timedTokens": 195385637,
+          "timedOutputTokens": 783057,
+          "timedDurationMs": 99206874,
+          "clients": {
+            "antigravity": 207030675,
+            "codex": 50187768,
+            "micode": 85784955,
+            "pi": 319742528,
+            "copilot": 682849,
+            "claude": 331342497
+          },
+          "clientCosts": {
+            "antigravity": 84.23001799999997,
+            "codex": 25.314696883999996,
+            "micode": 3.8041001999999997,
+            "pi": 1.9266375040000001,
+            "copilot": 1.560702,
+            "claude": 5.098795267400001
+          },
+          "clientCacheReads": {
+            "antigravity": 176319225,
+            "codex": 46657664,
+            "micode": 84697856,
+            "pi": 316097584,
+            "claude": 323625472
+          },
+          "clientCacheWrites": {},
+          "clientOutputs": {
+            "antigravity": 1633497,
+            "codex": 350634,
+            "micode": 151393,
+            "pi": 553287,
+            "copilot": 4693,
+            "claude": 1202118
+          },
+          "clientUnclassifiedTokens": {
+            "claude": 2590227
+          },
+          "models": {
+            "gemini-3.1-pro": 49679408,
+            "claude-opus-4-6": 25912433,
+            "gpt-5.4": 44453745,
+            "gemini-3-flash-preview": 126580953,
+            "gpt-5.5": 1427004,
+            "mimo-v2.5-pro": 49587725,
+            "claude-sonnet-4-6": 4988238,
+            "deepseek-v4-pro": 654619789,
+            "claude-sonnet-4-5": 378493,
+            "deepseek-v4-flash": 15125712,
+            "auto": 173999,
+            "tencent/hy3:free": 21843773
+          },
+          "modelCosts": {
+            "gemini-3.1-pro": 33.805514999999986,
+            "claude-opus-4-6": 29.5432675,
+            "gpt-5.4": 21.3887175,
+            "gemini-3-flash-preview": 18.044340399999978,
+            "gpt-5.5": 3.700943,
+            "mimo-v2.5-pro": 4.947036184,
+            "claude-sonnet-4-6": 3.2324541,
+            "deepseek-v4-pro": 5.703485477000002,
+            "claude-sonnet-4-5": 1.165143,
+            "deepseek-v4-flash": 0.4040476944000003
+          },
+          "modelCacheReads": {
+            "gemini-3.1-pro": 40926295,
+            "claude-opus-4-6": 23082675,
+            "gpt-5.4": 41765760,
+            "gemini-3-flash-preview": 107852658,
+            "gpt-5.5": 1083776,
+            "mimo-v2.5-pro": 47905280,
+            "claude-sonnet-4-6": 4457597,
+            "deepseek-v4-pro": 647911296,
+            "deepseek-v4-flash": 12578048,
+            "tencent/hy3:free": 19834416
+          },
+          "modelCacheWrites": {},
+          "modelOutputs": {
+            "gemini-3.1-pro": 483011,
+            "claude-opus-4-6": 192657,
+            "gpt-5.4": 281850,
+            "gemini-3-flash-preview": 932932,
+            "gpt-5.5": 45263,
+            "mimo-v2.5-pro": 169784,
+            "claude-sonnet-4-6": 25271,
+            "deepseek-v4-pro": 1445023,
+            "claude-sonnet-4-5": 2472,
+            "deepseek-v4-flash": 86830,
+            "auto": 1847,
+            "tencent/hy3:free": 228682
+          },
+          "modelUnclassifiedTokens": {
+            "deepseek-v4-pro": 2590227
+          },
+          "clientModels": {
+            "antigravity": {
+              "gemini-3.1-pro": 49679408,
+              "claude-opus-4-6": 25912433,
+              "gemini-3-flash-preview": 126580953,
+              "claude-sonnet-4-6": 4857881
+            },
+            "codex": {
+              "gpt-5.4": 44453745,
+              "gpt-5.5": 1427004,
+              "mimo-v2.5-pro": 4307019
+            },
+            "micode": {
+              "mimo-v2.5-pro": 41443824,
+              "deepseek-v4-pro": 44341131
+            },
+            "pi": {
+              "deepseek-v4-pro": 297898755,
+              "tencent/hy3:free": 21843773
+            },
+            "copilot": {
+              "claude-sonnet-4-5": 378493,
+              "claude-sonnet-4-6": 130357,
+              "auto": 173999
+            },
+            "claude": {
+              "mimo-v2.5-pro": 3836882,
+              "deepseek-v4-flash": 15125712,
+              "deepseek-v4-pro": 312379903
+            }
+          },
+          "clientModelCosts": {
+            "antigravity": {
+              "gemini-3.1-pro": 33.805514999999986,
+              "claude-opus-4-6": 29.5432675,
+              "gemini-3-flash-preview": 18.044340399999978,
+              "claude-sonnet-4-6": 2.8368951000000004
+            },
+            "codex": {
+              "gpt-5.4": 21.3887175,
+              "gpt-5.5": 3.700943,
+              "mimo-v2.5-pro": 0.225036384
+            },
+            "micode": {
+              "mimo-v2.5-pro": 3.8041001999999997
+            },
+            "pi": {
+              "deepseek-v4-pro": 1.9266375040000001
+            },
+            "copilot": {
+              "claude-sonnet-4-5": 1.165143,
+              "claude-sonnet-4-6": 0.395559
+            },
+            "claude": {
+              "mimo-v2.5-pro": 0.9178996000000001,
+              "deepseek-v4-flash": 0.4040476944000003,
+              "deepseek-v4-pro": 3.7768479730000006
+            }
+          },
+          "projects": {
+            "智文古籍辅助校对系统": {
+              "label": "智文古籍辅助校对系统",
+              "tokens": 37934009,
+              "costUsd": 17.068161,
+              "clients": {
+                "codex": 37934009
+              }
+            },
+            "final": {
+              "label": "final",
+              "tokens": 7946740,
+              "costUsd": 8.021499500000001,
+              "clients": {
+                "codex": 7946740
+              }
+            },
+            "blog": {
+              "label": "Blog",
+              "tokens": 6957119,
+              "costUsd": 1.0206307950000002,
+              "clients": {
+                "claude": 6957119
+              }
+            },
+            "easytier-miuix": {
+              "label": "easytier-miuix",
+              "tokens": 45153932,
+              "costUsd": 0.8065967814000004,
+              "clients": {
+                "claude": 45153932
+              }
+            },
+            "du": {
+              "label": "du",
+              "tokens": 4307019,
+              "costUsd": 0.225036384,
+              "clients": {
+                "codex": 4307019
+              }
+            },
+            "cbdb": {
+              "label": "cbdb",
+              "tokens": 2624703,
+              "costUsd": 0.09915891700000004,
+              "clients": {
+                "claude": 2624703
+              }
+            },
+            "adarshah": {
+              "label": "adarshah",
+              "tokens": 2920324,
+              "costUsd": 0.13020573700000002,
+              "clients": {
+                "claude": 2920324
+              }
+            },
+            "buddhistinformatics": {
+              "label": "buddhistinformatics",
+              "tokens": 6204971,
+              "costUsd": 0.14748692399999996,
+              "clients": {
+                "claude": 6204971
+              }
+            },
+            "function": {
+              "label": "Function",
+              "tokens": 1131817,
+              "costUsd": 0.077829069,
+              "clients": {
+                "claude": 1131817
+              }
+            },
+            "民国人物大辞典": {
+              "label": "民国人物大辞典",
+              "tokens": 99091225,
+              "costUsd": 0.7470773810000009,
+              "clients": {
+                "claude": 99091225
+              }
+            },
+            "cnbksy": {
+              "label": "cnbksy",
+              "tokens": 82910512,
+              "costUsd": 0.974118671,
+              "clients": {
+                "claude": 82910512
+              }
+            },
+            "audio-to-text": {
+              "label": "audio-to-text",
+              "tokens": 51659804,
+              "costUsd": 0.47919745,
+              "clients": {
+                "claude": 51659804
+              }
+            },
+            "authority": {
+              "label": "authority",
+              "tokens": 8964808,
+              "costUsd": 0.189134143,
+              "clients": {
+                "claude": 8964808
+              }
+            },
+            "exam": {
+              "label": "exam",
+              "tokens": 10168579,
+              "costUsd": 0.1800540689999999,
+              "clients": {
+                "claude": 10168579
+              }
+            },
+            "cnthinkers": {
+              "label": "cnthinkers",
+              "tokens": 7278180,
+              "costUsd": 0.14865034599999988,
+              "clients": {
+                "claude": 7278180
+              }
+            },
+            "nlcpress": {
+              "label": "nlcpress",
+              "tokens": 6276523,
+              "costUsd": 0.09865498399999995,
+              "clients": {
+                "claude": 6276523
+              }
+            }
+          },
+          "sessions": {}
+        }
+      },
+      "limits": {
+        "updatedAt": "2026-08-14T14:11:15.088Z",
+        "refreshMs": 300000,
+        "providers": [
+          {
+            "provider": "deepseek",
+            "accountKey": "sha256:e43c366f4224731fd7d51c9d5ff12c1608da3c079c0312f4ae3a3b30d1283dcb",
+            "accountLabel": "Pay-as-you-go",
+            "planLabel": "",
+            "accountName": "",
+            "accountEmail": "",
+            "workspaceKind": "",
+            "status": "ok",
+            "source": "api",
+            "sourceDetail": "",
+            "updatedAt": "2026-08-14T14:10:55.444Z",
+            "windows": [
+              {
+                "kind": "billing",
+                "metric": "credits",
+                "label": "Balance",
+                "used": null,
+                "limit": null,
+                "remaining": 13.54,
+                "usedPercent": null,
+                "remainingPercent": null,
+                "resetsAt": null,
+                "windowMinutes": null,
+                "resetDescription": "",
+                "detail": "",
+                "currency": "CNY",
+                "showMeter": true
+              }
+            ],
+            "balanceUsd": null,
+            "balance": {
+              "amount": 13.54,
+              "currency": "CNY",
+              "todaySpend": 0.01,
+              "weekSpend": 0.91,
+              "monthSpend": 1.9,
+              "allTimeSpend": 154.85,
+              "requestCount": null,
+              "quotaGroup": "",
+              "expiresAt": null,
+              "trackingSince": "2026-07-02T11:20:06.135Z",
+              "monthSinceTracking": false,
+              "giftBalance": null,
+              "cashBalance": null,
+              "planUsed": null,
+              "planLimit": null,
+              "planPercent": null,
+              "planStatus": null,
+              "todayTokenTotal": null,
+              "todayUsageDate": "",
+              "latestModelUsageDate": "",
+              "todayUsageBasis": "",
+              "snapshotDate": ""
+            },
+            "resetCredits": null,
+            "region": ""
+          },
+          {
+            "provider": "codex",
+            "accountKey": "",
+            "accountLabel": "",
+            "planLabel": "",
+            "accountName": "",
+            "accountEmail": "",
+            "workspaceKind": "",
+            "status": "unavailable",
+            "source": "",
+            "sourceDetail": "",
+            "updatedAt": "2026-08-14T14:11:15.088Z",
+            "windows": [],
+            "balanceUsd": null,
+            "balance": null,
+            "resetCredits": null,
+            "region": ""
+          },
+          {
+            "provider": "copilot",
+            "accountKey": "sha256:79db7a981e8025c26d12d56da6c990f5baa185c1ba910d901ee7126bac5ced40",
+            "accountLabel": "Individual",
+            "planLabel": "",
+            "accountName": "qingkong9579",
+            "accountEmail": "",
+            "workspaceKind": "",
+            "status": "ok",
+            "source": "api",
+            "sourceDetail": "",
+            "updatedAt": "2026-08-14T14:10:55.444Z",
+            "windows": [
+              {
+                "kind": "billing",
+                "label": "Premium",
+                "used": null,
+                "limit": null,
+                "remaining": null,
+                "usedPercent": 0.7999999999999972,
+                "remainingPercent": 99.2,
+                "resetsAt": "2026-09-01T00:00:00.000Z",
+                "windowMinutes": null,
+                "resetDescription": "",
+                "detail": "",
+                "currency": null,
+                "showMeter": true
+              },
+              {
+                "kind": "billing",
+                "label": "Chat",
+                "used": null,
+                "limit": null,
+                "remaining": null,
+                "usedPercent": 0,
+                "remainingPercent": 100,
+                "resetsAt": null,
+                "windowMinutes": null,
+                "resetDescription": "",
+                "detail": "",
+                "currency": null,
+                "showMeter": true
+              }
+            ],
+            "balanceUsd": null,
+            "balance": null,
+            "resetCredits": null,
+            "region": ""
+          },
+          {
+            "provider": "antigravity",
+            "accountKey": "",
+            "accountLabel": "",
+            "planLabel": "",
+            "accountName": "",
+            "accountEmail": "",
+            "workspaceKind": "",
+            "status": "notConfigured",
+            "source": "rpc",
+            "sourceDetail": "",
+            "updatedAt": "2026-08-14T14:10:56.120Z",
+            "windows": [],
+            "balanceUsd": null,
+            "balance": null,
+            "resetCredits": null,
+            "region": ""
+          },
+          {
+            "provider": "opencode",
+            "accountKey": "",
+            "accountLabel": "",
+            "planLabel": "",
+            "accountName": "",
+            "accountEmail": "",
+            "workspaceKind": "",
+            "status": "notConfigured",
+            "source": "local",
+            "sourceDetail": "managed",
+            "updatedAt": "2026-08-14T14:10:56.047Z",
+            "windows": [],
+            "balanceUsd": null,
+            "balance": null,
+            "resetCredits": null,
+            "region": ""
+          }
+        ]
+      }
+    },
+    {
+      "deviceId": "work",
+      "hostname": "DESKTOP-WORKSTATION",
+      "platform": "win32-x64",
+      "osName": "Windows 11",
+      "osVersion": "25H2",
+      "agentVersion": "0.43.0",
+      "agentRuntime": "electron-widget",
+      "updatedAt": "2026-08-14T14:10:40.895Z",
+      "receivedAt": "2026-08-14T14:11:14.586Z",
+      "ageMs": 154496,
+      "stale": false,
+      "trackedClients": [
+        "claude",
+        "codex",
+        "opencode",
+        "hermes",
+        "openclaw",
+        "cursor",
+        "antigravity",
+        "cline",
+        "kimi",
+        "qwen",
+        "grok",
+        "copilot",
+        "pi",
+        "zed",
+        "kilocode",
+        "zcode",
+        "kiro",
+        "codebuddy",
+        "workbuddy",
+        "proma"
+      ],
+      "clientStatus": {
+        "claude": "active",
+        "codex": "active",
+        "opencode": "active",
+        "hermes": "missing",
+        "openclaw": "missing",
+        "cursor": "missing",
+        "antigravity": "missing",
+        "cline": "missing",
+        "kimi": "missing",
+        "qwen": "missing",
+        "grok": "missing",
+        "copilot": "waiting",
+        "pi": "missing",
+        "zed": "missing",
+        "kilocode": "missing",
+        "zcode": "missing",
+        "kiro": "missing",
+        "codebuddy": "missing",
+        "workbuddy": "missing",
+        "proma": "missing"
+      },
+      "clientHealth": {
+        "version": 1,
+        "clients": {
+          "claude": {
+            "source": {
+              "state": "detected",
+              "detectedCount": 1,
+              "checkedCount": 2
+            },
+            "collection": {
+              "state": "direct"
+            },
+            "data": {
+              "liveTokens": 59785267,
+              "lastActivityDay": "2026-08-04"
+            },
+            "overall": "healthy"
+          },
+          "codex": {
+            "source": {
+              "state": "detected",
+              "detectedCount": 1,
+              "checkedCount": 1
+            },
+            "collection": {
+              "state": "direct"
+            },
+            "data": {
+              "liveTokens": 1682277,
+              "lastActivityDay": "2026-08-03"
+            },
+            "overall": "healthy"
+          },
+          "opencode": {
+            "source": {
+              "state": "detected",
+              "detectedCount": 1,
+              "checkedCount": 1
+            },
+            "collection": {
+              "state": "direct"
+            },
+            "data": {
+              "liveTokens": 830276787,
+              "lastActivityDay": "2026-08-13"
+            },
+            "overall": "healthy"
+          },
+          "hermes": {
+            "source": {
+              "state": "missing",
+              "detectedCount": 0,
+              "checkedCount": 1,
+              "checks": [
+                {
+                  "id": "hermes-home",
+                  "exists": false
+                }
+              ]
+            },
+            "collection": {
+              "state": "direct"
+            },
+            "data": {
+              "liveTokens": 0
+            },
+            "diagnostics": [
+              {
+                "code": "source-missing"
+              }
+            ],
+            "overall": "unavailable"
+          },
+          "openclaw": {
+            "source": {
+              "state": "missing",
+              "detectedCount": 0,
+              "checkedCount": 1,
+              "checks": [
+                {
+                  "id": "openclaw-agents",
+                  "exists": false
+                }
+              ]
+            },
+            "collection": {
+              "state": "direct"
+            },
+            "data": {
+              "liveTokens": 0
+            },
+            "diagnostics": [
+              {
+                "code": "source-missing"
+              }
+            ],
+            "overall": "unavailable"
+          },
+          "cursor": {
+            "source": {
+              "state": "missing",
+              "detectedCount": 0,
+              "checkedCount": 1,
+              "checks": [
+                {
+                  "id": "tokscale-cursor-cache",
+                  "exists": false
+                }
+              ]
+            },
+            "collection": {
+              "state": "idle"
+            },
+            "data": {
+              "liveTokens": 0
+            },
+            "diagnostics": [
+              {
+                "code": "source-missing"
+              }
+            ],
+            "overall": "unavailable"
+          },
+          "antigravity": {
+            "source": {
+              "state": "missing",
+              "detectedCount": 0,
+              "checkedCount": 3,
+              "checks": [
+                {
+                  "id": "tokscale-antigravity-cache",
+                  "exists": false
+                },
+                {
+                  "id": "antigravity-ide-source",
+                  "exists": false
+                },
+                {
+                  "id": "antigravity-cli-data",
+                  "exists": false
+                }
+              ]
+            },
+            "collection": {
+              "state": "idle"
+            },
+            "data": {
+              "liveTokens": 0
+            },
+            "diagnostics": [
+              {
+                "code": "source-missing"
+              }
+            ],
+            "overall": "unavailable"
+          },
+          "cline": {
+            "source": {
+              "state": "missing",
+              "detectedCount": 0,
+              "checkedCount": 2,
+              "checks": [
+                {
+                  "id": "cline-tasks",
+                  "exists": false
+                },
+                {
+                  "id": "cline-cli-sessions",
+                  "exists": false
+                }
+              ]
+            },
+            "collection": {
+              "state": "direct"
+            },
+            "data": {
+              "liveTokens": 0
+            },
+            "diagnostics": [
+              {
+                "code": "source-missing"
+              }
+            ],
+            "overall": "unavailable"
+          },
+          "kimi": {
+            "source": {
+              "state": "missing",
+              "detectedCount": 0,
+              "checkedCount": 2,
+              "checks": [
+                {
+                  "id": "kimi-sessions",
+                  "exists": false
+                },
+                {
+                  "id": "kimi-code-sessions",
+                  "exists": false
+                }
+              ]
+            },
+            "collection": {
+              "state": "direct"
+            },
+            "data": {
+              "liveTokens": 0
+            },
+            "diagnostics": [
+              {
+                "code": "source-missing"
+              }
+            ],
+            "overall": "unavailable"
+          },
+          "qwen": {
+            "source": {
+              "state": "missing",
+              "detectedCount": 0,
+              "checkedCount": 1,
+              "checks": [
+                {
+                  "id": "qwen-projects",
+                  "exists": false
+                }
+              ]
+            },
+            "collection": {
+              "state": "direct"
+            },
+            "data": {
+              "liveTokens": 0
+            },
+            "diagnostics": [
+              {
+                "code": "source-missing"
+              }
+            ],
+            "overall": "unavailable"
+          },
+          "grok": {
+            "source": {
+              "state": "missing",
+              "detectedCount": 0,
+              "checkedCount": 2,
+              "checks": [
+                {
+                  "id": "grok-sessions",
+                  "exists": false
+                },
+                {
+                  "id": "grok-unified-log",
+                  "exists": false
+                }
+              ]
+            },
+            "collection": {
+              "state": "direct"
+            },
+            "data": {
+              "liveTokens": 0
+            },
+            "diagnostics": [
+              {
+                "code": "source-missing"
+              }
+            ],
+            "overall": "unavailable"
+          },
+          "copilot": {
+            "source": {
+              "state": "detected",
+              "detectedCount": 1,
+              "checkedCount": 3,
+              "checks": [
+                {
+                  "id": "copilot-otel",
+                  "exists": false
+                },
+                {
+                  "id": "copilot-data",
+                  "exists": false
+                },
+                {
+                  "id": "vscode-workspace-storage",
+                  "exists": true
+                }
+              ]
+            },
+            "collection": {
+              "state": "direct"
+            },
+            "data": {
+              "liveTokens": 0
+            },
+            "diagnostics": [
+              {
+                "code": "no-usage-observed"
+              }
+            ],
+            "overall": "waiting"
+          },
+          "pi": {
+            "source": {
+              "state": "missing",
+              "detectedCount": 0,
+              "checkedCount": 2,
+              "checks": [
+                {
+                  "id": "pi-sessions",
+                  "exists": false
+                },
+                {
+                  "id": "omp-sessions",
+                  "exists": false
+                }
+              ]
+            },
+            "collection": {
+              "state": "direct"
+            },
+            "data": {
+              "liveTokens": 0
+            },
+            "diagnostics": [
+              {
+                "code": "source-missing"
+              }
+            ],
+            "overall": "unavailable"
+          },
+          "zed": {
+            "source": {
+              "state": "missing",
+              "detectedCount": 0,
+              "checkedCount": 1,
+              "checks": [
+                {
+                  "id": "zed-threads",
+                  "exists": false
+                }
+              ]
+            },
+            "collection": {
+              "state": "direct"
+            },
+            "data": {
+              "liveTokens": 0
+            },
+            "diagnostics": [
+              {
+                "code": "source-missing"
+              }
+            ],
+            "overall": "unavailable"
+          },
+          "kilocode": {
+            "source": {
+              "state": "missing",
+              "detectedCount": 0,
+              "checkedCount": 1,
+              "checks": [
+                {
+                  "id": "kilocode-tasks",
+                  "exists": false
+                }
+              ]
+            },
+            "collection": {
+              "state": "direct"
+            },
+            "data": {
+              "liveTokens": 0
+            },
+            "diagnostics": [
+              {
+                "code": "source-missing"
+              }
+            ],
+            "overall": "unavailable"
+          },
+          "zcode": {
+            "source": {
+              "state": "missing",
+              "detectedCount": 0,
+              "checkedCount": 2,
+              "checks": [
+                {
+                  "id": "zcode-projects",
+                  "exists": false
+                },
+                {
+                  "id": "zcode-cli-db",
+                  "exists": false
+                }
+              ]
+            },
+            "collection": {
+              "state": "direct"
+            },
+            "data": {
+              "liveTokens": 0
+            },
+            "diagnostics": [
+              {
+                "code": "source-missing"
+              }
+            ],
+            "overall": "unavailable"
+          },
+          "kiro": {
+            "source": {
+              "state": "missing",
+              "detectedCount": 0,
+              "checkedCount": 3,
+              "checks": [
+                {
+                  "id": "kiro-sessions",
+                  "exists": false
+                },
+                {
+                  "id": "kiro-ide-globalstorage",
+                  "exists": false
+                },
+                {
+                  "id": "kiro-cli-data",
+                  "exists": false
+                }
+              ]
+            },
+            "collection": {
+              "state": "direct"
+            },
+            "data": {
+              "liveTokens": 0
+            },
+            "diagnostics": [
+              {
+                "code": "source-missing"
+              }
+            ],
+            "overall": "unavailable"
+          },
+          "codebuddy": {
+            "source": {
+              "state": "missing",
+              "detectedCount": 0,
+              "checkedCount": 2,
+              "checks": [
+                {
+                  "id": "codebuddy-projects",
+                  "exists": false
+                },
+                {
+                  "id": "codebuddy-extension-logs",
+                  "exists": false
+                }
+              ]
+            },
+            "collection": {
+              "state": "direct"
+            },
+            "data": {
+              "liveTokens": 0
+            },
+            "diagnostics": [
+              {
+                "code": "source-missing"
+              }
+            ],
+            "overall": "unavailable"
+          },
+          "workbuddy": {
+            "source": {
+              "state": "missing",
+              "detectedCount": 0,
+              "checkedCount": 1,
+              "checks": [
+                {
+                  "id": "workbuddy-projects",
+                  "exists": false
+                }
+              ]
+            },
+            "collection": {
+              "state": "direct"
+            },
+            "data": {
+              "liveTokens": 0
+            },
+            "diagnostics": [
+              {
+                "code": "source-missing"
+              }
+            ],
+            "overall": "unavailable"
+          },
+          "proma": {
+            "source": {
+              "state": "missing",
+              "detectedCount": 0,
+              "checkedCount": 1,
+              "checks": [
+                {
+                  "id": "proma-sessions",
+                  "exists": false
+                }
+              ]
+            },
+            "collection": {
+              "state": "direct"
+            },
+            "data": {
+              "liveTokens": 0
+            },
+            "diagnostics": [
+              {
+                "code": "source-missing"
+              }
+            ],
+            "overall": "unavailable"
+          }
+        },
+        "observedAt": "2026-08-14T14:10:40.895Z"
+      },
+      "wslStatus": {
+        "state": "not-running",
+        "detected": [],
+        "withData": []
+      },
+      "projectsEnabled": true,
+      "syncUploadIntervalMs": 0,
+      "periodWindows": {
+        "today": {
+          "endsAt": "2026-08-14T16:00:00.000Z",
+          "key": "2026-08-14"
+        },
+        "month": {
+          "endsAt": "2026-08-31T16:00:00.000Z",
+          "key": "2026-08"
+        }
+      },
+      "periods": {
+        "today": {
+          "capabilities": {
+            "tokenComponents": true
+          },
+          "totalTokens": 0,
+          "costUsd": 0,
+          "cacheReadTokens": 0,
+          "cacheWriteTokens": 0,
+          "outputTokens": 0,
+          "unclassifiedTokens": 0,
+          "timedTokens": 0,
+          "timedOutputTokens": 0,
+          "timedDurationMs": 0,
+          "clients": {},
+          "clientCosts": {},
+          "clientCacheReads": {},
+          "clientCacheWrites": {},
+          "clientOutputs": {},
+          "clientUnclassifiedTokens": {},
+          "models": {},
+          "modelCosts": {},
+          "modelCacheReads": {},
+          "modelCacheWrites": {},
+          "modelOutputs": {},
+          "modelUnclassifiedTokens": {},
+          "clientModels": {},
+          "clientModelCosts": {},
+          "projects": {},
+          "sessions": {}
+        },
+        "month": {
+          "capabilities": {
+            "tokenComponents": true
+          },
+          "totalTokens": 832188840,
+          "costUsd": 2.681602153200003,
+          "cacheReadTokens": 820970368,
+          "cacheWriteTokens": 0,
+          "outputTokens": 795554,
+          "unclassifiedTokens": 0,
+          "timedTokens": 832756904,
+          "timedOutputTokens": 795554,
+          "timedDurationMs": 54673051,
+          "clients": {
+            "opencode": 830276787,
+            "codex": 1682277,
+            "claude": 229776
+          },
+          "clientCosts": {
+            "opencode": 2.630295284400003,
+            "codex": 0.0322650048,
+            "claude": 0.019041864
+          },
+          "clientCacheReads": {
+            "opencode": 819210624,
+            "codex": 1570816,
+            "claude": 188928
+          },
+          "clientCacheWrites": {},
+          "clientOutputs": {
+            "opencode": 748583,
+            "codex": 45619,
+            "claude": 1352
+          },
+          "clientUnclassifiedTokens": {},
+          "models": {
+            "deepseek-v4-flash": 831095855,
+            "deepseek-v4-pro": 229776,
+            "deepseek-v4-flash-free": 863209
+          },
+          "modelCosts": {
+            "deepseek-v4-flash": 2.662560289200003,
+            "deepseek-v4-pro": 0.019041864
+          },
+          "modelCacheReads": {
+            "deepseek-v4-flash": 820082048,
+            "deepseek-v4-pro": 188928,
+            "deepseek-v4-flash-free": 699392
+          },
+          "modelCacheWrites": {},
+          "modelOutputs": {
+            "deepseek-v4-flash": 788213,
+            "deepseek-v4-pro": 1352,
+            "deepseek-v4-flash-free": 5989
+          },
+          "modelUnclassifiedTokens": {},
+          "clientModels": {
+            "opencode": {
+              "deepseek-v4-flash": 829413578,
+              "deepseek-v4-flash-free": 863209
+            },
+            "codex": {
+              "deepseek-v4-flash": 1682277
+            },
+            "claude": {
+              "deepseek-v4-pro": 229776
+            }
+          },
+          "clientModelCosts": {
+            "opencode": {
+              "deepseek-v4-flash": 2.630295284400003
+            },
+            "codex": {
+              "deepseek-v4-flash": 0.0322650048
+            },
+            "claude": {
+              "deepseek-v4-pro": 0.019041864
+            }
+          },
+          "projects": {
+            "flowscript": {
+              "label": "flowscript",
+              "tokens": 817754116,
+              "costUsd": 2.587535126400003,
+              "clients": {
+                "opencode": 817754116
+              }
+            },
+            "ai_ideas": {
+              "label": "ai_ideas",
+              "tokens": 2545486,
+              "costUsd": 0.0322650048,
+              "clients": {
+                "codex": 1682277,
+                "opencode": 863209
+              }
+            },
+            "exam": {
+              "label": "exam",
+              "tokens": 11311535,
+              "costUsd": 0.03385548320000001,
+              "clients": {
+                "opencode": 11311535
+              }
+            },
+            "logs": {
+              "label": "logs",
+              "tokens": 229776,
+              "costUsd": 0.019041864,
+              "clients": {
+                "claude": 229776
+              }
+            },
+            "opencode": {
+              "label": "opencode",
+              "tokens": 305299,
+              "costUsd": 0.0073344768,
+              "clients": {
+                "opencode": 305299
+              }
+            },
+            "system32": {
+              "label": "System32",
+              "tokens": 42628,
+              "costUsd": 0.001570198,
+              "clients": {
+                "opencode": 42628
+              }
+            }
+          },
+          "sessions": {
+            "opencode:ses_02e247189ffefVPf2OxhFSfuz3": {
+              "client": "opencode",
+              "sessionId": "ses_02e247189ffefVPf2OxhFSfuz3",
+              "totalTokens": 774550946,
+              "costUsd": 2.3703116752000026,
+              "messageCount": 1754,
+              "inputTokens": 9629417,
+              "outputTokens": 606265,
+              "cacheReadTokens": 764315264,
+              "cacheWriteTokens": 0,
+              "reasoningTokens": 435640,
+              "startedAt": "2026-08-05T12:17:34.838Z",
+              "lastUsedAt": "2026-08-12T09:17:18.686Z",
+              "projectId": "sha256:e551c7b643e1f22a480907fa7e4af2f418ce5f129de5f793ed848f8d6d7951e8",
+              "projectLabel": "flowscript",
+              "models": {
+                "deepseek-v4-flash": 774550946
+              },
+              "modelCosts": {
+                "deepseek-v4-flash": 2.3703116752000026
+              },
+              "providers": {
+                "opencode_go": 774550946
+              }
+            },
+            "opencode:ses_02b336ffaffeDvfvjgB4ZiSyse": {
+              "client": "opencode",
+              "sessionId": "ses_02b336ffaffeDvfvjgB4ZiSyse",
+              "totalTokens": 43203170,
+              "costUsd": 0.21722345120000008,
+              "messageCount": 236,
+              "inputTokens": 346336,
+              "outputTokens": 89730,
+              "cacheReadTokens": 42767104,
+              "cacheWriteTokens": 0,
+              "reasoningTokens": 85229,
+              "startedAt": "2026-08-06T02:00:03.845Z",
+              "lastUsedAt": "2026-08-08T00:53:54.382Z",
+              "projectId": "sha256:e551c7b643e1f22a480907fa7e4af2f418ce5f129de5f793ed848f8d6d7951e8",
+              "projectLabel": "flowscript",
+              "models": {
+                "deepseek-v4-flash": 43203170
+              },
+              "modelCosts": {
+                "deepseek-v4-flash": 0.21722345120000008
+              },
+              "providers": {
+                "opencode_go": 43203170
+              }
+            },
+            "codex:rollout-2026-08-03T16-41-20-019fc6c8-dd1c-7732-8f4a-5827fed8fd53": {
+              "client": "codex",
+              "sessionId": "rollout-2026-08-03T16-41-20-019fc6c8-dd1c-7732-8f4a-5827fed8fd53",
+              "totalTokens": 1682277,
+              "costUsd": 0.0322650048,
+              "messageCount": 30,
+              "inputTokens": 65842,
+              "outputTokens": 45619,
+              "cacheReadTokens": 1570816,
+              "cacheWriteTokens": 0,
+              "reasoningTokens": 20984,
+              "startedAt": "2026-08-03T08:41:20.000Z",
+              "lastUsedAt": "2026-08-03T09:34:10.036Z",
+              "projectId": "sha256:68a609bec46b04216d3862f282f672bc9bb11d771ed3c5663bb461c1b33c1bb2",
+              "projectLabel": "ai_ideas",
+              "models": {
+                "deepseek-v4-flash": 1682277
+              },
+              "modelCosts": {
+                "deepseek-v4-flash": 0.0322650048
+              },
+              "providers": {
+                "deepseek": 1682277
+              }
+            },
+            "opencode:ses_005149642ffeBK2QfUo7H3XYq4": {
+              "client": "opencode",
+              "sessionId": "ses_005149642ffeBK2QfUo7H3XYq4",
+              "totalTokens": 10813814,
+              "costUsd": 0.02951353160000001,
+              "messageCount": 121,
+              "inputTokens": 91191,
+              "outputTokens": 38079,
+              "cacheReadTokens": 10684544,
+              "cacheWriteTokens": 0,
+              "reasoningTokens": 20291,
+              "startedAt": "2026-08-13T11:39:19.869Z",
+              "lastUsedAt": "2026-08-13T13:46:43.010Z",
+              "projectId": "sha256:b9788c2771f495ef2fc051ec3c160bb05156217ac6c3372e6c451e85c08149fd",
+              "projectLabel": "exam",
+              "models": {
+                "deepseek-v4-flash": 10813814
+              },
+              "modelCosts": {
+                "deepseek-v4-flash": 0.02951353160000001
+              },
+              "providers": {
+                "opencode_go": 10813814
+              }
+            },
+            "claude:0907d578-076c-4213-84c2-21d9aca2ece1": {
+              "client": "claude",
+              "sessionId": "0907d578-076c-4213-84c2-21d9aca2ece1",
+              "totalTokens": 229776,
+              "costUsd": 0.019041864,
+              "messageCount": 5,
+              "inputTokens": 39496,
+              "outputTokens": 1352,
+              "cacheReadTokens": 188928,
+              "cacheWriteTokens": 0,
+              "reasoningTokens": 0,
+              "startedAt": "",
+              "lastUsedAt": "2026-08-04T02:19:59.093Z",
+              "projectId": "sha256:d39b80e5b7d39a38695928a7a0da0fb7b847a5cd8fc52450e8b8c1e6e48e5731",
+              "projectLabel": "logs",
+              "models": {
+                "deepseek-v4-pro": 229776
+              },
+              "modelCosts": {
+                "deepseek-v4-pro": 0.019041864
+              },
+              "providers": {
+                "deepseek": 229776
+              }
+            },
+            "opencode:ses_02872c004ffev5S2uEy8oe5TrM": {
+              "client": "opencode",
+              "sessionId": "ses_02872c004ffev5S2uEy8oe5TrM",
+              "totalTokens": 305299,
+              "costUsd": 0.0073344768,
+              "messageCount": 12,
+              "inputTokens": 41394,
+              "outputTokens": 1249,
+              "cacheReadTokens": 262656,
+              "cacheWriteTokens": 0,
+              "reasoningTokens": 1622,
+              "startedAt": "2026-08-06T14:49:46.235Z",
+              "lastUsedAt": "2026-08-06T15:02:38.009Z",
+              "projectId": "sha256:31174da99592287374887d787e0792af67dbc5e722f704815daf9361e510f4b5",
+              "projectLabel": "opencode",
+              "models": {
+                "deepseek-v4-flash": 305299
+              },
+              "modelCosts": {
+                "deepseek-v4-flash": 0.0073344768
+              },
+              "providers": {
+                "opencode_go": 305299
+              }
+            },
+            "opencode:ses_0051c2421ffeV0i9oQRfmTdDUa": {
+              "client": "opencode",
+              "sessionId": "ses_0051c2421ffeV0i9oQRfmTdDUa",
+              "totalTokens": 497721,
+              "costUsd": 0.0043419515999999995,
+              "messageCount": 21,
+              "inputTokens": 30221,
+              "outputTokens": 6956,
+              "cacheReadTokens": 460544,
+              "cacheWriteTokens": 0,
+              "reasoningTokens": 4342,
+              "startedAt": "2026-08-13T11:31:04.798Z",
+              "lastUsedAt": "2026-08-13T11:33:30.711Z",
+              "projectId": "sha256:b9788c2771f495ef2fc051ec3c160bb05156217ac6c3372e6c451e85c08149fd",
+              "projectLabel": "exam",
+              "models": {
+                "deepseek-v4-flash": 497721
+              },
+              "modelCosts": {
+                "deepseek-v4-flash": 0.0043419515999999995
+              },
+              "providers": {
+                "opencode_go": 497721
+              }
+            },
+            "opencode:ses_0069e5dcbffelFqKM0KHO65Y8x": {
+              "client": "opencode",
+              "sessionId": "ses_0069e5dcbffelFqKM0KHO65Y8x",
+              "totalTokens": 21810,
+              "costUsd": 0.0008009820000000001,
+              "messageCount": 3,
+              "inputTokens": 10771,
+              "outputTokens": 159,
+              "cacheReadTokens": 10880,
+              "cacheWriteTokens": 0,
+              "reasoningTokens": 68,
+              "startedAt": "2026-08-13T04:29:13.140Z",
+              "lastUsedAt": "2026-08-13T04:31:04.026Z",
+              "projectId": "sha256:30e17e764c9e669dcba46297843272d09d5a87817fc131ab943c37110bdf624a",
+              "projectLabel": "System32",
+              "models": {
+                "deepseek-v4-flash": 21810
+              },
+              "modelCosts": {
+                "deepseek-v4-flash": 0.0008009820000000001
+              },
+              "providers": {
+                "opencode-opencode_go": 21810
+              }
+            },
+            "opencode:ses_0069c70b7ffeqpJKQraCEsEhTQ": {
+              "client": "opencode",
+              "sessionId": "ses_0069c70b7ffeqpJKQraCEsEhTQ",
+              "totalTokens": 20818,
+              "costUsd": 0.0007692160000000001,
+              "messageCount": 2,
+              "inputTokens": 10422,
+              "outputTokens": 156,
+              "cacheReadTokens": 10240,
+              "cacheWriteTokens": 0,
+              "reasoningTokens": 25,
+              "startedAt": "2026-08-13T04:31:19.368Z",
+              "lastUsedAt": "2026-08-13T04:31:40.054Z",
+              "projectId": "sha256:30e17e764c9e669dcba46297843272d09d5a87817fc131ab943c37110bdf624a",
+              "projectLabel": "System32",
+              "models": {
+                "deepseek-v4-flash": 20818
+              },
+              "modelCosts": {
+                "deepseek-v4-flash": 0.0007692160000000001
+              },
+              "providers": {
+                "opencode_go": 20818
+              }
+            },
+            "opencode:ses_03023ea4dffeD3VOugON2a21hk": {
+              "client": "opencode",
+              "sessionId": "ses_03023ea4dffeD3VOugON2a21hk",
+              "totalTokens": 863209,
+              "costUsd": 0,
+              "messageCount": 27,
+              "inputTokens": 157828,
+              "outputTokens": 5989,
+              "cacheReadTokens": 699392,
+              "cacheWriteTokens": 0,
+              "reasoningTokens": 3079,
+              "startedAt": "2026-08-05T02:58:55.026Z",
+              "lastUsedAt": "2026-08-11T13:04:45.543Z",
+              "projectId": "sha256:68a609bec46b04216d3862f282f672bc9bb11d771ed3c5663bb461c1b33c1bb2",
+              "projectLabel": "ai_ideas",
+              "models": {
+                "deepseek-v4-flash-free": 863209
+              },
+              "modelCosts": {},
+              "providers": {
+                "opencode": 863209
+              }
+            }
+          }
+        },
+        "allTime": {
+          "capabilities": {
+            "tokenComponents": true
+          },
+          "totalTokens": 891744331,
+          "costUsd": 3.452777548200004,
+          "cacheReadTokens": 879503488,
+          "cacheWriteTokens": 0,
+          "outputTokens": 1058224,
+          "unclassifiedTokens": 0,
+          "timedTokens": 892173737,
+          "timedOutputTokens": 1058224,
+          "timedDurationMs": 58394762,
+          "clients": {
+            "opencode": 830276787,
+            "claude": 59785267,
+            "codex": 1682277
+          },
+          "clientCosts": {
+            "opencode": 2.630295284400003,
+            "claude": 0.7902172590000007,
+            "codex": 0.0322650048
+          },
+          "clientCacheReads": {
+            "opencode": 819210624,
+            "claude": 58722048,
+            "codex": 1570816
+          },
+          "clientCacheWrites": {},
+          "clientOutputs": {
+            "opencode": 748583,
+            "claude": 264022,
+            "codex": 45619
+          },
+          "clientUnclassifiedTokens": {},
+          "models": {
+            "deepseek-v4-flash": 831095855,
+            "deepseek-v4-pro": 59785267,
+            "deepseek-v4-flash-free": 863209
+          },
+          "modelCosts": {
+            "deepseek-v4-flash": 2.662560289200003,
+            "deepseek-v4-pro": 0.7902172590000007
+          },
+          "modelCacheReads": {
+            "deepseek-v4-flash": 820082048,
+            "deepseek-v4-pro": 58722048,
+            "deepseek-v4-flash-free": 699392
+          },
+          "modelCacheWrites": {},
+          "modelOutputs": {
+            "deepseek-v4-flash": 788213,
+            "deepseek-v4-pro": 264022,
+            "deepseek-v4-flash-free": 5989
+          },
+          "modelUnclassifiedTokens": {},
+          "clientModels": {
+            "opencode": {
+              "deepseek-v4-flash": 829413578,
+              "deepseek-v4-flash-free": 863209
+            },
+            "claude": {
+              "deepseek-v4-pro": 59785267
+            },
+            "codex": {
+              "deepseek-v4-flash": 1682277
+            }
+          },
+          "clientModelCosts": {
+            "opencode": {
+              "deepseek-v4-flash": 2.630295284400003
+            },
+            "claude": {
+              "deepseek-v4-pro": 0.7902172590000007
+            },
+            "codex": {
+              "deepseek-v4-flash": 0.0322650048
+            }
+          },
+          "projects": {
+            "flowscript": {
+              "label": "flowscript",
+              "tokens": 817754116,
+              "costUsd": 2.587535126400003,
+              "clients": {
+                "opencode": 817754116
+              }
+            },
+            "ai": {
+              "label": "ai",
+              "tokens": 59157918,
+              "costUsd": 0.7286631930000007,
+              "clients": {
+                "claude": 59157918
+              }
+            },
+            "logs": {
+              "label": "logs",
+              "tokens": 524105,
+              "costUsd": 0.044970967000000014,
+              "clients": {
+                "claude": 524105
+              }
+            },
+            "ai_ideas": {
+              "label": "ai_ideas",
+              "tokens": 2545486,
+              "costUsd": 0.0322650048,
+              "clients": {
+                "codex": 1682277,
+                "opencode": 863209
+              }
+            },
+            "exam": {
+              "label": "exam",
+              "tokens": 11311535,
+              "costUsd": 0.03385548320000001,
+              "clients": {
+                "opencode": 11311535
+              }
+            },
+            ".claude": {
+              "label": ".claude",
+              "tokens": 103244,
+              "costUsd": 0.016583099000000004,
+              "clients": {
+                "claude": 103244
+              }
+            },
+            "opencode": {
+              "label": "opencode",
+              "tokens": 305299,
+              "costUsd": 0.0073344768,
+              "clients": {
+                "opencode": 305299
+              }
+            },
+            "system32": {
+              "label": "System32",
+              "tokens": 42628,
+              "costUsd": 0.001570198,
+              "clients": {
+                "opencode": 42628
+              }
+            }
+          },
+          "sessions": {}
+        }
+      },
+      "limits": {
+        "updatedAt": "2026-08-14T14:09:50.419Z",
+        "refreshMs": 300000,
+        "providers": [
+          {
+            "provider": "opencode",
+            "accountKey": "",
+            "accountLabel": "",
+            "planLabel": "",
+            "accountName": "",
+            "accountEmail": "",
+            "workspaceKind": "",
+            "status": "notConfigured",
+            "source": "local",
+            "sourceDetail": "managed",
+            "updatedAt": "2026-08-14T14:09:50.419Z",
+            "windows": [],
+            "balanceUsd": null,
+            "balance": null,
+            "resetCredits": null,
+            "region": ""
+          }
+        ]
+      }
+    }
+  ],
+  "projectsIncomplete": false,
+  "limits": {
+    "updatedAt": "2026-08-14T14:13:49.082Z",
+    "providers": [
+      {
+        "provider": "antigravity",
+        "accountKey": "",
+        "accountLabel": "",
+        "planLabel": "",
+        "accountName": "",
+        "accountEmail": "",
+        "workspaceKind": "",
+        "status": "notConfigured",
+        "source": "rpc",
+        "sourceDetail": "",
+        "updatedAt": "2026-08-14T14:10:56.120Z",
+        "windows": [],
+        "balanceUsd": null,
+        "balance": null,
+        "resetCredits": null,
+        "region": "",
+        "sourceDeviceId": "device-mac",
+        "stale": false
+      },
+      {
+        "provider": "codex",
+        "accountKey": "",
+        "accountLabel": "",
+        "planLabel": "",
+        "accountName": "",
+        "accountEmail": "",
+        "workspaceKind": "",
+        "status": "unavailable",
+        "source": "",
+        "sourceDetail": "",
+        "updatedAt": "2026-08-14T14:11:15.088Z",
+        "windows": [],
+        "balanceUsd": null,
+        "balance": null,
+        "resetCredits": null,
+        "region": "",
+        "sourceDeviceId": "device-mac",
+        "stale": false
+      },
+      {
+        "provider": "copilot",
+        "accountKey": "sha256:79db7a981e8025c26d12d56da6c990f5baa185c1ba910d901ee7126bac5ced40",
+        "accountLabel": "Individual",
+        "planLabel": "",
+        "accountName": "qingkong9579",
+        "accountEmail": "",
+        "workspaceKind": "",
+        "status": "ok",
+        "source": "api",
+        "sourceDetail": "",
+        "updatedAt": "2026-08-14T14:10:55.444Z",
+        "windows": [
+          {
+            "kind": "billing",
+            "label": "Premium",
+            "used": null,
+            "limit": null,
+            "remaining": null,
+            "usedPercent": 0.7999999999999972,
+            "remainingPercent": 99.2,
+            "resetsAt": "2026-09-01T00:00:00.000Z",
+            "windowMinutes": null,
+            "resetDescription": "",
+            "detail": "",
+            "currency": null,
+            "showMeter": true
+          },
+          {
+            "kind": "billing",
+            "label": "Chat",
+            "used": null,
+            "limit": null,
+            "remaining": null,
+            "usedPercent": 0,
+            "remainingPercent": 100,
+            "resetsAt": null,
+            "windowMinutes": null,
+            "resetDescription": "",
+            "detail": "",
+            "currency": null,
+            "showMeter": true
+          }
+        ],
+        "balanceUsd": null,
+        "balance": null,
+        "resetCredits": null,
+        "region": "",
+        "sourceDeviceId": "device-mac",
+        "stale": false
+      },
+      {
+        "provider": "deepseek",
+        "accountKey": "sha256:e43c366f4224731fd7d51c9d5ff12c1608da3c079c0312f4ae3a3b30d1283dcb",
+        "accountLabel": "Pay-as-you-go",
+        "planLabel": "",
+        "accountName": "",
+        "accountEmail": "",
+        "workspaceKind": "",
+        "status": "ok",
+        "source": "api",
+        "sourceDetail": "",
+        "updatedAt": "2026-08-14T14:10:55.444Z",
+        "windows": [
+          {
+            "kind": "billing",
+            "metric": "credits",
+            "label": "Balance",
+            "used": null,
+            "limit": null,
+            "remaining": 13.54,
+            "usedPercent": null,
+            "remainingPercent": null,
+            "resetsAt": null,
+            "windowMinutes": null,
+            "resetDescription": "",
+            "detail": "",
+            "currency": "CNY",
+            "showMeter": true
+          }
+        ],
+        "balanceUsd": null,
+        "balance": {
+          "amount": 13.54,
+          "currency": "CNY",
+          "todaySpend": 0.01,
+          "weekSpend": 0.91,
+          "monthSpend": 1.9,
+          "allTimeSpend": 154.85,
+          "requestCount": null,
+          "quotaGroup": "",
+          "expiresAt": null,
+          "trackingSince": "2026-07-02T11:20:06.135Z",
+          "monthSinceTracking": false,
+          "giftBalance": null,
+          "cashBalance": null,
+          "planUsed": null,
+          "planLimit": null,
+          "planPercent": null,
+          "planStatus": null,
+          "todayTokenTotal": null,
+          "todayUsageDate": "",
+          "latestModelUsageDate": "",
+          "todayUsageBasis": "",
+          "snapshotDate": ""
+        },
+        "resetCredits": null,
+        "region": "",
+        "sourceDeviceId": "device-mac",
+        "stale": false
+      },
+      {
+        "provider": "opencode",
+        "accountKey": "",
+        "accountLabel": "",
+        "planLabel": "",
+        "accountName": "",
+        "accountEmail": "",
+        "workspaceKind": "",
+        "status": "notConfigured",
+        "source": "local",
+        "sourceDetail": "managed",
+        "updatedAt": "2026-08-14T14:10:56.047Z",
+        "windows": [],
+        "balanceUsd": null,
+        "balance": null,
+        "resetCredits": null,
+        "region": "",
+        "sourceDeviceId": "device-mac",
+        "stale": false
+      }
+    ]
+  },
+  "staleAfterMs": 600000,
+  "historyPreview": {
+    "daily": [
+      {
+        "date": "2026-06-14",
+        "tokens": 14781993,
+        "cost": 3.8041001999999997,
+        "activeTimeMs": 3943452
+      },
+      {
+        "date": "2026-06-23",
+        "tokens": 1071631,
+        "cost": 0.24415419999999996,
+        "activeTimeMs": 945510
+      },
+      {
+        "date": "2026-06-25",
+        "tokens": 2008058,
+        "cost": 0.48241559999999994,
+        "activeTimeMs": 47321396
+      },
+      {
+        "date": "2026-07-01",
+        "tokens": 5706096,
+        "cost": 0.100715521,
+        "activeTimeMs": 88431297
+      },
+      {
+        "date": "2026-07-02",
+        "tokens": 3258712,
+        "cost": 0.088418622,
+        "activeTimeMs": 86923038
+      },
+      {
+        "date": "2026-07-03",
+        "tokens": 64591951,
+        "cost": 1.090101106,
+        "activeTimeMs": 100021009
+      },
+      {
+        "date": "2026-07-04",
+        "tokens": 38631464,
+        "cost": 0.37167493300000004,
+        "activeTimeMs": 93321741
+      },
+      {
+        "date": "2026-07-05",
+        "tokens": 101772139,
+        "cost": 0.8199857010000001,
+        "activeTimeMs": 94712607
+      },
+      {
+        "date": "2026-07-08",
+        "tokens": 61828383,
+        "cost": 0.6592515190000001,
+        "activeTimeMs": 94098203
+      },
+      {
+        "date": "2026-07-10",
+        "tokens": 3311697,
+        "cost": 0.259976358,
+        "activeTimeMs": 68985726
+      },
+      {
+        "date": "2026-07-11",
+        "tokens": 3115185,
+        "cost": 0,
+        "activeTimeMs": 7997409
+      },
+      {
+        "date": "2026-07-12",
+        "tokens": 314739973,
+        "cost": 1.7123000990000001,
+        "activeTimeMs": 19736851
+      },
+      {
+        "date": "2026-07-14",
+        "tokens": 34577482,
+        "cost": 0.649869468,
+        "activeTimeMs": 8709189
+      },
+      {
+        "date": "2026-07-19",
+        "tokens": 1761092,
+        "cost": 0.047819927000000005,
+        "activeTimeMs": 1084442
+      },
+      {
+        "date": "2026-07-20",
+        "tokens": 863611,
+        "cost": 0.05133899,
+        "activeTimeMs": 314700
+      },
+      {
+        "date": "2026-07-26",
+        "tokens": 58056779,
+        "cost": 0.61435543,
+        "activeTimeMs": 8530197
+      },
+      {
+        "date": "2026-07-27",
+        "tokens": 853950,
+        "cost": 0.069442849,
+        "activeTimeMs": 151944
+      },
+      {
+        "date": "2026-07-28",
+        "tokens": 350433,
+        "cost": 0.06144801300000001,
+        "activeTimeMs": 234001
+      },
+      {
+        "date": "2026-07-31",
+        "tokens": 294329,
+        "cost": 0.025929103000000002,
+        "activeTimeMs": 109413
+      },
+      {
+        "date": "2026-08-03",
+        "tokens": 1682277,
+        "cost": 0.032265004800000004,
+        "activeTimeMs": 519569
+      },
+      {
+        "date": "2026-08-04",
+        "tokens": 229776,
+        "cost": 0.019041864000000002,
+        "activeTimeMs": 903618
+      },
+      {
+        "date": "2026-08-05",
+        "tokens": 79976789,
+        "cost": 0.3403123808,
+        "activeTimeMs": 7414314
+      },
+      {
+        "date": "2026-08-06",
+        "tokens": 131368530,
+        "cost": 0.736262548,
+        "activeTimeMs": 26984799
+      },
+      {
+        "date": "2026-08-07",
+        "tokens": 206954457,
+        "cost": 0.44486477,
+        "activeTimeMs": 8075184
+      },
+      {
+        "date": "2026-08-08",
+        "tokens": 266070727,
+        "cost": 0.6305426064,
+        "activeTimeMs": 13249692
+      },
+      {
+        "date": "2026-08-09",
+        "tokens": 125848623,
+        "cost": 0.3582591544,
+        "activeTimeMs": 18767234
+      },
+      {
+        "date": "2026-08-10",
+        "tokens": 2704278,
+        "cost": 0.0269872932,
+        "activeTimeMs": 360136
+      },
+      {
+        "date": "2026-08-11",
+        "tokens": 19123777,
+        "cost": 0.47568715720000004,
+        "activeTimeMs": 5379194
+      },
+      {
+        "date": "2026-08-12",
+        "tokens": 3258813,
+        "cost": 0.0294682696,
+        "activeTimeMs": 137430
+      },
+      {
+        "date": "2026-08-13",
+        "tokens": 11354163,
+        "cost": 0.03542568120000001,
+        "activeTimeMs": 1991021
+      }
+    ],
+    "monthly": [
+      {
+        "month": "2026-02",
+        "tokens": 7705452,
+        "cost": 8.0916925,
+        "activeTimeMs": 1699669
+      },
+      {
+        "month": "2026-03",
+        "tokens": 64012793,
+        "cost": 41.61998775,
+        "activeTimeMs": 11916167
+      },
+      {
+        "month": "2026-04",
+        "tokens": 173665320,
+        "cost": 52.79536705,
+        "activeTimeMs": 41405070
+      },
+      {
+        "month": "2026-05",
+        "tokens": 78631761,
+        "cost": 8.564663000000001,
+        "activeTimeMs": 91871442
+      },
+      {
+        "month": "2026-06",
+        "tokens": 19200784,
+        "cost": 4.530669999999999,
+        "activeTimeMs": 52889802
+      },
+      {
+        "month": "2026-07",
+        "tokens": 693713276,
+        "cost": 6.622627639,
+        "activeTimeMs": 673361767
+      },
+      {
+        "month": "2026-08",
+        "tokens": 848572210,
+        "cost": 3.1291167296,
+        "activeTimeMs": 83782191
+      }
+    ],
+    "summary": {
+      "totalTokens": 1885501596,
+      "totalCost": 125.35412466860001,
+      "activeDays": 64,
+      "currentStreak": 0,
+      "longestStreak": 11,
+      "peakDayTokens": 314739973,
+      "favoriteModel": "deepseek-v4-flash",
+      "messages": 8996,
+      "activeTimeMs": 956926108
+    }
+  },
+  "historyRevision": "da0d0d3316118e27",
+  "deviceHistoryRevision": "c8b3d6027bbf3b46",
+  "subscriptionsUpdatedAt": ""
+}
