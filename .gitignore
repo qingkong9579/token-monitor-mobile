@@ -23,6 +23,7 @@ captures/
 *.jks
 *.keystore
 *.p12
+keystore.properties
 
 # macOS
 .DS_Store

@@ -8,6 +8,17 @@
 
 极光渐变背景 + Liquid Glass 玻璃质感:统计卡、周期按钮、导航胶囊、设置项全部使用磨砂玻璃面板,直接渲染 SVG 工具图标。
 
+## ⚠️ 前置条件:你需要一个 Token Monitor hub
+
+本应用是 hub 的**只读客户端** —— 它自己不采集、不存储 token 数据,所有数据都来自你搭建的 **Token Monitor hub**。使用本应用前,请先用下面任一种方式准备好 hub:
+
+1. **桌面端客户端(推荐)**:安装并运行 [**token-monitor 桌面端**](https://github.com/Javis603/token-monitor),它会采集你电脑上各 AI 工具的 token 用量,并在本机/局域网暴露一个内置 hub。
+2. **Cloudflare Worker**:将 token-monitor 仓库的 `worker/` 部署为 Cloudflare Worker,得到一个云端 hub(可结合桌面端同步数据)。
+
+> ### 📌 参考项目
+> 本项目界面、API 协议与品牌图标均移植自:
+> **[github.com/Javis603/token-monitor](https://github.com/Javis603/token-monitor)**
+
 ## 截图
 
 | 首页 | 模型页 |
