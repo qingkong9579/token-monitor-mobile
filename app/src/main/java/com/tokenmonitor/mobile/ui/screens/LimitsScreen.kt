@@ -130,6 +130,14 @@ private fun ProviderCard(p: ProviderLimit) {
                 color = statusColor
             )
         }
+        if (p.actionRequired == "accountVerification") {
+            Text(
+                "需要账号验证：请在对应客户端完成验证后刷新",
+                fontSize = 11.sp,
+                color = Warn,
+                modifier = Modifier.padding(top = 6.dp)
+            )
+        }
         if (p.windows.isEmpty()) {
             Text(
                 "无额度窗口",
@@ -184,6 +192,14 @@ private fun WindowRow(p: ProviderLimit, w: LimitWindow) {
             color = TextMuted,
             modifier = Modifier.padding(top = 2.dp)
         )
+        w.detail?.let {
+            Text(
+                it,
+                fontSize = 11.sp,
+                color = TextMuted,
+                modifier = Modifier.padding(top = 2.dp)
+            )
+        }
     }
 }
 
@@ -200,6 +216,7 @@ private fun exhaustionForecast(w: LimitWindow): String? {
     val now = System.currentTimeMillis()
     val windowMs = when (w.kind) {
         "session" -> 5L * 60 * 60 * 1000
+        "daily" -> 24L * 60 * 60 * 1000
         "weekly" -> 7L * 24 * 60 * 60 * 1000
         else -> 30L * 24 * 60 * 60 * 1000
     }

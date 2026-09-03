@@ -29,8 +29,9 @@ import java.util.Locale
 /**
  * Client (tool) id → SVG asset file name, mirroring the desktop renderer's
  * row-icon CSS: hermes→hermes-agent, grok↔xai, micode/mimo→xiaomi,
- * thirdparty→newapi, zaiteam/zcode→zai. To add a new tool, drop `<client>.svg`
- * (or add one alias line here) into assets/icons/.
+ * zaiteam/zcode→zai. Third-party adapters render their own mark.
+ * To add a new tool, drop `<client>.svg` (or add one alias line here) into
+ * assets/icons/.
  */
 private val CLIENT_ICON_FILE: Map<String, String> = mapOf(
     "hermes" to "hermes-agent",
@@ -38,7 +39,6 @@ private val CLIENT_ICON_FILE: Map<String, String> = mapOf(
     "xai" to "grok",
     "micode" to "xiaomi",
     "mimo" to "xiaomi",
-    "thirdparty" to "newapi",
     "zaiteam" to "zai",
     "zcode" to "zai"
 )

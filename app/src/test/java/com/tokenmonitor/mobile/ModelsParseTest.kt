@@ -225,4 +225,69 @@ class ModelsParseTest {
         assertTrue(stats.devices.isNullOrEmpty())
         assertTrue(stats.periods!!.month == null)
     }
+
+    @Test
+    fun `new wire fields from latest hub parse`() {
+        // adapterId / actionRequired / usageSummary on the provider row, and
+        // limitId / additional / detail on windows — docs/API.md (v0.52).
+        val payload = """
+        {
+          "limits": {
+            "providers": [
+              {
+                "provider": "thirdparty",
+                "adapterId": "sub2api",
+                "actionRequired": "accountVerification",
+                "status": "ok",
+                "windows": [
+                  { "kind": "daily", "usedPercent": 30, "limitId": "some-meter", "additional": true, "detail": "组合说明", "resetsAt": "2026-08-15T00:00:00.000Z" }
+                ],
+                "usageSummary": {
+                  "period": "month",
+                  "requests": 1234,
+                  "totalTokens": 5000000,
+                  "inputTokens": 3000000,
+                  "outputTokens": 1000000,
+                  "cacheReadTokens": 900000,
+                  "cacheCreationTokens": 100000,
+                  "standardCost": 1.2,
+                  "actualCost": 1.4,
+                  "averageDurationMs": 850
+                }
+              }
+            ]
+          }
+        }
+        """.trimIndent()
+        val stats = json.decodeFromString(StatsResponse.serializer(), payload)
+        val p = stats.limits!!.providers[0]
+        assertEquals("sub2api", p.adapterId)
+        assertEquals("accountVerification", p.actionRequired)
+        val w = p.windows[0]
+        assertEquals("daily", w.kind)
+        assertEquals("some-meter", w.limitId)
+        assertEquals(true, w.additional)
+        assertEquals("组合说明", w.detail)
+        val u = p.usageSummary!!
+        assertEquals("month", u.period)
+        assertEquals(1234L, u.requests)
+        assertEquals(5_000_000L, u.totalTokens)
+        assertEquals(1.4, u.actualCost!!, 0.001)
+        assertEquals(850.0, u.averageDurationMs!!, 0.001)
+    }
+
+    @Test
+    fun `new tools resolve labels and colors`() {
+        assertEquals("Qoder CN", clientLabel("qodercn"))
+        assertEquals("DeepSeek Harness", clientLabel("dsh"))
+        assertEquals("Cherry Studio", clientLabel("cherrystudio"))
+        assertEquals("LM Studio", clientLabel("lmstudio"))
+        assertEquals("Trae", clientLabel("trae"))
+        assertEquals("Command Code", clientLabel("commandcode"))
+        assertEquals("WorkBuddy", clientLabel("workbuddy"))
+        assertNotNull(modelColor("qodercn"))
+        assertNotNull(modelColor("dsh"))
+        assertNotNull(modelColor("trae"))
+        assertNotNull(com.tokenmonitor.mobile.util.vendorColor("sub2api"))
+    }
 }

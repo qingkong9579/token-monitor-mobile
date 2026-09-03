@@ -157,6 +157,12 @@ val VENDOR_COLORS: Map<String, Color> = mapOf(
     "hunyuan" to Color(0xFF0053E0),
     "volcengine" to Color(0xFF006EFF),
     "qoder" to Color(0xFF2ADB5C),
+    "qodercn" to Color(0xFF2ADB5C),
+    "dsh" to Color(0xFF4D6BFE),
+    "cherrystudio" to Color(0xFFEA5E5D),
+    "lmstudio" to Color(0xFF6C5CE7),
+    "trae" to Color(0xFF32F08C),
+    "sub2api" to Color(0xFF39D9E7),
     "ollama" to Color(0xFF888888),
     "thirdparty" to Color(0xFFDD2E57),
     "default" to Color(0xFF6AB4F0)
@@ -177,14 +183,15 @@ fun vendorForModel(model: String?): String? {
         Regex("llama|meta").containsMatchIn(name) -> "meta"
         Regex("mistral|mixtral|codestral").containsMatchIn(name) -> "mistral"
         Regex("qwen|qwq|qvq").containsMatchIn(name) -> "qwen"
-        Regex("kimi|moonshot").containsMatchIn(name) -> "kimi"
+        Regex("kimi|moonshot|k2d6-agent|k3-agent").containsMatchIn(name) -> "kimi"
         Regex("chatglm|\\bglm-|\\bzai\\b|z\\.ai|zhipu").containsMatchIn(name) -> "zai"
         Regex("cohere|command-r").containsMatchIn(name) -> "cohere"
         Regex("mimo|xiaomi").containsMatchIn(name) -> "xiaomi"
-        Regex("minimax").containsMatchIn(name) -> "minimax"
-        Regex("doubao|volc|ark").containsMatchIn(name) -> "doubao"
-        Regex("hunyuan|混元").containsMatchIn(name) -> "hunyuan"
+        Regex("minimax|\\babab").containsMatchIn(name) -> "minimax"
+        Regex("doubao|volc|ark|\\bseed(?:-|$)").containsMatchIn(name) -> "doubao"
+        Regex("hy3|hunyuan|混元").containsMatchIn(name) -> "hunyuan"
         Regex("reasonix|antigravity").containsMatchIn(name) -> "antigravity"
+        Regex("^big-pickle$").containsMatchIn(name) -> "opencode"
         else -> null
     }
 }
@@ -221,6 +228,11 @@ val CLIENT_LABELS: Map<String, String> = mapOf(
     "minimax" to "Minimax",
     "volcengine" to "Volcengine",
     "qoder" to "Qoder",
+    "qodercn" to "Qoder CN",
+    "dsh" to "DeepSeek Harness",
+    "cherrystudio" to "Cherry Studio",
+    "lmstudio" to "LM Studio",
+    "trae" to "Trae",
     "ollama" to "Ollama",
     "gemini" to "Gemini",
     "xai" to "xAI",
@@ -251,10 +263,13 @@ val PROVIDER_LABELS: Map<String, String> = mapOf(
     "grok" to "Grok",
     "copilot" to "GitHub Copilot",
     "kiro" to "Kiro",
+    "commandcode" to "Command Code",
     "zai" to "GLM (Z.ai)",
     "zaiteam" to "GLM Team",
     "volcengine" to "Volcengine",
     "qoder" to "Qoder",
+    "workbuddy" to "WorkBuddy",
+    "trae" to "Trae",
     "kimi" to "Kimi",
     "ollama" to "Ollama",
     "thirdparty" to "Third-party APIs"
@@ -264,6 +279,7 @@ fun providerLabel(id: String?): String = PROVIDER_LABELS[id] ?: id ?: "Unknown"
 
 fun windowKindLabel(kind: String?): String = when (kind) {
     "session" -> "会话额度"
+    "daily" -> "日额度"
     "weekly" -> "周额度"
     "billing" -> "账单周期"
     "credits" -> "余额"

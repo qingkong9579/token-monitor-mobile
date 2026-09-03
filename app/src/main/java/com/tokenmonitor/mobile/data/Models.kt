@@ -132,13 +132,34 @@ data class ProviderLimit(
     @SerialName("accountName") val accountName: String? = null,
     @SerialName("accountEmail") val accountEmail: String? = null,
     @SerialName("planLabel") val planLabel: String? = null,
+    // Third-party adapter identity retained across Hub synchronization:
+    // "newapi-account", "newapi-token", "sub2api", or "custom". Only present
+    // on thirdparty rows (docs/API.md).
+    @SerialName("adapterId") val adapterId: String? = null,
+    @SerialName("actionRequired") val actionRequired: String? = null,
     @SerialName("sourceDeviceId") val sourceDeviceId: String? = null,
     @SerialName("stale") val stale: Boolean = false,
     @SerialName("status") val status: String? = null,
     @SerialName("updatedAt") val updatedAt: String? = null,
     @SerialName("windows") val windows: List<LimitWindow> = emptyList(),
     @SerialName("balanceUsd") val balanceUsd: Double? = null,
-    @SerialName("balance") val balance: BalanceBlock? = null
+    @SerialName("balance") val balance: BalanceBlock? = null,
+    @SerialName("usageSummary") val usageSummary: UsageSummary? = null
+)
+
+/** Normalized period-detail block some providers expose (docs/API.md). */
+@Serializable
+data class UsageSummary(
+    @SerialName("period") val period: String? = null,
+    @SerialName("requests") val requests: Long? = null,
+    @SerialName("inputTokens") val inputTokens: Long? = null,
+    @SerialName("outputTokens") val outputTokens: Long? = null,
+    @SerialName("cacheReadTokens") val cacheReadTokens: Long? = null,
+    @SerialName("cacheCreationTokens") val cacheCreationTokens: Long? = null,
+    @SerialName("totalTokens") val totalTokens: Long? = null,
+    @SerialName("standardCost") val standardCost: Double? = null,
+    @SerialName("actualCost") val actualCost: Double? = null,
+    @SerialName("averageDurationMs") val averageDurationMs: Double? = null
 )
 
 @Serializable
@@ -147,6 +168,13 @@ data class LimitWindow(
     @SerialName("source") val source: String? = null,
     @SerialName("metric") val metric: String? = null,
     @SerialName("currency") val currency: String? = null,
+    // Backend metered-feature identity (Codex); separately metered buckets are
+    // marked additional so compact readers can exclude them (docs/API.md).
+    @SerialName("limitId") val limitId: String? = null,
+    @SerialName("additional") val additional: Boolean = false,
+    // Bounded display-only description (e.g. the Kimi-vs-Code composition of a
+    // shared monthly membership meter).
+    @SerialName("detail") val detail: String? = null,
     // The hub emits percentages as 0-100 numbers that may carry float noise
     // (e.g. 0.7999999999999972), so these must be Double, never Int.
     @SerialName("usedPercent") val usedPercent: Double? = null,
