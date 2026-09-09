@@ -2,6 +2,7 @@ package com.tokenmonitor.mobile.util
 
 import androidx.compose.ui.graphics.Color
 import com.tokenmonitor.mobile.data.LimitWindow
+import com.tokenmonitor.mobile.data.ProviderLimit
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -166,9 +167,9 @@ val VENDOR_COLORS: Map<String, Color> = mapOf(
     "trae" to Color(0xFF32F08C),
     "sub2api" to Color(0xFF39D9E7),
     "ollama" to Color(0xFF888888),
-    "alibaba" to Color(0xFFFF6A00),
-    "unsloth" to Color(0xFF26C485),
-    "thirdparty" to Color(0xFFDD2E57),
+    "alibaba" to Color(0xFF615CED),
+    "unsloth" to Color(0xFF40B85A),
+    "thirdparty" to Color(0xFF8090A6),
     "default" to Color(0xFF6AB4F0)
 )
 
@@ -184,7 +185,9 @@ fun vendorForModel(model: String?): String? {
         Regex("gemini|gemma|google").containsMatchIn(name) -> "gemini"
         Regex("grok|xai").containsMatchIn(name) -> "xai"
         Regex("deepseek").containsMatchIn(name) -> "deepseek"
-        Regex("llama|meta").containsMatchIn(name) -> "meta"
+        // v0.53: Muse models were falling through to the hashed fallback colour
+        // instead of Meta's.
+        Regex("llama|meta|muse-spark(?:-|$)").containsMatchIn(name) -> "meta"
         Regex("mistral|mixtral|codestral").containsMatchIn(name) -> "mistral"
         Regex("qwen|qwq|qvq").containsMatchIn(name) -> "qwen"
         Regex("kimi|moonshot|k2d6-agent|k3-agent").containsMatchIn(name) -> "kimi"
@@ -218,6 +221,9 @@ val CLIENT_LABELS: Map<String, String> = mapOf(
     "copilot" to "GitHub Copilot",
     "pi" to "Pi",
     "zed" to "Zed",
+    // v0.54: the catalog renamed kilocode -> kilo; the old id stays as an alias
+    // so payloads from older agents still render a name.
+    "kilo" to "Kilo",
     "kilocode" to "Kilo Code",
     "commandcode" to "Command Code",
     "micode" to "MiMo Code",
@@ -255,30 +261,37 @@ val CLIENT_LABELS: Map<String, String> = mapOf(
 
 fun clientLabel(id: String?): String = CLIENT_LABELS[id] ?: id ?: "Unknown"
 
+/**
+ * Limit-provider names, mirroring src/shared/limitProviders.js
+ * LIMIT_PROVIDER_LABELS. Where upstream defines a `settingsLabel` (a surface
+ * that names the provider as a tool you configure or pay for) that label is
+ * used here — the AI Tool Limits list is one of those surfaces.
+ */
 val PROVIDER_LABELS: Map<String, String> = mapOf(
     "claude" to "Claude Code",
     "codex" to "Codex",
+    "opencode" to "OpenCode",
     "cursor" to "Cursor",
     "antigravity" to "Antigravity",
-    "opencode" to "OpenCode",
-    "openrouter" to "OpenRouter",
-    "deepseek" to "DeepSeek",
-    "minimax" to "Minimax",
-    "mimo" to "MiMo",
+    "kimi" to "Kimi",
     "grok" to "Grok",
     "copilot" to "GitHub Copilot",
-    "kiro" to "Kiro",
+    "zed" to "Zed",
     "commandcode" to "Command Code",
-    "zai" to "GLM (Z.ai)",
+    "mimo" to "MiMo",
+    "zai" to "GLM",
     "zaiteam" to "GLM Team",
-    "volcengine" to "Volcengine",
-    "qoder" to "Qoder",
+    "kiro" to "Kiro",
     "workbuddy" to "WorkBuddy",
-    "trae" to "Trae",
-    "kimi" to "Kimi",
+    "qoder" to "Qoder",
+    "deepseek" to "DeepSeek",
+    "openrouter" to "OpenRouter",
+    "minimax" to "Minimax",
+    "volcengine" to "Volcengine",
     "ollama" to "Ollama",
+    "trae" to "Trae CN",
+    // v0.54: Alibaba Cloud Token Plan quotas (Team/Personal, both consoles).
     "alibaba" to "Alibaba Cloud",
-    "unsloth" to "Unsloth Studio",
     "thirdparty" to "Third-party APIs"
 )
 
@@ -332,6 +345,72 @@ fun limitFillPercent(
         }
     }
     return raw.coerceIn(0.0, 100.0) / 100.0
+}
+
+// ---------------------------------------------------------------------------
+// Limit money & balance meters (mirrors src/shared/limitBalanceDisplay.js)
+// ---------------------------------------------------------------------------
+
+/** A window whose headline value is money rather than a percentage. */
+fun isCreditsWindow(w: LimitWindow?): Boolean = w?.metric == "credits"
+
+/** A money-already-consumed meter: the mirror of a `credits` window (Claude). */
+fun isSpendWindow(w: LimitWindow?): Boolean = w?.metric == "spend"
+
+/**
+ * Symbol for a limit window's currency. `CREDITS` is a points balance rather
+ * than money, so it renders as a bare amount — the window label already names
+ * the unit.
+ */
+fun limitCurrencySymbol(currency: String?): String = when (currency?.trim()?.uppercase()) {
+    "CNY" -> "¥"
+    "USD" -> "$"
+    "TWD" -> "NT$"
+    "HKD" -> "HK$"
+    "CREDITS" -> ""
+    null, "" -> "$"
+    else -> "$"
+}
+
+/** Port of limitBalanceDisplay.formatMoney / formatCompactMoney. */
+fun formatLimitMoney(value: Double?, currency: String?): String {
+    val v = value ?: return "—"
+    val code = currency?.trim()?.uppercase()
+    if (code == "CREDITS") {
+        // Points balances stay exact; only very large ones get compacted.
+        if (kotlin.math.abs(v) < 100_000) return String.format(Locale.US, "%.2f", v)
+        return String.format(Locale.US, "%.2f", v / 1_000.0) + "K"
+    }
+    val sym = limitCurrencySymbol(code)
+    if (kotlin.math.abs(v) < 100_000) return "$sym${String.format(Locale.US, "%.2f", v)}"
+    return when {
+        kotlin.math.abs(v) >= 1e9 -> "$sym${String.format(Locale.US, "%.2f", v / 1e9)}B"
+        kotlin.math.abs(v) >= 1e6 -> "$sym${String.format(Locale.US, "%.2f", v / 1e6)}M"
+        else -> "$sym${String.format(Locale.US, "%.2f", v / 1e3)}K"
+    }
+}
+
+/**
+ * Meter percentage for a balance window, ported from
+ * limitBalanceDisplay.creditsMeterPercent.
+ *
+ * Top-up balances have no fixed quota denominator. When the provider reports a
+ * real percentage use it; otherwise visualize the balance against this month's
+ * inferred starting funds: current / (current + observed month spend).
+ * Display-only — this number is deliberately never written to the wire.
+ */
+fun creditsMeterPercent(provider: ProviderLimit, w: LimitWindow?): Double? {
+    val used = w?.usedPercent?.takeIf { !it.isNaN() }
+    if (used != null) return (100.0 - used).coerceIn(0.0, 100.0)
+    val remaining = w?.remainingPercent?.takeIf { !it.isNaN() }
+    if (remaining != null) return remaining.coerceIn(0.0, 100.0)
+    val amount = w?.remaining ?: provider.balance?.amount
+    if (amount == null || amount.isNaN()) return null
+    val funds = kotlin.math.max(0.0, amount)
+    // No money left is 0% remaining, even before any spend has been observed.
+    if (funds == 0.0) return 0.0
+    val spend = kotlin.math.max(0.0, provider.balance?.monthSpend ?: 0.0)
+    return ((funds / (funds + spend)) * 100.0).coerceIn(0.0, 100.0)
 }
 
 /**

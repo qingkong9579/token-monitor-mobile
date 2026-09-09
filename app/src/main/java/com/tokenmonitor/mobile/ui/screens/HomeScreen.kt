@@ -28,6 +28,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.tokenmonitor.mobile.data.LimitWindow
 import com.tokenmonitor.mobile.data.ProviderLimit
 import com.tokenmonitor.mobile.data.StatsResponse
 import com.tokenmonitor.mobile.ui.components.ActivityHeatmap
@@ -53,7 +54,10 @@ import com.tokenmonitor.mobile.ui.theme.TextPrimary
 import com.tokenmonitor.mobile.ui.theme.Warn
 import com.tokenmonitor.mobile.util.clientLabel
 import com.tokenmonitor.mobile.util.compactTokens
+import com.tokenmonitor.mobile.util.creditsMeterPercent
+import com.tokenmonitor.mobile.util.formatLimitMoney
 import com.tokenmonitor.mobile.util.formatMoney
+import com.tokenmonitor.mobile.util.isCreditsWindow
 import com.tokenmonitor.mobile.util.pctDisplay
 import com.tokenmonitor.mobile.util.providerLabel
 import com.tokenmonitor.mobile.vm.Period
@@ -176,8 +180,10 @@ private fun LimitsPreview(
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
     ) {
+        // Tightest quota first: every metered window normalizes to a remaining
+        // percentage, with money meters derived the same way the row renders them.
         providers
-            .sortedByDescending { p -> p.windows.maxOfOrNull { it.usedPercent ?: 0.0 } ?: 0.0 }
+            .sortedBy { p -> tightestRemaining(p) ?: Double.MAX_VALUE }
             .take(3)
             .forEach { p ->
                 GlassCard(
@@ -193,13 +199,33 @@ private fun LimitsPreview(
     }
 }
 
+/**
+ * The tightest metered window of a provider, as (window, remaining percent).
+ * Every metered window normalizes to a *remaining* percentage — money meters
+ * are derived by the renderer and deliberately never carried on the wire.
+ */
+private fun meteredWindows(p: ProviderLimit): List<Pair<LimitWindow, Double>> =
+    p.windows.filter { it.showMeter != false }.mapNotNull { w ->
+        val remaining = when {
+            isCreditsWindow(w) -> creditsMeterPercent(p, w)
+            w.remainingPercent != null -> w.remainingPercent.coerceIn(0.0, 100.0)
+            w.usedPercent != null -> (100.0 - w.usedPercent).coerceIn(0.0, 100.0)
+            else -> null
+        }
+        if (remaining == null) null else w to remaining
+    }
+
+private fun tightestRemaining(p: ProviderLimit): Double? =
+    meteredWindows(p).minByOrNull { it.second }?.second
+
 @Composable
 fun LimitProviderRow(p: ProviderLimit, currency: String, rate: Double?) {
-    val worst = p.windows.maxByOrNull { it.usedPercent ?: 0.0 }
-    val pct = worst?.usedPercent ?: 0.0
+    val worst = meteredWindows(p).minByOrNull { it.second }
+    val remaining = worst?.second
     val color = when {
-        pct >= 85 -> Error
-        pct >= 60 -> Warn
+        remaining == null -> TextMuted
+        remaining < 20.0 -> Error
+        remaining < 50.0 -> Warn
         else -> Success
     }
     Column(Modifier.padding(vertical = 4.dp)) {
@@ -214,34 +240,32 @@ fun LimitProviderRow(p: ProviderLimit, currency: String, rate: Double?) {
             if (p.stale) {
                 Text("stale", fontSize = 11.sp, color = TextMuted)
             }
-            if (worst != null && pct > 0) {
+            if (remaining != null) {
                 Text(
-                    pctDisplay(pct),
+                    "剩余 ${pctDisplay(remaining)}",
                     fontSize = 12.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = color
                 )
             }
         }
-        if (worst != null && worst.usedPercent != null && (worst.metric != "credits")) {
-            LimitBar(pct / 100.0, Modifier.padding(top = 3.dp))
-        } else if (worst != null && worst.usedPercent == null && worst.metric == "credits") {
-            // credits window: headline is money, no meter
-            val remaining = worst.remaining
-            if (remaining != null) {
-                Text(
-                    "余额 ${worst.currency?.let { " $it" } ?: ""}${formatCredits(remaining)}",
-                    fontSize = 11.sp,
-                    color = TextMuted
-                )
+        if (worst != null) {
+            if (isCreditsWindow(worst.first)) {
+                // Balance-style headline: money, not a percent. The meter is
+                // still derived (balance vs this month's starting funds).
+                val amount = worst.first.remaining ?: p.balance?.amount
+                if (amount != null) {
+                    Text(
+                        "余额 ${formatLimitMoney(amount, worst.first.currency ?: p.balance?.currency)}",
+                        fontSize = 11.sp,
+                        color = TextMuted
+                    )
+                }
             }
+            LimitBar(worst.second / 100.0, Modifier.padding(top = 3.dp))
         }
     }
 }
-
-private fun formatCredits(v: Double): String =
-    if (v >= 10) String.format(java.util.Locale.US, "%.2f", v)
-    else String.format(java.util.Locale.US, "%.4f", v)
 
 @Composable
 private fun ToolsPreview(stats: StatsResponse, period: Period, currency: String, rate: Double?) {

@@ -41,6 +41,10 @@ import com.tokenmonitor.mobile.ui.theme.Success
 import com.tokenmonitor.mobile.ui.theme.TextMuted
 import com.tokenmonitor.mobile.ui.theme.TextPrimary
 import com.tokenmonitor.mobile.ui.theme.Warn
+import com.tokenmonitor.mobile.util.creditsMeterPercent
+import com.tokenmonitor.mobile.util.formatLimitMoney
+import com.tokenmonitor.mobile.util.isCreditsWindow
+import com.tokenmonitor.mobile.util.isSpendWindow
 import com.tokenmonitor.mobile.util.limitFillPercent
 import com.tokenmonitor.mobile.util.localDateTime
 import com.tokenmonitor.mobile.util.providerLabel
@@ -147,9 +151,7 @@ private fun ProviderCard(p: ProviderLimit) {
                 modifier = Modifier.padding(top = 6.dp)
             )
         }
-        // Hide Codex's separately-metered buckets (additional: true) by default,
-        // matching the upstream compact view.
-        val visible = p.windows.filter { !it.additional }
+        val visible = displayWindows(p)
         if (visible.isEmpty()) {
             Text(
                 "无额度窗口",
@@ -158,9 +160,38 @@ private fun ProviderCard(p: ProviderLimit) {
                 modifier = Modifier.padding(top = 6.dp)
             )
         } else {
-            WindowsGrid(visible)
+            WindowsGrid(visible, p)
         }
     }
+}
+
+/**
+ * The windows a provider card renders: Codex's separately-metered buckets
+ * (`additional: true`) are collapsed like the upstream compact view, and MiMo
+ * gets its Token Plan billing window synthesized from the balance block when
+ * the provider reports no window of its own (desktop
+ * mimoTokenPlanWindowFromBalance).
+ */
+private fun displayWindows(p: ProviderLimit): List<LimitWindow> {
+    val base = p.windows.filter { !it.additional }
+    if (p.provider != "mimo" || base.any { it.kind == "billing" }) return base
+    val b = p.balance ?: return base
+    val used = b.planUsed
+    val limit = b.planLimit
+    val pct = b.planPercent
+    if (used == null && limit == null && pct == null) return base
+    val resolved = pct ?: if (used != null && limit != null && limit > 0.0) (used / limit) * 100.0 else null
+    return base + LimitWindow(
+        kind = "billing",
+        label = "Token Plan",
+        used = used,
+        limit = limit,
+        remaining = if (used != null && limit != null) (limit - used).coerceAtLeast(0.0) else null,
+        usedPercent = resolved,
+        remainingPercent = resolved?.let { (100.0 - it).coerceIn(0.0, 100.0) },
+        showMeter = true,
+        planStatus = b.planStatus
+    )
 }
 
 /**
@@ -170,7 +201,7 @@ private fun ProviderCard(p: ProviderLimit) {
  * window spans the full width.
  */
 @Composable
-private fun WindowsGrid(windows: List<LimitWindow>) {
+private fun WindowsGrid(windows: List<LimitWindow>, p: ProviderLimit) {
     Column(Modifier.fillMaxWidth().padding(top = 10.dp)) {
         val rows = windows.chunked(2)
         for ((i, row) in rows.withIndex()) {
@@ -179,11 +210,11 @@ private fun WindowsGrid(windows: List<LimitWindow>) {
                     Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    WindowCell(row[0], Modifier.weight(1f))
-                    WindowCell(row[1], Modifier.weight(1f))
+                    WindowCell(row[0], p, Modifier.weight(1f))
+                    WindowCell(row[1], p, Modifier.weight(1f))
                 }
             } else {
-                WindowCell(row[0], Modifier.fillMaxWidth())
+                WindowCell(row[0], p, Modifier.fillMaxWidth())
             }
             if (i != rows.lastIndex) Spacer(Modifier.height(10.dp))
         }
@@ -191,17 +222,29 @@ private fun WindowsGrid(windows: List<LimitWindow>) {
 }
 
 @Composable
-private fun WindowCell(w: LimitWindow, modifier: Modifier) {
+private fun WindowCell(w: LimitWindow, p: ProviderLimit, modifier: Modifier) {
     Column(modifier) {
-        WindowRow(w)
+        WindowRow(w, p)
     }
 }
 
 @Composable
-private fun WindowRow(w: LimitWindow) {
-    val isCredits = w.metric == "credits"
-    val showMeter = w.showMeter != false && !isCredits
-    val fill = limitFillPercent(w.remainingPercent, w.usedPercent)
+private fun WindowRow(w: LimitWindow, p: ProviderLimit) {
+    val showMeter = w.showMeter != false
+    val isCredits = isCreditsWindow(w)
+    val isSpend = isSpendWindow(w)
+    val hasPercent = w.remainingPercent != null || w.usedPercent != null
+    // Money meters are derived, never carried on the wire
+    // (limitBalanceDisplay.creditsMeterPercent): a top-up balance has no fixed
+    // quota denominator, so it is visualized against this month's starting funds.
+    val meterPercent: Double? = when {
+        !showMeter -> null
+        isCredits -> creditsMeterPercent(p, w)
+        hasPercent -> limitFillPercent(w.remainingPercent, w.usedPercent) * 100.0
+        else -> null
+    }
+    val currency = w.currency ?: p.balance?.currency
+    val unlimited = w.detail.equals("unlimited", ignoreCase = true)
 
     Row(
         Modifier.fillMaxWidth(),
@@ -216,30 +259,46 @@ private fun WindowRow(w: LimitWindow) {
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
-        if (isCredits) {
-            // Balance-style headline: money, not a percent.
-            Text(
-                "剩余 ${w.currency?.let { "$it " } ?: ""}${formatAmount(w.remaining)}",
-                fontSize = 12.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = TextPrimary,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-        } else {
-            val displayPct = (fill * 100.0).coerceIn(0.0, 100.0)
-            Text(
-                "剩余 ${displayPct.roundToInt()}%",
-                fontSize = 12.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = barColor(fill)
-            )
+        val headline = when {
+            w.planStatus == "expired" -> "套餐已过期"
+            unlimited -> "无限"
+            isCredits -> formatLimitMoney(w.remaining ?: p.balance?.amount, currency)
+            isSpend -> if (w.limit != null) {
+                "${formatLimitMoney(w.used, currency)} / ${formatLimitMoney(w.limit, currency)}"
+            } else {
+                "${formatLimitMoney(w.used, currency)} 已用"
+            }
+            meterPercent != null -> "剩余 ${meterPercent.roundToInt()}%"
+            w.remaining != null -> {
+                val amt = formatLimitMoney(w.remaining, currency)
+                if (showMeter) "$amt 剩余" else amt
+            }
+            w.limit != null -> "${formatLimitMoney(w.limit, currency)} 上限"
+            else -> w.detail ?: "—"
         }
+        Text(
+            headline,
+            fontSize = 12.sp,
+            fontWeight = FontWeight.SemiBold,
+            color = if (meterPercent != null && !unlimited && w.planStatus != "expired") {
+                barColor(meterPercent / 100.0)
+            } else {
+                TextPrimary
+            },
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
     }
-    if (showMeter) {
-        LimitBar(fill, Modifier.padding(top = 4.dp))
+    if (meterPercent != null) {
+        LimitBar(meterPercent / 100.0, Modifier.padding(top = 4.dp))
     }
-    val resetText = w.resetsAt?.let { "重置 ${localDateTime(it)}" }
+    // Upstream falls back to the display-only resetDescription for windows that
+    // carry no resetsAt timestamp (e.g. Zed's "Unlimited" edit predictions).
+    val resetText = when {
+        !w.resetsAt.isNullOrBlank() -> "重置 ${localDateTime(w.resetsAt)}"
+        !w.resetDescription.isNullOrBlank() -> w.resetDescription
+        else -> null
+    }
     val forecast = exhaustionForecast(w)
     val meta = listOfNotNull(resetText, forecast).joinToString(" · ")
     if (meta.isNotEmpty()) {
@@ -250,9 +309,10 @@ private fun WindowRow(w: LimitWindow) {
             modifier = Modifier.padding(top = 3.dp)
         )
     }
-    w.detail?.let {
+    val detail = w.detail?.takeIf { it.isNotBlank() && !unlimited && it != w.resetDescription }
+    if (detail != null) {
         Text(
-            it,
+            detail,
             fontSize = 11.sp,
             color = TextMuted,
             modifier = Modifier.padding(top = 2.dp),
@@ -343,8 +403,3 @@ private fun barColor(remainingFraction: Double): Color = when {
     else -> Success
 }
 
-private fun formatAmount(v: Double?): String {
-    if (v == null) return "—"
-    return if (v >= 10) String.format(java.util.Locale.US, "%.2f", v)
-    else String.format(java.util.Locale.US, "%.4f", v)
-}

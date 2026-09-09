@@ -189,7 +189,10 @@ data class LimitWindow(
     @SerialName("limit") val limit: Double? = null,
     @SerialName("remaining") val remaining: Double? = null,
     @SerialName("resetsAt") val resetsAt: String? = null,
-    @SerialName("showMeter") val showMeter: Boolean? = null
+    @SerialName("showMeter") val showMeter: Boolean? = null,
+    // MiMo: "expired" means the Token Plan lapsed, so there is no quota window
+    // even when a prepaid balance is still available.
+    @SerialName("planStatus") val planStatus: String? = null
 )
 
 @Serializable
@@ -198,7 +201,20 @@ data class BalanceBlock(
     @SerialName("currency") val currency: String? = null,
     @SerialName("todaySpend") val todaySpend: Double? = null,
     @SerialName("monthSpend") val monthSpend: Double? = null,
-    @SerialName("allTimeSpend") val allTimeSpend: Double? = null
+    @SerialName("allTimeSpend") val allTimeSpend: Double? = null,
+    // MiMo Token Plan usage, synthesized into a billing window by the desktop
+    // renderer when the provider reports no window of its own.
+    @SerialName("planUsed") val planUsed: Double? = null,
+    @SerialName("planLimit") val planLimit: Double? = null,
+    @SerialName("planPercent") val planPercent: Double? = null,
+    @SerialName("planStatus") val planStatus: String? = null,
+    @SerialName("giftBalance") val giftBalance: Double? = null,
+    @SerialName("cashBalance") val cashBalance: Double? = null,
+    // WorkBuddy reports `currency: "CREDITS"`; Claude's prepaid pool carries
+    // an expiry on the block and per-grant `tranches` (public stats strip those).
+    @SerialName("expiresAt") val expiresAt: String? = null,
+    @SerialName("trackingSince") val trackingSince: String? = null,
+    @SerialName("monthSinceTracking") val monthSinceTracking: Boolean? = null
 )
 
 @Serializable

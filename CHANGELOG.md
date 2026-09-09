@@ -10,6 +10,11 @@
 
 - 三个新提供方的支持与品牌图标：**Alibaba Cloud**（Token Plan）、**Unsloth Studio**、**Kilo**（合并自 Kilo Code，统一为 `kilo`；`kilocode` 仍保留别名）
 - 额度数据模型补齐：窗口按上游归一化使用 `remainingPercent`，尊重 `showMeter: false`；`additional` 标记的 Codex 子桶默认折叠，与桌面端紧凑视图一致
+- **余额型窗口的派生进度条**（对齐 `limitBalanceDisplay.creditsMeterPercent`）：充值型余额没有固定配额分母，改为按「当前余额 /(当前余额 + 本月已观测消耗)」可视化；该比例仅为展示层推导，永不写回协议
+- 金额窗口的货币渲染：支持 `CREDITS` 点数余额（不带货币符号）、`¥`/`$`/`NT$`/`HK$`，大额自动紧凑显示
+- Claude 的 `spend` 窗口（Usage credits）按上游显示「已用 / 上限」或「已用」
+- MiMo 的 Token Plan 窗口在提供方未上报窗口时，从 `balance` 的 `planUsed`/`planLimit`/`planPercent` 合成；`planStatus = expired` 显示「套餐已过期」
+- `BalanceBlock` 补齐 `planUsed`/`planLimit`/`planPercent`/`planStatus`/`giftBalance`/`cashBalance`/`expiresAt`/`trackingSince`/`monthSinceTracking`
 
 ### 变更
 
@@ -20,10 +25,16 @@
   - 状态枚举扩充中文本地化（未配置 / 需登录 / 受限 / 不可用 / 已停用 / 异常）
 - 新增 `Format.windowLabel`：窗口展示标签优先使用上游 `window.label`（如 "Session"/"Weekly"/"5-hour"），回退到本地化类型
 - 新增 `Format.limitFillPercent`：余量填充归一助手，对齐桌面端 `limitFillPercent`
+- 提供方名称对齐上游 `limitProviders.js`：`zai` → GLM、`trae` → Trae CN、新增 `zed`；客户端名称 `qwen` → Qwen、新增 `kilo`
+- 品牌配色对齐上游 `usageCharts.js`：`alibaba` #615CED、`unsloth` #40B85A、`thirdparty` #8090A6
 
 ### 修复
 
 - 余量条此前按 `usedPercent` 反向填充，与上游一致改为「剩余越多条越长」
+- 余额型窗口（DeepSeek / MiMo / OpenRouter / 三方）此前完全不显示进度条，现在按派生比例显示
+- **无 `resetsAt` 的窗口此前丢失重置信息**，现在回退到上游的 `resetDescription`（如 Zed 编辑预测窗口）
+- 模型归类：`muse-spark` 归入 Meta（此前回退到哈希色）、`hy\d` 覆盖全部混元编号、Doubao 规则去掉会误伤的 `volc|ark`
+- 首页额度卡片此前按「已用百分比」排序与着色，与额度页方向相反；统一为按剩余额度（越紧张越靠前）
 
 ---
 
