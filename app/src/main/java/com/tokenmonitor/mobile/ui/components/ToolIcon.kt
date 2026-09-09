@@ -40,7 +40,11 @@ private val CLIENT_ICON_FILE: Map<String, String> = mapOf(
     "micode" to "xiaomi",
     "mimo" to "xiaomi",
     "zaiteam" to "zai",
-    "zcode" to "zai"
+    "zcode" to "zai",
+    // Upstream renamed "kilocode" to "kilo"; keep both resolving to the
+    // unified kilo mark so devices that still report kilocode don't lose
+    // their icon.
+    "kilocode" to "kilo"
 )
 
 private const val ICON_ASSET_DIR = "icons"

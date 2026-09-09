@@ -1,7 +1,6 @@
 package com.tokenmonitor.mobile.ui.screens
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -25,30 +24,31 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlin.math.roundToInt
 import com.tokenmonitor.mobile.data.LimitWindow
 import com.tokenmonitor.mobile.data.ProviderLimit
-import com.tokenmonitor.mobile.data.StatsResponse
 import com.tokenmonitor.mobile.ui.components.EmptyState
 import com.tokenmonitor.mobile.ui.components.LimitBar
 import com.tokenmonitor.mobile.ui.components.SectionTitle
-import com.tokenmonitor.mobile.ui.components.StatusDot
+import com.tokenmonitor.mobile.ui.components.ToolIcon
 import com.tokenmonitor.mobile.ui.liquid.GlassCard
-import com.tokenmonitor.mobile.ui.theme.CardBg
 import com.tokenmonitor.mobile.ui.theme.Error
 import com.tokenmonitor.mobile.ui.theme.StaleGrey
 import com.tokenmonitor.mobile.ui.theme.Success
 import com.tokenmonitor.mobile.ui.theme.TextMuted
 import com.tokenmonitor.mobile.ui.theme.TextPrimary
 import com.tokenmonitor.mobile.ui.theme.Warn
+import com.tokenmonitor.mobile.util.limitFillPercent
 import com.tokenmonitor.mobile.util.localDateTime
-import com.tokenmonitor.mobile.util.pctDisplay
 import com.tokenmonitor.mobile.util.providerLabel
-import com.tokenmonitor.mobile.util.windowKindLabel
+import com.tokenmonitor.mobile.util.relativeTime
+import com.tokenmonitor.mobile.util.windowLabel
 import com.tokenmonitor.mobile.vm.UiState
 
-/** AI Tool Limits: provider accounts with their quota windows, mirroring the Limits view. */
+/** AI Tool Limits: provider accounts with their quota windows, mirroring the desktop Limits view. */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LimitsScreen(state: UiState, onRefresh: () -> Unit) {
@@ -96,17 +96,20 @@ private fun ProviderCard(p: ProviderLimit) {
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 5.dp),
         shape = com.kyant.shapes.RoundedRectangle(20f.dp),
-        contentPadding = 12.dp
+        contentPadding = 14.dp
     ) {
+        // Header: tool icon + name (with identity / updated), right-aligned status pill.
         Row(verticalAlignment = Alignment.CenterVertically) {
-            StatusDot(statusColor)
-            Spacer(Modifier.width(8.dp))
+            ToolIcon(client = p.provider, size = 22.dp)
+            Spacer(Modifier.width(10.dp))
             Column(Modifier.weight(1f)) {
                 Text(
                     providerLabel(p.provider),
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.SemiBold,
-                    color = TextPrimary
+                    color = TextPrimary,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
                 val identity = listOfNotNull(
                     p.planLabel,
@@ -114,21 +117,27 @@ private fun ProviderCard(p: ProviderLimit) {
                     p.accountName,
                     p.accountEmail
                 ).joinToString(" · ")
-                if (identity.isNotBlank()) {
-                    Text(identity, fontSize = 11.sp, color = TextMuted)
+                val subLine = buildString {
+                    if (identity.isNotBlank()) append(identity)
+                    if (!p.updatedAt.isNullOrBlank()) {
+                        if (isNotEmpty()) append(" · ")
+                        append("更新 ${relativeTime(p.updatedAt)}")
+                    } else if (p.stale) {
+                        if (isNotEmpty()) append(" · ")
+                        append("stale")
+                    }
+                }
+                if (subLine.isNotEmpty()) {
+                    Text(
+                        subLine,
+                        fontSize = 11.sp,
+                        color = TextMuted,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
                 }
             }
-            Text(
-                when {
-                    p.stale -> "stale"
-                    p.status == "ok" -> "正常"
-                    p.status.isNullOrBlank() -> "未知"
-                    else -> p.status
-                },
-                fontSize = 11.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = statusColor
-            )
+            ProviderStatusPill(p, statusColor)
         }
         if (p.actionRequired == "accountVerification") {
             Text(
@@ -138,76 +147,149 @@ private fun ProviderCard(p: ProviderLimit) {
                 modifier = Modifier.padding(top = 6.dp)
             )
         }
-        if (p.windows.isEmpty()) {
+        // Hide Codex's separately-metered buckets (additional: true) by default,
+        // matching the upstream compact view.
+        val visible = p.windows.filter { !it.additional }
+        if (visible.isEmpty()) {
             Text(
                 "无额度窗口",
                 fontSize = 11.sp,
                 color = TextMuted,
                 modifier = Modifier.padding(top = 6.dp)
             )
-        }
-        p.windows.forEach { w -> WindowRow(p, w) }
-    }
-}
-
-@Composable
-private fun WindowRow(p: ProviderLimit, w: LimitWindow) {
-    Column(Modifier.fillMaxWidth().padding(top = 8.dp)) {
-        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            Text(
-                windowKindLabel(w.kind),
-                fontSize = 12.sp,
-                fontWeight = FontWeight.Medium,
-                color = TextPrimary,
-                modifier = Modifier.weight(1f)
-            )
-            if (w.metric == "credits" || (w.usedPercent == null && w.remaining != null)) {
-                // Balance-style quota: headline is money, not a percentage
-                Text(
-                    "剩余 ${w.currency?.let { "$it " } ?: ""}${formatAmount(w.remaining)}",
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = TextPrimary
-                )
-            } else {
-                Text(
-                    pctDisplay(w.usedPercent),
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = barColor(w.usedPercent ?: 0.0)
-                )
-            }
-        }
-        if (w.usedPercent != null) {
-            LimitBar(w.usedPercent / 100.0, Modifier.padding(top = 4.dp))
-        }
-        val resets = w.resetsAt?.let { "重置 ${localDateTime(it)}" }
-        val source = w.source?.let { if (it == "web") " · web" else "" } ?: ""
-        // Burn-rate forecast: assume linear consumption since the window
-        // started; estimated exhaustion time = remaining / rate.
-        val forecast = exhaustionForecast(w)
-        Text(
-            listOfNotNull(resets, forecast).joinToString(" · ") + source,
-            fontSize = 11.sp,
-            color = TextMuted,
-            modifier = Modifier.padding(top = 2.dp)
-        )
-        w.detail?.let {
-            Text(
-                it,
-                fontSize = 11.sp,
-                color = TextMuted,
-                modifier = Modifier.padding(top = 2.dp)
-            )
+        } else {
+            WindowsGrid(visible)
         }
     }
 }
 
 /**
+ * Renders the provider's windows in a 1- or 2-column grid that mirrors the
+ * upstream `limit-windows` CSS (grid-template-columns: 1fr 1fr, only-child
+ * spans full row). A two-window row gets equal halves; a trailing single
+ * window spans the full width.
+ */
+@Composable
+private fun WindowsGrid(windows: List<LimitWindow>) {
+    Column(Modifier.fillMaxWidth().padding(top = 10.dp)) {
+        val rows = windows.chunked(2)
+        for ((i, row) in rows.withIndex()) {
+            if (row.size == 2) {
+                Row(
+                    Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    WindowCell(row[0], Modifier.weight(1f))
+                    WindowCell(row[1], Modifier.weight(1f))
+                }
+            } else {
+                WindowCell(row[0], Modifier.fillMaxWidth())
+            }
+            if (i != rows.lastIndex) Spacer(Modifier.height(10.dp))
+        }
+    }
+}
+
+@Composable
+private fun WindowCell(w: LimitWindow, modifier: Modifier) {
+    Column(modifier) {
+        WindowRow(w)
+    }
+}
+
+@Composable
+private fun WindowRow(w: LimitWindow) {
+    val isCredits = w.metric == "credits"
+    val showMeter = w.showMeter != false && !isCredits
+    val fill = limitFillPercent(w.remainingPercent, w.usedPercent)
+
+    Row(
+        Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            windowLabel(w),
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Medium,
+            color = TextPrimary,
+            modifier = Modifier.weight(1f),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+        if (isCredits) {
+            // Balance-style headline: money, not a percent.
+            Text(
+                "剩余 ${w.currency?.let { "$it " } ?: ""}${formatAmount(w.remaining)}",
+                fontSize = 12.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = TextPrimary,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        } else {
+            val displayPct = (fill * 100.0).coerceIn(0.0, 100.0)
+            Text(
+                "剩余 ${displayPct.roundToInt()}%",
+                fontSize = 12.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = barColor(fill)
+            )
+        }
+    }
+    if (showMeter) {
+        LimitBar(fill, Modifier.padding(top = 4.dp))
+    }
+    val resetText = w.resetsAt?.let { "重置 ${localDateTime(it)}" }
+    val forecast = exhaustionForecast(w)
+    val meta = listOfNotNull(resetText, forecast).joinToString(" · ")
+    if (meta.isNotEmpty()) {
+        Text(
+            meta,
+            fontSize = 11.sp,
+            color = TextMuted,
+            modifier = Modifier.padding(top = 3.dp)
+        )
+    }
+    w.detail?.let {
+        Text(
+            it,
+            fontSize = 11.sp,
+            color = TextMuted,
+            modifier = Modifier.padding(top = 2.dp),
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis
+        )
+    }
+}
+
+@Composable
+private fun ProviderStatusPill(p: ProviderLimit, fallback: Color) {
+    val text = when {
+        p.stale -> "stale"
+        p.status == "ok" -> "正常"
+        p.status == "notConfigured" -> "未配置"
+        p.status == "unauthorized" -> "需登录"
+        p.status == "rateLimited" || p.status == "sourceRateLimited" -> "受限"
+        p.status == "unavailable" -> "不可用"
+        p.status == "disabled" -> "已停用"
+        p.status.isNullOrBlank() -> "未知"
+        p.status == "error" || p.status == "failed" -> "异常"
+        else -> p.status
+    }
+    Text(
+        text,
+        fontSize = 11.sp,
+        fontWeight = FontWeight.SemiBold,
+        color = fallback
+    )
+}
+
+/**
  * Best-effort "estimated exhaustion" for a quota window, based on linear burn
- * since the window's assumed start (session ≈ 5h, weekly ≈ 7d, billing ≈ 30d).
- * Returns null when the window has no used percent, no reset time, or the burn
- * rate is not positive. It is a display-layer estimate, not a wire value.
+ * since the window's assumed start (session ≈ 5h, daily ≈ 1d, weekly ≈ 7d,
+ * billing ≈ 30d). Returns null when the window has no used percent, no reset
+ * time, or the burn rate is not positive. It is a display-layer estimate, not
+ * a wire value.
  */
 private fun exhaustionForecast(w: LimitWindow): String? {
     val used = w.usedPercent ?: return null
@@ -255,9 +337,9 @@ private fun parseIsoTime(iso: String?): Long? {
 }
 
 @Composable
-private fun barColor(pct: Double): Color = when {
-    pct >= 85 -> Error
-    pct >= 60 -> Warn
+private fun barColor(remainingFraction: Double): Color = when {
+    remainingFraction < 0.20 -> Error
+    remainingFraction < 0.50 -> Warn
     else -> Success
 }
 
@@ -266,6 +348,3 @@ private fun formatAmount(v: Double?): String {
     return if (v >= 10) String.format(java.util.Locale.US, "%.2f", v)
     else String.format(java.util.Locale.US, "%.4f", v)
 }
-
-
-

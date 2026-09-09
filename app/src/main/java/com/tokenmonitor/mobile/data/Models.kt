@@ -175,6 +175,12 @@ data class LimitWindow(
     // Bounded display-only description (e.g. the Kimi-vs-Code composition of a
     // shared monthly membership meter).
     @SerialName("detail") val detail: String? = null,
+    // Canonical display label for the window ("Session", "Weekly", "5-hour",
+    // "Token Plan", etc.); takes precedence over the localized kind label.
+    @SerialName("label") val label: String? = null,
+    // Optional display-only reset description for windows that don't carry a
+    // resetsAt timestamp (e.g. Zed's "Unlimited" edit-predictions window).
+    @SerialName("resetDescription") val resetDescription: String? = null,
     // The hub emits percentages as 0-100 numbers that may carry float noise
     // (e.g. 0.7999999999999972), so these must be Double, never Int.
     @SerialName("usedPercent") val usedPercent: Double? = null,

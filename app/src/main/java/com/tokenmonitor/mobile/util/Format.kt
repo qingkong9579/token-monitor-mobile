@@ -1,6 +1,7 @@
 package com.tokenmonitor.mobile.util
 
 import androidx.compose.ui.graphics.Color
+import com.tokenmonitor.mobile.data.LimitWindow
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -142,6 +143,7 @@ val VENDOR_COLORS: Map<String, Color> = mapOf(
     "commandcode" to Color(0xFF8C4EDD),
     "micode" to Color(0xFFF97316),
     "zcode" to Color(0xFFA3E635),
+    "kilo" to Color(0xFFF8F676),
     "kiro" to Color(0xFF9046FF),
     "codebuddy" to Color(0xFF6C4DFF),
     "workbuddy" to Color(0xFF0DC8A5),
@@ -164,6 +166,8 @@ val VENDOR_COLORS: Map<String, Color> = mapOf(
     "trae" to Color(0xFF32F08C),
     "sub2api" to Color(0xFF39D9E7),
     "ollama" to Color(0xFF888888),
+    "alibaba" to Color(0xFFFF6A00),
+    "unsloth" to Color(0xFF26C485),
     "thirdparty" to Color(0xFFDD2E57),
     "default" to Color(0xFF6AB4F0)
 )
@@ -233,6 +237,7 @@ val CLIENT_LABELS: Map<String, String> = mapOf(
     "cherrystudio" to "Cherry Studio",
     "lmstudio" to "LM Studio",
     "trae" to "Trae",
+    "unsloth" to "Unsloth",
     "ollama" to "Ollama",
     "gemini" to "Gemini",
     "xai" to "xAI",
@@ -272,6 +277,8 @@ val PROVIDER_LABELS: Map<String, String> = mapOf(
     "trae" to "Trae",
     "kimi" to "Kimi",
     "ollama" to "Ollama",
+    "alibaba" to "Alibaba Cloud",
+    "unsloth" to "Unsloth Studio",
     "thirdparty" to "Third-party APIs"
 )
 
@@ -284,6 +291,47 @@ fun windowKindLabel(kind: String?): String = when (kind) {
     "billing" -> "账单周期"
     "credits" -> "余额"
     else -> kind ?: "额度"
+}
+
+/**
+ * Display label for a quota window. Upstream windows carry a canonical
+ * English `label` (e.g. "Session", "Weekly", "5-hour", "Token Plan") that
+ * takes precedence over the localized kind label.
+ */
+fun windowLabel(w: LimitWindow?): String {
+    val l = w?.label?.trim().orEmpty()
+    if (l.isNotEmpty()) return l
+    return windowKindLabel(w?.kind)
+}
+
+/**
+ * Fill fraction in 0..1 for a limit meter, mirroring the desktop renderer's
+ * limitFillPercent (src/electron/renderer/limitDisplayMode.js). Upstream
+ * normalizes every window to `remainingPercent`; a legacy wire that only
+ * carries `usedPercent` falls back to the complement. `showUsed` flips the
+ * bar to "consumed" for users who prefer that direction (the desktop default
+ * is "remaining" / "left").
+ */
+fun limitFillPercent(
+    remainingPercent: Double?,
+    usedPercent: Double?,
+    showUsed: Boolean = false
+): Double {
+    val remaining = remainingPercent?.takeIf { !it.isNaN() }
+    val used = usedPercent?.takeIf { !it.isNaN() }
+    val raw = when {
+        showUsed -> when {
+            remaining != null -> 100.0 - remaining
+            used != null -> used
+            else -> 0.0
+        }
+        else -> when {
+            remaining != null -> remaining
+            used != null -> 100.0 - used
+            else -> 0.0
+        }
+    }
+    return raw.coerceIn(0.0, 100.0) / 100.0
 }
 
 /**
