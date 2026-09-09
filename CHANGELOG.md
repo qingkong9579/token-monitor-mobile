@@ -4,29 +4,32 @@
 
 ## [Unreleased]
 
-同步最新上游 **token-monitor**（v0.53 + v0.54，至 bda6ffc），对齐提供方目录重构与额度子系统重构。
+同步最新上游 **token-monitor**（v0.54.0，main 分支），对齐提供方目录重构与额度子系统重构。
 
 ### 新增
 
 - 三个新提供方的支持与品牌图标：**Alibaba Cloud**（Token Plan）、**Unsloth Studio**、**Kilo**（合并自 Kilo Code，统一为 `kilo`；`kilocode` 仍保留别名）
-- 额度数据模型补齐：窗口按上游归一化使用 `remainingPercent`，尊重 `showMeter: false`；`additional` 标记的 Codex 子桶默认折叠，与桌面端紧凑视图一致
+- 额度数据模型补齐：窗口按上游归一化使用 `remainingPercent`，尊重 `showMeter: false`；Codex 的 `additional` 子桶按桌面端默认展示（tone 0.78、独占一行，`gpt-reserve` 显示为 "Luna Reserve"）
 - **余额型窗口的派生进度条**（对齐 `limitBalanceDisplay.creditsMeterPercent`）：充值型余额没有固定配额分母，改为按「当前余额 /(当前余额 + 本月已观测消耗)」可视化；该比例仅为展示层推导，永不写回协议
 - 金额窗口的货币渲染：支持 `CREDITS` 点数余额（不带货币符号）、`¥`/`$`/`NT$`/`HK$`，大额自动紧凑显示
-- Claude 的 `spend` 窗口（Usage credits）按上游显示「已用 / 上限」或「已用」
+- Claude 的 `spend` 窗口（Usage credits）按上游显示「已用 / 上限」或「已用」，设了月度上限时带进度条
 - MiMo 的 Token Plan 窗口在提供方未上报窗口时，从 `balance` 的 `planUsed`/`planLimit`/`planPercent` 合成；`planStatus = expired` 显示「套餐已过期」
 - `BalanceBlock` 补齐 `planUsed`/`planLimit`/`planPercent`/`planStatus`/`giftBalance`/`cashBalance`/`expiresAt`/`trackingSince`/`monthSinceTracking`
+- Balance / Spend / Usage credits 等备注行（`limit-window-note`）：仅标签 + 金额，无进度条
+- Antigravity 按「模型 5-hour / weekly」分组展示（`limit-window-group`），组内仅一个窗口时独占整行
 
 ### 变更
 
-- **额度页布局重做**，参照桌面端 `limits-view`：
-  - 提供方卡片头部加入工具品牌图标（`ToolIcon`），左侧名称 + 身份/更新时间，右侧状态标签
-  - **窗口改为 1-或 2-列网格**：两个窗口左右各半，单个窗口独占一行，对齐上游 `grid-template-columns: 1fr 1fr`
-  - 窗口顶部行采用「标签 + 已用百分比」配色按余量阈值（剩余 <20% 红 / <50% 橙 / 其余绿）；余量条按 `remainingPercent` 归一填充
-  - 状态枚举扩充中文本地化（未配置 / 需登录 / 受限 / 不可用 / 已停用 / 异常）
+- **额度页布局按桌面端 `renderProviderWindows` 逐 provider 重做**：
+  - 卡片头部对齐 `.limit-head`：左侧图标 + 名称 + 更新时间（多账号才显示身份），右侧 `.limit-plan` 计划列（非 ok 状态显示中文状态标签，且不再在 meta 行重复）；stale 行整体淡化
+  - **窗口网格语义对齐 `.limit-windows`（1fr 1fr）**：普通窗口两两并排，上游标记 `limit-window-wide` 的窗口独占整行（Codex Monthly、Cursor 全部、MiMo/Grok/Copilot/Kiro/Qoder/Zed、Zai MCP、volcengine 奇数尾行等），仅一个窗口时独占整行（`:only-child`）
+  - **进度条 tone 逐窗口对齐上游**：session 0.95 / weekly·monthly 0.68 / daily 0.78 / 支出与月度资金 0.5 等；轨道按品牌色 16% 染色（`colorWithAlpha(color, 0.16)`），填充为品牌色 × tone，不再按余量阈值变色（首页卡片保留健康色数值）
+  - 无上游 `label` 的窗口回退到各分支默认英文标签（Session / Weekly / Monthly / 5-hour / Credits 等）
+  - Kiro/Qoder/Zed/Command Code 在重置行右侧显示绝对用量（`12/225`、`$8.78 / $10.00`）
 - 新增 `Format.windowLabel`：窗口展示标签优先使用上游 `window.label`（如 "Session"/"Weekly"/"5-hour"），回退到本地化类型
 - 新增 `Format.limitFillPercent`：余量填充归一助手，对齐桌面端 `limitFillPercent`
 - 提供方名称对齐上游 `limitProviders.js`：`zai` → GLM、`trae` → Trae CN、新增 `zed`；客户端名称 `qwen` → Qwen、新增 `kilo`
-- 品牌配色对齐上游 `usageCharts.js`：`alibaba` #615CED、`unsloth` #40B85A、`thirdparty` #8090A6
+- 品牌配色对齐上游 `usageCharts.js`：`alibaba` #615CED、`unsloth` #40B85A、`thirdparty` #8090A6；MiMo 额度行使用 Xiaomi 品牌色、三方按 `adapterId` 取色（newapi #C738FB / sub2api / custom）
 
 ### 修复
 

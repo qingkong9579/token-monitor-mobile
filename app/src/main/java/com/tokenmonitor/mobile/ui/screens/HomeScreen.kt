@@ -60,6 +60,7 @@ import com.tokenmonitor.mobile.util.formatMoney
 import com.tokenmonitor.mobile.util.isCreditsWindow
 import com.tokenmonitor.mobile.util.pctDisplay
 import com.tokenmonitor.mobile.util.providerLabel
+import com.tokenmonitor.mobile.util.vendorColor
 import com.tokenmonitor.mobile.vm.Period
 import com.tokenmonitor.mobile.vm.UiState
 import java.util.Locale
@@ -262,7 +263,13 @@ fun LimitProviderRow(p: ProviderLimit, currency: String, rate: Double?) {
                     )
                 }
             }
-            LimitBar(worst.second / 100.0, Modifier.padding(top = 3.dp))
+            LimitBar(
+                percent = worst.second / 100.0,
+                // Upstream paints the bar with the provider's brand colour and
+                // tints only the *value text* by quota health.
+                color = vendorColor(p.provider),
+                modifier = Modifier.padding(top = 3.dp)
+            )
         }
     }
 }

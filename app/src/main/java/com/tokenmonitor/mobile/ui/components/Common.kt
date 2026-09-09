@@ -168,26 +168,37 @@ fun ShareBar(fraction: Double, color: Color, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun LimitBar(percent: Double, modifier: Modifier = Modifier) {
+/**
+ * A quota meter, mirroring the desktop `.limit-meter` (6px tall, 3px radius).
+ *
+ * Upstream paints BOTH ends with the provider's brand colour: the track is
+ * `colorWithAlpha(color, 0.16)` and the fill is the full colour softened by an
+ * opacity `tone` that separates a provider's primary window from its secondary
+ * ones. Only the Home card tints anything by quota health, and there it tints
+ * the value text — never the bar. Colouring by fill here inverts the meaning
+ * once the bar is anchored on remaining quota.
+ */
+fun LimitBar(
+    percent: Double,
+    color: Color,
+    modifier: Modifier = Modifier,
+    tone: Float = 1f
+) {
     val clamped = percent.coerceIn(0.0, 1.0)
-    val color = when {
-        percent >= 0.85 -> Error
-        percent >= 0.6 -> Warn
-        else -> Success
-    }
+    val fill = color.copy(alpha = (color.alpha * tone.coerceIn(0f, 1f)))
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(8.dp)
+            .height(6.dp)
             .clip(CircleShape)
-            .background(CardBgRaised)
+            .background(color.copy(alpha = color.alpha * 0.16f))
     ) {
         Box(
             Modifier
                 .fillMaxWidth(clamped.toFloat().coerceAtLeast(0.02f))
-                .height(8.dp)
+                .height(6.dp)
                 .clip(CircleShape)
-                .background(color)
+                .background(fill)
         )
     }
 }

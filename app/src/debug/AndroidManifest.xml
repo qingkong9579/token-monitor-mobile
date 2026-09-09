@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Debug builds only: a locally hosted hub (10.0.2.2 / LAN IPs) is plain
+     HTTP, which the platform's cleartext policy blocks by default. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application android:usesCleartextTraffic="true" />
+
+</manifest>
