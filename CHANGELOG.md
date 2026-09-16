@@ -4,6 +4,16 @@
 
 ## [Unreleased]
 
+### 修复
+
+- **首页额度卡片对齐上游 home limits 模块**：改为纯文本列表（账户行 = 图标 + 名称，逐窗口「标签 + 剩余百分比」+ 重置时间行），去掉此前自创的进度条、按余量阈值的健康配色与 "stale" 字样——上游首页默认不画条、不标 stale；设备预览区去掉多余的分隔线
+- **修复 hub 返回较大 payload（约 >16KB）时同步必然失败的问题**：响应体此前在主线程读取，触发 `NetworkOnMainThreadException`（只有小于 OkHttp 内部缓冲的响应侥幸可用）；现请求与响应体读取都在 IO 线程执行
+- 额度页与首页对「无内容 provider」的过滤改用**展示层窗口**判断：MiMo/DeepSeek 这类仅有余额数据的 provider 现在与桌面端一致地显示（合成 Token Plan、Balance/Spend 备注行），不再因 wire 窗口为空被整卡隐藏
+- 首页额度列表改用上游 `limitProviderCompactWindows` 语义取紧凑窗口（Codex 去掉 `additional` 子桶、Antigravity 每模型组取最紧窗口最多 2 组、MiMo 合成 Token Plan）
+- 离线错误横幅现在附带具体错误信息，网络/解析失败不再只显示一句「网络异常」
+
+## [Unreleased — v0.53/v0.54 同步]
+
 同步最新上游 **token-monitor**（v0.54.0，main 分支），对齐提供方目录重构与额度子系统重构。
 
 ### 新增

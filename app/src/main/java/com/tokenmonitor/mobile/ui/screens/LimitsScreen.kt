@@ -63,10 +63,16 @@ fun LimitsScreen(state: UiState, onRefresh: () -> Unit) {
         EmptyState("暂无数据")
         return
     }
-    // Providers without any quota window (e.g. notConfigured / unavailable) are
-    // hidden unless the user opts in via Settings.
+    // Providers without any rendered content (e.g. notConfigured / unavailable)
+    // are hidden unless the user opts in via Settings. The check uses the
+    // *display* cells, not the raw wire windows: balance-only providers like
+    // MiMo/DeepSeek render synthesized windows on the desktop too.
     val providers = stats.limits?.providers
-        ?.filter { state.settings.showEmptyLimitProviders || it.windows.isNotEmpty() || it.status != "ok" }
+        ?.filter {
+            state.settings.showEmptyLimitProviders ||
+                providerWindowCells(it).isNotEmpty() ||
+                it.status != "ok"
+        }
         ?: emptyList()
     val navBottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
     // The desktop keeps single-account rows clean (no email/name clutter) and
@@ -310,6 +316,52 @@ private fun firstKind(p: ProviderLimit, kind: String): LimitWindow? =
 
 private fun kindsOf(p: ProviderLimit, kind: String): List<LimitWindow> =
     p.windows.filter { it.kind == kind && !it.additional }
+
+/**
+ * Compact window list for text rows (Home preview), ported from
+ * limitProviderCompactWindows: Codex drops the separately-metered additional
+ * buckets; Antigravity keeps only the tightest window per model group (max 2
+ * groups, tightest first); MiMo synthesizes its Token Plan from the balance.
+ */
+internal fun compactLimitWindows(p: ProviderLimit): List<LimitWindow> {
+    val base = p.windows.filter { !it.additional }
+    return when (p.provider) {
+        "codex" -> base
+        "antigravity" -> {
+            data class Entry(val group: String, val window: LimitWindow, val index: Int)
+
+            val entries = base.mapIndexed { index, w ->
+                val suffix = if (w.kind == "session") Regex("\\s+5-hour$", RegexOption.IGNORE_CASE)
+                else Regex("\\s+weekly$", RegexOption.IGNORE_CASE)
+                val label = w.label?.trim().orEmpty()
+                val group = suffix.find(label)?.let { label.replace(suffix, "").trim() }.orEmpty()
+                Entry(group, w, index)
+            }
+            if (entries.isEmpty() || entries.any { it.group.isEmpty() }) return base
+            val remaining = { w: LimitWindow ->
+                w.remainingPercent?.takeIf { !it.isNaN() }
+                    ?: w.usedPercent?.takeIf { !it.isNaN() }?.let { 100.0 - it }
+                    ?: Double.POSITIVE_INFINITY
+            }
+            entries.groupBy { it.group }.entries
+                .map { (group, groupEntries) ->
+                    val tightest = groupEntries.minWith(
+                        compareBy({ remaining(it.window) }, { it.index })
+                    )
+                    groupEntries.indexOf(tightest) to (remaining(tightest.window) to tightest)
+                }
+                .sortedBy { (_, pair) -> pair.first }
+                .take(2)
+                .sortedBy { (_, pair) -> pair.second.index }
+                .map { (_, pair) -> pair.second.window }
+        }
+        "mimo" -> {
+            val plan = firstKind(p, "billing") ?: mimoTokenPlanWindow(p.balance)
+            if (plan != null && base.none { it.kind == "billing" }) base + plan else base
+        }
+        else -> base
+    }
+}
 
 private fun moneyOf(value: Double?, currency: String?): String =
     formatLimitMoney(value, currency)

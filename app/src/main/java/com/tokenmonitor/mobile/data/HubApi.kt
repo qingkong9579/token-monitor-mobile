@@ -38,8 +38,14 @@ class HubApi(private val client: OkHttpClient) {
         val url = if (key.isBlank()) "$root/api/public/stats" else "$root/api/stats"
         val builder = Request.Builder().url(url)
         if (key.isNotBlank()) builder.header("Authorization", "Bearer $key")
-        val response = executeRaw(builder.build())
-        val body = response.body?.string().orEmpty()
+        // The BODY must be read on IO too: only the headers arrive with
+        // execute(); draining a larger-than-internal-buffer body from the
+        // caller's thread would do socket reads on Main and throw
+        // NetworkOnMainThreadException (a payload > ~16KB is enough).
+        val (response, body) = withContext(Dispatchers.IO) {
+            val response = client.newCall(builder.build()).execute()
+            response to response.body?.string().orEmpty()
+        }
         if (!response.isSuccessful) {
             throw ApiException(
                 when (response.code) {
@@ -63,14 +69,13 @@ class HubApi(private val client: OkHttpClient) {
         val root = baseUrl.trim().trimEnd('/')
         val request = Request.Builder().url("$root/api/health").build()
         return try {
-            executeRaw(request).use { it.isSuccessful }
+            withContext(Dispatchers.IO) {
+                client.newCall(request).execute().use { it.isSuccessful }
+            }
         } catch (e: Exception) {
             false
         }
     }
-
-    private suspend fun executeRaw(request: Request): Response =
-        withContext(Dispatchers.IO) { client.newCall(request).execute() }
 
     companion object {
         fun defaultClient(): OkHttpClient = OkHttpClient.Builder()

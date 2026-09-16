@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
@@ -36,7 +35,6 @@ import com.tokenmonitor.mobile.ui.components.ActivityHeatmapLegend
 import com.tokenmonitor.mobile.ui.components.EmptyState
 import com.tokenmonitor.mobile.ui.components.ErrorCard
 import com.tokenmonitor.mobile.ui.components.GlassButton
-import com.tokenmonitor.mobile.ui.components.LimitBar
 import com.tokenmonitor.mobile.ui.components.PeriodSelector
 import com.tokenmonitor.mobile.ui.components.SectionTitle
 import com.tokenmonitor.mobile.ui.components.StatCard
@@ -46,24 +44,23 @@ import com.tokenmonitor.mobile.ui.components.TrendSparkline
 import com.tokenmonitor.mobile.ui.liquid.GlassCard
 import com.tokenmonitor.mobile.ui.theme.Accent
 import com.tokenmonitor.mobile.ui.theme.AccentOn
-import com.tokenmonitor.mobile.ui.theme.Error
 import com.tokenmonitor.mobile.ui.theme.Success
 import com.tokenmonitor.mobile.ui.theme.TabularFigures
 import com.tokenmonitor.mobile.ui.theme.TextMuted
 import com.tokenmonitor.mobile.ui.theme.TextPrimary
-import com.tokenmonitor.mobile.ui.theme.Warn
 import com.tokenmonitor.mobile.util.clientLabel
 import com.tokenmonitor.mobile.util.compactTokens
 import com.tokenmonitor.mobile.util.creditsMeterPercent
 import com.tokenmonitor.mobile.util.formatLimitMoney
 import com.tokenmonitor.mobile.util.formatMoney
 import com.tokenmonitor.mobile.util.isCreditsWindow
-import com.tokenmonitor.mobile.util.pctDisplay
+import com.tokenmonitor.mobile.util.localDateTime
 import com.tokenmonitor.mobile.util.providerLabel
-import com.tokenmonitor.mobile.util.vendorColor
+import com.tokenmonitor.mobile.util.windowLabel
 import com.tokenmonitor.mobile.vm.Period
 import com.tokenmonitor.mobile.vm.UiState
 import java.util.Locale
+import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -92,8 +89,10 @@ fun HomeScreen(
             }
         } else if (state.error != null && stats != null) {
             // Graceful degradation: keep showing last-known data with a banner.
+            // The raw error is appended so hub/parse failures are diagnosable
+            // instead of collapsing into one opaque line.
             ErrorCard(
-                "网络异常,显示上次同步数据 · ${clockTime(state.lastUpdated)}",
+                "网络异常,显示上次同步数据 · ${clockTime(state.lastUpdated)}\n${state.error}",
                 onRetry = onRefresh
             )
         }
@@ -171,32 +170,115 @@ private fun LimitsPreview(
     rate: Double?,
     showEmptyProviders: Boolean
 ) {
+    // Balance-only providers (MiMo/DeepSeek) render synthesized windows on the
+    // desktop home too, so filter on the *display* windows, not raw wire ones.
     val providers = stats.limits?.providers
-        ?.filter { showEmptyProviders || it.windows.isNotEmpty() }
+        ?.filter { showEmptyProviders || compactLimitWindows(it).isNotEmpty() }
         ?: emptyList()
     if (providers.isEmpty()) return
     SectionTitle("额度", "${providers.size} 个 provider")
-    Column(
-        Modifier
+    // The desktop home module is a TEXT list: up to 3 accounts sorted by
+    // remaining, each row = mark + name + per-window label/value lines with a
+    // small reset line. No meters — only the Limits view draws bars — and no
+    // stale badges (a stale row simply shows its last-known numbers).
+    GlassCard(
+        modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 16.dp),
+        shape = com.kyant.shapes.RoundedRectangle(18f.dp),
+        contentPadding = 12.dp
     ) {
-        // Tightest quota first: every metered window normalizes to a remaining
-        // percentage, with money meters derived the same way the row renders them.
-        providers
-            .sortedBy { p -> tightestRemaining(p) ?: Double.MAX_VALUE }
-            .take(3)
-            .forEach { p ->
-                GlassCard(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 4.dp),
-                    shape = com.kyant.shapes.RoundedRectangle(18f.dp),
-                    contentPadding = 10.dp
-                ) {
-                    LimitProviderRow(p, currency, rate)
-                }
-            }
+        Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            providers
+                .sortedBy { p -> tightestRemaining(p) ?: Double.MAX_VALUE }
+                .take(3)
+                .forEach { p -> HomeLimitAccount(p) }
+        }
+    }
+}
+
+/** One account block of the home limits module (`.home-limit-account`). */
+@Composable
+private fun HomeLimitAccount(p: ProviderLimit) {
+    Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(5.dp)) {
+        Row(
+            Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            ToolIcon(client = p.provider, size = 16.dp)
+            Text(
+                providerLabel(p.provider),
+                fontSize = 13.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = TextPrimary,
+                modifier = Modifier.weight(1f, fill = false),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
+        val windows = compactLimitWindows(p)
+        if (windows.isEmpty()) {
+            Text("无额度窗口", fontSize = 11.sp, color = TextMuted)
+        } else {
+            windows.forEach { w -> HomeLimitWindowLine(w, p) }
+        }
+    }
+}
+
+/** `.home-limit-window`: the label left, the value right, reset underneath. */
+@Composable
+private fun HomeLimitWindowLine(w: LimitWindow, p: ProviderLimit) {
+    Column(Modifier.fillMaxWidth()) {
+        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                windowLabel(w),
+                fontSize = 11.sp,
+                color = TextMuted,
+                modifier = Modifier.weight(1f),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+            Spacer(Modifier.width(6.dp))
+            Text(
+                homeLimitValue(w, p),
+                fontSize = 12.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = TextPrimary,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
+        val reset = when {
+            !w.resetsAt.isNullOrBlank() -> "重置 ${localDateTime(w.resetsAt)}"
+            !w.resetDescription.isNullOrBlank() -> w.resetDescription!!
+            else -> ""
+        }
+        if (reset.isNotEmpty()) {
+            Text(
+                reset,
+                fontSize = 10.sp,
+                color = TextMuted,
+                modifier = Modifier.padding(top = 1.dp),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
+    }
+}
+
+/** formatHomeLimitWindowValue: percent by default, money for credit balances. */
+private fun homeLimitValue(w: LimitWindow, p: ProviderLimit): String {
+    val currency = w.currency ?: p.balance?.currency
+    return when {
+        w.planStatus == "expired" -> "套餐已过期"
+        w.detail.equals("unlimited", ignoreCase = true) -> "无限"
+        isCreditsWindow(w) -> formatLimitMoney(w.remaining, currency)
+        w.remainingPercent != null -> "剩余 ${w.remainingPercent!!.roundToInt()}%"
+        w.usedPercent != null -> "剩余 ${(100.0 - w.usedPercent!!).roundToInt().coerceAtLeast(0)}%"
+        w.remaining != null -> "${formatLimitMoney(w.remaining, currency)} 剩余"
+        w.limit != null -> "${formatLimitMoney(w.limit, currency)} 上限"
+        else -> w.detail ?: "—"
     }
 }
 
@@ -218,61 +300,6 @@ private fun meteredWindows(p: ProviderLimit): List<Pair<LimitWindow, Double>> =
 
 private fun tightestRemaining(p: ProviderLimit): Double? =
     meteredWindows(p).minByOrNull { it.second }?.second
-
-@Composable
-fun LimitProviderRow(p: ProviderLimit, currency: String, rate: Double?) {
-    val worst = meteredWindows(p).minByOrNull { it.second }
-    val remaining = worst?.second
-    val color = when {
-        remaining == null -> TextMuted
-        remaining < 20.0 -> Error
-        remaining < 50.0 -> Warn
-        else -> Success
-    }
-    Column(Modifier.padding(vertical = 4.dp)) {
-        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            Text(
-                providerLabel(p.provider),
-                style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.Medium,
-                color = TextPrimary,
-                modifier = Modifier.weight(1f)
-            )
-            if (p.stale) {
-                Text("stale", fontSize = 11.sp, color = TextMuted)
-            }
-            if (remaining != null) {
-                Text(
-                    "剩余 ${pctDisplay(remaining)}",
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = color
-                )
-            }
-        }
-        if (worst != null) {
-            if (isCreditsWindow(worst.first)) {
-                // Balance-style headline: money, not a percent. The meter is
-                // still derived (balance vs this month's starting funds).
-                val amount = worst.first.remaining ?: p.balance?.amount
-                if (amount != null) {
-                    Text(
-                        "余额 ${formatLimitMoney(amount, worst.first.currency ?: p.balance?.currency)}",
-                        fontSize = 11.sp,
-                        color = TextMuted
-                    )
-                }
-            }
-            LimitBar(
-                percent = worst.second / 100.0,
-                // Upstream paints the bar with the provider's brand colour and
-                // tints only the *value text* by quota health.
-                color = vendorColor(p.provider),
-                modifier = Modifier.padding(top = 3.dp)
-            )
-        }
-    }
-}
 
 @Composable
 private fun ToolsPreview(stats: StatsResponse, period: Period, currency: String, rate: Double?) {
@@ -406,7 +433,6 @@ private fun DevicesPreview(stats: StatsResponse) {
                 )
             }
         }
-        HorizontalDivider(color = com.tokenmonitor.mobile.ui.theme.DividerColor, modifier = Modifier.padding(vertical = 4.dp))
     }
 }
 
