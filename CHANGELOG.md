@@ -2,9 +2,9 @@
 
 本应用随 [token-monitor](https://github.com/Javis603/token-monitor) 上游同步迭代。版本号独立于上游。
 
-## [Unreleased]
+## [0.3.0] — 2026-09-16
 
-同步最新上游 **token-monitor** v0.55 → v0.57.0（66 个上游提交）。
+同步最新上游 **token-monitor** v0.55 → v0.57.0（66 个上游提交），并修复同步与额度显示的多个问题。
 
 ### 新增（v0.57 移植）
 
