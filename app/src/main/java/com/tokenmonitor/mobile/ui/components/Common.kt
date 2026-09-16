@@ -94,6 +94,8 @@ fun StatCard(
     value: String,
     sub: String,
     accent: Color = Accent,
+    /** Optional footnote under the sub line (e.g. the live token rate). */
+    footnote: String? = null,
     modifier: Modifier = Modifier
 ) {
     GlassCard(modifier = modifier, shape = com.kyant.shapes.RoundedRectangle(18f.dp), contentPadding = 12.dp) {
@@ -110,6 +112,14 @@ fun StatCard(
             overflow = TextOverflow.Ellipsis
         )
         Text(sub, style = MaterialTheme.typography.labelSmall, color = TextMuted)
+        if (footnote != null) {
+            Text(
+                footnote,
+                style = MaterialTheme.typography.labelSmall.copy(color = Accent),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
     }
 }
 

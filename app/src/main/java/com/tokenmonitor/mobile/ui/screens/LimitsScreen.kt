@@ -43,6 +43,8 @@ import com.tokenmonitor.mobile.ui.theme.TextMuted
 import com.tokenmonitor.mobile.ui.theme.TextPrimary
 import com.tokenmonitor.mobile.ui.theme.Warn
 import com.tokenmonitor.mobile.util.creditsMeterPercent
+import com.tokenmonitor.mobile.util.compactTokens
+import com.tokenmonitor.mobile.util.formatLimitBoundary
 import com.tokenmonitor.mobile.util.formatLimitMoney
 import com.tokenmonitor.mobile.util.isCreditsWindow
 import com.tokenmonitor.mobile.util.isSpendWindow
@@ -269,6 +271,9 @@ private fun statusText(p: ProviderLimit): String = when (p.status) {
 @Composable
 private fun limitBrandColor(p: ProviderLimit): Color = when (p.provider) {
     "mimo" -> vendorColor("xiaomi")
+    // The factory limits row trades under the droid client colour, like the
+    // desktop's limitProviderRowColor.
+    "factory" -> vendorColor("droid")
     "thirdparty" -> when (p.adapterId?.lowercase()) {
         "newapi-account", "newapi-token" -> Color(0xFFC738FB)
         "sub2api" -> vendorColor("sub2api")
@@ -386,6 +391,10 @@ private fun providerWindowCells(p: ProviderLimit): List<WindowCell> {
         }
         "zed" -> zedCells(p)
         "zai", "zaiteam" -> zaiCells(p)
+        // v0.57: Factory Droid renders its rolling Standard 5-hour + Weekly
+        // quota pair like the desktop default branch; Core/legacy billing
+        // windows stay in the desktop account details only.
+        "factory" -> sessionWeeklyCells(p)
         "volcengine" -> volcengineCells(p)
         "kiro" -> kiroCells(p)
         "qoder" -> kindsOf(p, "billing").firstOrNull()?.let {
@@ -682,18 +691,77 @@ private fun zedBillingDetail(w: LimitWindow): String? {
     return "${moneyOf((limit - used).coerceAtLeast(0.0), currency)} / ${moneyOf(limit, currency)}"
 }
 
-/** zai/GLM Team: 5-hour + weekly pair and the separately-metered MCP pool. */
+/** zai/GLM Team: the quota pair, ZCode Start/Weekend plan buckets, MCP and cash. */
 private fun zaiCells(p: ProviderLimit): List<WindowCell> {
-    val fiveHour = firstKind(p, "session")
+    // Billing-kind windows are one of three things: the subscription MCP
+    // monthly bucket (no metric, no limitId), ZCode Start/Weekend plan buckets
+    // (limitId set, per-model labels), or the cash balance (metric 'credits').
+    val session = firstKind(p, "session")
     val weekly = firstKind(p, "weekly")
-    val mcp = firstKind(p, "billing")
-    val cells = mutableListOf<WindowCell>()
-    if (fiveHour != null) {
-        cells.add(WindowCell(fiveHour, fallbackLabel = "5-hour", tone = 0.95f, wide = weekly == null))
+    val dailyWindows = kindsOf(p, "daily")
+    val billingWindows = kindsOf(p, "billing")
+    val planBuckets = billingWindows.filter { !it.limitId.isNullOrBlank() && it.metric.isNullOrBlank() }
+    val monthlyWindows = billingWindows.filter { it.metric.isNullOrBlank() && it.limitId.isNullOrBlank() }
+    val balanceWindow = p.windows.firstOrNull { it.metric == "credits" }
+
+    val zcodeDetail: (LimitWindow) -> String? = { w ->
+        w.detail?.takeIf { it.isNotBlank() } ?: zcodeTokensDetail(w)
     }
-    if (weekly != null) cells.add(WindowCell(weekly, fallbackLabel = "Weekly", tone = 0.68f))
-    if (mcp != null) cells.add(WindowCell(mcp, fallbackLabel = "MCP", tone = 0.68f, wide = true))
-    return cells
+    val cells = buildList {
+        session?.let { add(WindowCell(it, fallbackLabel = "5-hour", tone = 0.95f)) }
+        for ((index, daily) in dailyWindows.withIndex()) {
+            add(
+                WindowCell(
+                    daily,
+                    fallbackLabel = if (dailyWindows.size > 1) "Daily ${index + 1}" else "Daily",
+                    tone = 0.78f,
+                    detail = zcodeDetail(daily)
+                )
+            )
+        }
+        weekly?.let { add(WindowCell(it, fallbackLabel = "Weekly", tone = 0.68f)) }
+        for (plan in planBuckets) {
+            add(
+                WindowCell(
+                    plan,
+                    fallbackLabel = "Start Plan",
+                    tone = 0.68f,
+                    detail = zcodeDetail(plan)
+                )
+            )
+        }
+    }
+    // An odd quota pair tail spans the row; monthly buckets stay full width
+    // regardless, and the cash pool sits at the bottom as the last resort.
+    val padded = if (cells.size % 2 == 1) cells.dropLast(1) + listOf(cells.last().copy(wide = true)) else cells
+    return padded +
+        monthlyWindows.map {
+            WindowCell(it, fallbackLabel = "MCP", tone = 0.68f, wide = true, detail = it.detail)
+        } +
+        listOfNotNull(
+            balanceWindow?.let {
+                WindowCell(
+                    LimitWindow(
+                        remainingPercent = creditsMeterPercent(p, it),
+                        showMeter = true
+                    ),
+                    label = "Balance",
+                    tone = 0.95f,
+                    wide = true,
+                    valueOverride = moneyOf(it.remaining, it.currency),
+                    noReset = true
+                )
+            },
+            spendNote(p.balance)
+        )
+}
+
+/** formatZcodeTokensDetail: "1.2M / 5M" remaining token count for ZCode pools. */
+private fun zcodeTokensDetail(w: LimitWindow): String? {
+    val remaining = w.remaining ?: return null
+    val limit = w.limit ?: return null
+    if (limit <= 0.0) return null
+    return "${compactTokens(remaining.toLong())} / ${compactTokens(limit.toLong())}"
 }
 
 /** Volcengine: four windows; an odd tail spans the row instead of half-filling it. */
@@ -1110,14 +1178,15 @@ private fun headline(c: WindowCell, w: LimitWindow?, p: ProviderLimit): String {
     }
 }
 
-/** "重置 MM-dd HH:mm", falling back to the display-only reset description. */
+/** "重置 2天 3小时后" / "到期 5小时20分后", falling back to the reset description. */
 private fun resetLine(w: LimitWindow?, p: ProviderLimit): String {
     if (w == null) return ""
     val base = when {
-        !w.resetsAt.isNullOrBlank() -> "重置 ${localDateTime(w.resetsAt)}"
+        !w.resetsAt.isNullOrBlank() -> formatLimitBoundary(w)
         !w.resetDescription.isNullOrBlank() -> w.resetDescription!!
         else -> return ""
     }
+    if (base.isEmpty()) return ""
     // Best-effort burn-down estimate, Codex only — upstream keeps its forecast
     // scoped to Codex's reset-credits module too.
     if (p.provider != "codex") return base

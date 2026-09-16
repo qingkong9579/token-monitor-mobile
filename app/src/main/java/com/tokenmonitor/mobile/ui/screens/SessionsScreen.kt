@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -121,6 +122,22 @@ private fun SessionRow(s: SessionEntry, currency: String, rate: Double?) {
                         overflow = TextOverflow.Ellipsis
                     )
                 }
+            }
+            if (s.sessionKind == "background-review") {
+                // v0.57: non-interactive Codex review runs read as a tag, not a
+                // regular coding session.
+                Text(
+                    "后台审查",
+                    fontSize = 10.sp,
+                    color = TextMuted,
+                    modifier = Modifier
+                        .padding(horizontal = 5.dp, vertical = 1.dp)
+                        .background(
+                            TextMuted.copy(alpha = 0.14f),
+                            RoundedCornerShape(5.dp)
+                        )
+                )
+                Spacer(Modifier.width(6.dp))
             }
             Text(
                 compactTokens(s.totalTokens),

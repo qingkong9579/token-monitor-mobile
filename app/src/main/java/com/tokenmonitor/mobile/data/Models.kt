@@ -71,6 +71,13 @@ data class PeriodSummary(
     @SerialName("cacheWriteTokens") val cacheWriteTokens: Long = 0,
     @SerialName("outputTokens") val outputTokens: Long = 0,
     @SerialName("unclassifiedTokens") val unclassifiedTokens: Long = 0,
+    // v0.55 live token rate: cumulative timed counters from tokscale. The
+    // renderer derives a rate only from the *delta* between two snapshots;
+    // `capabilities.throughput = false` (or absent fields) means "no data".
+    @SerialName("capabilities") val capabilities: PeriodCapabilities? = null,
+    @SerialName("timedTokens") val timedTokens: Double? = null,
+    @SerialName("timedOutputTokens") val timedOutputTokens: Double? = null,
+    @SerialName("timedDurationMs") val timedDurationMs: Double? = null,
     @SerialName("clients") val clients: Map<String, Long> = emptyMap(),
     @SerialName("clientCosts") val clientCosts: Map<String, Double> = emptyMap(),
     @SerialName("clientCacheReads") val clientCacheReads: Map<String, Long> = emptyMap(),
@@ -87,6 +94,13 @@ data class PeriodSummary(
     @SerialName("clientModelCosts") val clientModelCosts: Map<String, Map<String, Double>> = emptyMap(),
     @SerialName("projects") val projects: Map<String, ProjectEntry> = emptyMap(),
     @SerialName("sessions") val sessions: Map<String, SessionEntry> = emptyMap()
+)
+
+/** v0.55: a period advertises which derived features its counters support. */
+@Serializable
+data class PeriodCapabilities(
+    @SerialName("tokenComponents") val tokenComponents: Boolean? = null,
+    @SerialName("throughput") val throughput: Boolean? = null
 )
 
 @Serializable
@@ -113,6 +127,8 @@ data class SessionEntry(
     @SerialName("lastUsedAt") val lastUsedAt: String? = null,
     @SerialName("projectId") val projectId: String? = null,
     @SerialName("projectLabel") val projectLabel: String? = null,
+    // v0.57: "background-review" marks a non-interactive Codex review run.
+    @SerialName("sessionKind") val sessionKind: String? = null,
     @SerialName("models") val models: Map<String, Long> = emptyMap(),
     @SerialName("providers") val providers: Map<String, Long> = emptyMap()
 )
@@ -181,6 +197,10 @@ data class LimitWindow(
     // Optional display-only reset description for windows that don't carry a
     // resetsAt timestamp (e.g. Zed's "Unlimited" edit-predictions window).
     @SerialName("resetDescription") val resetDescription: String? = null,
+    // v0.56: types the resetsAt boundary — "reset" (the legacy presentation,
+    // also used when omitted), "expiry" (quota pool that expires), or "mixed"
+    // (simultaneous reset and expiry). Wording only; never scheduling.
+    @SerialName("boundaryKind") val boundaryKind: String? = null,
     // The hub emits percentages as 0-100 numbers that may carry float noise
     // (e.g. 0.7999999999999972), so these must be Double, never Int.
     @SerialName("usedPercent") val usedPercent: Double? = null,

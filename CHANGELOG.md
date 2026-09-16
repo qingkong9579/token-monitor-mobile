@@ -4,6 +4,21 @@
 
 ## [Unreleased]
 
+同步最新上游 **token-monitor** v0.55 → v0.57.0（66 个上游提交）。
+
+### 新增（v0.57 移植）
+
+- **实时 token 速率**（#648）：今日卡片显示「≈ 2.0K tok/s」——由两次快照的 `timed*` 计数器差分得出（非累计平均），仅统计非 stale 设备，样本在轮询间隔的 1.5 倍时间内有效；hub 未上报吞吐数据（`capabilities.throughput`）时自动隐藏
+- **Factory Droid 额度支持**（#685）：额度页新增 Factory 卡（Standard 5-hour + Weekly 配对，走桌面 default 分支；Core/legacy 窗口仅出现在桌面账户详情）；额度行沿用 droid 客户端色（上游 #000000，深色主题下提亮为浅灰以保证可见）
+- **GLM/Z.ai ZCode Start/Weekend 窗口**（v0.56）：billing 窗口按 `limitId` 拆分为计划桶（`Start · <model>`，附 token 余量明细）、订阅 MCP 桶（独占整行）与现金余额（底部整行 Balance + Spend）；新增 daily 窗口位
+- **额度到期语义**（#652）：`boundaryKind: expiry` 的窗口重置行显示「到期 X后」（如限时促销额度），`mixed` 显示「切换 X后」，默认仍为「重置 X后」
+- 会话页为 Codex 后台审查运行（`sessionKind: background-review`）显示「后台审查」标记
+- 用量目录新增 **Amp**（#694，红）与 **Factory Droid**（#682）客户端的名称与品牌色
+
+### 变更（v0.55 移植）
+
+- 额度页与首页的重置行从绝对时间（「重置 09-16 07:48」）改为上游的相对时长（「重置 2天 3小时后」，v0.55 起桌面同样改版）——已过期的时间边界不再显示
+
 ### 修复
 
 - **首页额度卡片对齐上游 home limits 模块**：改为纯文本列表（账户行 = 图标 + 名称，逐窗口「标签 + 剩余百分比」+ 重置时间行），去掉此前自创的进度条、按余量阈值的健康配色与 "stale" 字样——上游首页默认不画条、不标 stale；设备预览区去掉多余的分隔线

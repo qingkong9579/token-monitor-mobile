@@ -44,7 +44,19 @@ data class UiState(
     val testing: Boolean = false,
     val testResult: String? = null,
     /** Decoded background image (wallpaper or custom), null when solid color. */
-    val backgroundBitmap: ImageBitmap? = null
+    val backgroundBitmap: ImageBitmap? = null,
+    /** v0.55 live token rate, derived from the timed-counter deltas between two
+     * snapshots; null while no fresh sample exists (no data / idle past 180s). */
+    val liveTokenRate: LiveTokenRate? = null
+)
+
+/** One live-rate sample, ported from tokenRatePresentation.js: speed in tok/s,
+ * burn in tok/min, summed over the devices that published a delta recently. */
+data class LiveTokenRate(
+    val speed: Double,
+    val burn: Double,
+    val sampledAt: Long,
+    val deviceCount: Int
 )
 
 class MainViewModel(app: Application) : AndroidViewModel(app) {
@@ -59,6 +71,13 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
 
     private var refreshJob: Job? = null
     private var inFlight = false
+
+    // Per-device cumulative timed counters from the last snapshot; the live
+    // rate comes from the delta between consecutive snapshots (v0.55).
+    private data class TimedCounters(val timedTokens: Double, val timedOutputTokens: Double, val timedDurationMs: Double)
+
+    private var rateBaselines: Map<String, TimedCounters> = emptyMap()
+    private var lastRateSample: LiveTokenRate? = null
 
     init {
         val snapshot = settingsStore.snapshot()
@@ -84,6 +103,69 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
 
     fun setPeriod(period: Period) {
         _state.update { it.copy(period = period) }
+    }
+
+    /**
+     * Live token rate, ported from createLiveTokenRateGroupTracker: each
+     * non-stale device keeps its own cumulative timed counters; a rate sample
+     * is the delta between two consecutive snapshots (never the cumulative
+     * average), stays "active" for 8s and lingers dimmed for 180s before it
+     * clears. Devices without throughput data contribute nothing.
+     */
+    private fun observeLiveTokenRate(stats: StatsResponse) {
+        val now = System.currentTimeMillis()
+        // The desktop streams snapshots every few seconds, so its sample is
+        // "active" for 8s. This app polls, so the windows stretch to the
+        // refresh cadence: fresh for 1.5 intervals, lingering for 5 minutes.
+        val activeMs = 90_000L
+        val clearMs = 300_000L
+        val baselines = HashMap<String, TimedCounters>()
+        val samples = mutableListOf<LiveTokenRate>()
+        for (device in stats.devices.orEmpty()) {
+            val id = device.deviceId.trim()
+            if (id.isEmpty() || device.stale) continue
+            val period = device.periods?.today ?: continue
+            if (period.capabilities?.throughput == false) continue
+            val counters = TimedCounters(
+                timedTokens = period.timedTokens ?: continue,
+                timedOutputTokens = period.timedOutputTokens ?: continue,
+                timedDurationMs = period.timedDurationMs ?: continue
+            )
+            baselines[id] = counters
+            val base = rateBaselines[id] ?: continue
+            val dTokens = counters.timedTokens - base.timedTokens
+            val dOutput = counters.timedOutputTokens - base.timedOutputTokens
+            val dDuration = counters.timedDurationMs - base.timedDurationMs
+            // A regression is a new baseline boundary (midnight roll-over or
+            // reconfiguration): drop the sample instead of showing nonsense.
+            if (dTokens < 0 || dOutput < 0 || dDuration < 0) continue
+            if (dDuration <= 0) continue
+            samples.add(
+                LiveTokenRate(
+                    speed = (dOutput * 1000.0 / dDuration).coerceAtMost(1e12),
+                    burn = (dTokens * 60_000.0 / dDuration).coerceAtMost(1e12),
+                    sampledAt = now,
+                    deviceCount = 1
+                )
+            )
+        }
+        rateBaselines = baselines
+
+        val fresh = samples.filter { now < it.sampledAt + activeMs }
+        val rate = if (fresh.isNotEmpty()) {
+            LiveTokenRate(
+                speed = fresh.sumOf { it.speed },
+                burn = fresh.sumOf { it.burn },
+                sampledAt = fresh.maxOf { it.sampledAt },
+                deviceCount = fresh.size
+            )
+        } else {
+            // No fresh delta: keep the last useful reading dimmed until it is
+            // genuinely stale, mirroring the desktop's retained aggregate.
+            lastRateSample?.takeIf { now < it.sampledAt + clearMs }
+        }
+        lastRateSample = rate
+        _state.update { it.copy(liveTokenRate = rate) }
     }
 
     fun startAutoRefresh() {
@@ -116,6 +198,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
                     return@launch
                 }
                 val fetched = api.fetchStats(snapshot.hubUrl, snapshot.secret)
+                observeLiveTokenRate(fetched.stats)
                 _state.update {
                     it.copy(
                         refreshing = false,

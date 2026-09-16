@@ -51,12 +51,14 @@ import com.tokenmonitor.mobile.ui.theme.TextPrimary
 import com.tokenmonitor.mobile.util.clientLabel
 import com.tokenmonitor.mobile.util.compactTokens
 import com.tokenmonitor.mobile.util.creditsMeterPercent
+import com.tokenmonitor.mobile.util.formatLimitBoundary
 import com.tokenmonitor.mobile.util.formatLimitMoney
 import com.tokenmonitor.mobile.util.formatMoney
 import com.tokenmonitor.mobile.util.isCreditsWindow
 import com.tokenmonitor.mobile.util.localDateTime
 import com.tokenmonitor.mobile.util.providerLabel
 import com.tokenmonitor.mobile.util.windowLabel
+import com.tokenmonitor.mobile.vm.LiveTokenRate
 import com.tokenmonitor.mobile.vm.Period
 import com.tokenmonitor.mobile.vm.UiState
 import java.util.Locale
@@ -114,7 +116,7 @@ fun HomeScreen(
                             Text("更新于 ${clockTime(state.lastUpdated)}", fontSize = 11.sp, color = TextMuted)
                         }
                     }
-                    item { StatCards(stats, currency, rate) }
+                    item { StatCards(stats, currency, rate, state.liveTokenRate) }
                     item { ActivityModule(stats) }
                     item { TrendsModule(stats) }
                     item { LimitsPreview(stats, currency, rate, state.settings.showEmptyLimitProviders) }
@@ -134,7 +136,7 @@ private fun clockTime(epochMillis: Long?): String {
 }
 
 @Composable
-private fun StatCards(stats: StatsResponse, currency: String, rate: Double?) {
+private fun StatCards(stats: StatsResponse, currency: String, rate: Double?, liveRate: LiveTokenRate?) {
     val p = stats.periods ?: return
     Row(
         modifier = Modifier
@@ -146,6 +148,12 @@ private fun StatCards(stats: StatsResponse, currency: String, rate: Double?) {
             "今日",
             compactTokens(p.today?.totalTokens ?: 0),
             formatMoney(p.today?.costUsd ?: 0.0, currency, rate),
+            // Live token rate (v0.55): tok/s while deltas are fresh, tok/min
+            // otherwise — hidden entirely when no timed counters exist.
+            footnote = liveRate?.let {
+                "≈ ${compactTokens(if (it.speed > 0) it.speed.toLong() else it.burn.toLong())} " +
+                    if (it.speed > 0) "tok/s" else "tok/min"
+            },
             modifier = Modifier.weight(1f)
         )
         StatCard(
@@ -250,7 +258,7 @@ private fun HomeLimitWindowLine(w: LimitWindow, p: ProviderLimit) {
             )
         }
         val reset = when {
-            !w.resetsAt.isNullOrBlank() -> "重置 ${localDateTime(w.resetsAt)}"
+            !w.resetsAt.isNullOrBlank() -> formatLimitBoundary(w)
             !w.resetDescription.isNullOrBlank() -> w.resetDescription!!
             else -> ""
         }

@@ -169,6 +169,10 @@ val VENDOR_COLORS: Map<String, Color> = mapOf(
     "ollama" to Color(0xFF888888),
     "alibaba" to Color(0xFF615CED),
     "unsloth" to Color(0xFF40B85A),
+    "amp" to Color(0xFFF34E3F),
+    // v0.57: upstream paints Factory Droid #000000; on the dark aurora ground
+    // that is invisible, so the app lightens it to the brand's light grey.
+    "droid" to Color(0xFFC9CFDA),
     "thirdparty" to Color(0xFF8090A6),
     "default" to Color(0xFF6AB4F0)
 )
@@ -244,6 +248,9 @@ val CLIENT_LABELS: Map<String, String> = mapOf(
     "lmstudio" to "LM Studio",
     "trae" to "Trae",
     "unsloth" to "Unsloth",
+    // v0.57: Amp and Factory's Droid CLI joined the usage catalog.
+    "amp" to "Amp",
+    "droid" to "Factory Droid",
     "ollama" to "Ollama",
     "gemini" to "Gemini",
     "xai" to "xAI",
@@ -271,6 +278,9 @@ val PROVIDER_LABELS: Map<String, String> = mapOf(
     "claude" to "Claude Code",
     "codex" to "Codex",
     "opencode" to "OpenCode",
+    // v0.57: Factory Droid plan limits (the limits row trades under the
+    // "droid" client colour).
+    "factory" to "Factory Droid",
     "cursor" to "Cursor",
     "antigravity" to "Antigravity",
     "kimi" to "Kimi",
@@ -430,4 +440,37 @@ fun sessionIdLabel(id: String?): String {
 fun historyDateLabel(date: String?): String {
     val d = date ?: return "—"
     return if (d.length >= 10) d.substring(5, 10) else d
+}
+
+/**
+ * The reset/expiry line for a quota window, ported from the desktop's
+ * formatLimitBoundary (#652): windows whose quota pool *expires* say so
+ * (boundaryKind "expiry"), a simultaneous reset+expiry reads as a switch
+ * ("mixed"), and the default is the legacy reset wording. Time is a relative
+ * duration ("2天 3小时后"), not a wall-clock date.
+ */
+fun formatLimitBoundary(window: LimitWindow?, now: Long = System.currentTimeMillis()): String {
+    val resetsAt = parseIso(window?.resetsAt ?: return "") ?: return ""
+    val diffMs = resetsAt - now
+    if (diffMs < 0) return ""
+    val prefix = when (window?.boundaryKind) {
+        "expiry" -> "到期"
+        "mixed" -> "切换"
+        else -> "重置"
+    }
+    if (diffMs < 60_000) return "即将$prefix"
+    return "$prefix ${formatBoundaryDuration(diffMs)}后"
+}
+
+/** "2天 3小时" / "5小时 20分" / "30分" — mirrors the desktop's 2d 3h style. */
+private fun formatBoundaryDuration(ms: Long): String {
+    val totalMinutes = ms / 60_000
+    val days = totalMinutes / 1440
+    val hours = totalMinutes % 1440 / 60
+    val minutes = totalMinutes % 60
+    return when {
+        days > 0 -> "${days}天 ${hours}小时"
+        hours > 0 -> "${hours}小时 ${minutes}分"
+        else -> "${minutes}分"
+    }
 }
