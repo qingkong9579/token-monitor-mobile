@@ -364,6 +364,24 @@ internal fun compactLimitWindows(p: ProviderLimit): List<LimitWindow> {
             val plan = firstKind(p, "billing") ?: mimoTokenPlanWindow(p.balance)
             if (plan != null && base.none { it.kind == "billing" }) base + plan else base
         }
+        // zai mirrors the desktop limit views' selection semantics: ONE rolling
+        // session and ONE weekly (a GLM Coding row can carry several same-kind
+        // windows once ZCode logins merge into it — duplicates on the home
+        // card otherwise), every daily lane, the Start plan buckets, and one
+        // MCP + one cash window.
+        "zai", "zaiteam" -> {
+            val billing = base.filter { it.kind == "billing" }
+            buildList {
+                firstKind(p, "session")?.let { add(it) }
+                addAll(base.filter { it.kind == "daily" })
+                firstKind(p, "weekly")?.let { add(it) }
+                addAll(billing.filter { !it.limitId.isNullOrBlank() && it.metric.isNullOrBlank() })
+                billing.filter { it.metric.isNullOrBlank() && it.limitId.isNullOrBlank() }
+                    .take(1)
+                    .let { addAll(it) }
+                base.filter { it.metric == "credits" }.take(1).let { addAll(it) }
+            }
+        }
         else -> base
     }
 }
