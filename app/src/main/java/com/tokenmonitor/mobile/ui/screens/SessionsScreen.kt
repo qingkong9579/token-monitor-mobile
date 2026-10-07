@@ -46,6 +46,7 @@ import com.tokenmonitor.mobile.util.sessionIdLabel
 import com.tokenmonitor.mobile.util.vendorColor
 import com.tokenmonitor.mobile.vm.Period
 import com.tokenmonitor.mobile.vm.UiState
+import kotlin.math.roundToInt
 
 /** Per-session usage, mirroring the desktop Sessions view. */
 @OptIn(ExperimentalMaterial3Api::class)
@@ -159,6 +160,38 @@ private fun SessionRow(s: SessionEntry, currency: String, rate: Double?) {
                 Spacer(Modifier.width(8.dp))
                 Text("开始 ${localTime(it)}", fontSize = 11.sp, color = TextMuted)
             }
+            // v0.60+: per-session generation speed (this session's own share of
+            // the period's timed counters) and live context occupancy, shown
+            // only when the collecting device actually read them.
+            val sessionRate = sessionRateText(s)
+            if (sessionRate != null) {
+                Spacer(Modifier.width(8.dp))
+                Text(sessionRate, fontSize = 11.sp, color = TextMuted)
+            }
+            val context = contextText(s)
+            if (context != null) {
+                Spacer(Modifier.width(8.dp))
+                Text(context, fontSize = 11.sp, color = TextMuted)
+            }
         }
     }
+}
+
+/** "≈ 312 tok/s" from the session's timed counters; null when unread. */
+private fun sessionRateText(s: SessionEntry): String? {
+    val output = s.sessionTimedOutputTokens ?: return null
+    val durationMs = s.sessionTimedDurationMs ?: return null
+    if (durationMs <= 0.0 || output <= 0.0) return null
+    val rate = (output * 1000.0 / durationMs).toLong()
+    if (rate <= 0) return null
+    return "≈ ${compactTokens(rate)} tok/s"
+}
+
+/** "上下文 41% · 191K/950K" for a live session; null when unread. */
+private fun contextText(s: SessionEntry): String? {
+    val tokens = s.contextTokens ?: return null
+    val window = s.contextWindow ?: return null
+    if (tokens <= 0L || window <= 0L) return null
+    val percent = (tokens * 100.0 / window).roundToInt()
+    return "上下文 ${percent.coerceIn(0, 100)}% · ${compactTokens(tokens)}/${compactTokens(window)}"
 }

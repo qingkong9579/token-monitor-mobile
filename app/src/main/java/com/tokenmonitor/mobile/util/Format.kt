@@ -173,6 +173,12 @@ val VENDOR_COLORS: Map<String, Color> = mapOf(
     // v0.57: upstream paints Factory Droid #000000; on the dark aurora ground
     // that is invisible, so the app lightens it to the brand's light grey.
     "droid" to Color(0xFFC9CFDA),
+    // v0.60-v0.67 catalog additions. Upstream paints devin/stepfun/typesafe
+    // #000000 — lightened like droid for the dark aurora ground.
+    "cline" to Color(0xFF9D4EDD),
+    "devin" to Color(0xFFC9CFDA),
+    "stepfun" to Color(0xFFC9CFDA),
+    "typesafe" to Color(0xFFC9CFDA),
     "thirdparty" to Color(0xFF8090A6),
     "default" to Color(0xFF6AB4F0)
 )
@@ -251,6 +257,13 @@ val CLIENT_LABELS: Map<String, String> = mapOf(
     // v0.57: Amp and Factory's Droid CLI joined the usage catalog.
     "amp" to "Amp",
     "droid" to "Factory Droid",
+    // v0.60-v0.67 catalog additions.
+    "devin" to "Devin",
+    "stepfun" to "StepFun",
+    "typesafe" to "TypeSafe",
+    "mcode" to "MiniMax Code",
+    "fx" to "fx",
+    "muse" to "Muse Code",
     "ollama" to "Ollama",
     "gemini" to "Gemini",
     "xai" to "xAI",
@@ -277,6 +290,8 @@ fun clientLabel(id: String?): String = CLIENT_LABELS[id] ?: id ?: "Unknown"
 val PROVIDER_LABELS: Map<String, String> = mapOf(
     "claude" to "Claude Code",
     "codex" to "Codex",
+    // v0.60+: ClinePass console limits.
+    "cline" to "Cline",
     "opencode" to "OpenCode",
     // v0.57: Factory Droid plan limits (the limits row trades under the
     // "droid" client colour).
@@ -302,6 +317,10 @@ val PROVIDER_LABELS: Map<String, String> = mapOf(
     "trae" to "Trae CN",
     // v0.54: Alibaba Cloud Token Plan quotas (Team/Personal, both consoles).
     "alibaba" to "Alibaba Cloud",
+    // v0.60-v0.67 limits catalogs.
+    "devin" to "Devin",
+    "stepfun" to "StepFun",
+    "typesafe" to "TypeSafe",
     "thirdparty" to "Third-party APIs"
 )
 

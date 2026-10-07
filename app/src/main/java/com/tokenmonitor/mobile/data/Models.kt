@@ -129,6 +129,15 @@ data class SessionEntry(
     @SerialName("projectLabel") val projectLabel: String? = null,
     // v0.57: "background-review" marks a non-interactive Codex review run.
     @SerialName("sessionKind") val sessionKind: String? = null,
+    // v0.60+: live-session context occupancy ("0" means no reading, not an
+    // empty context) and the client's own turn boundary — deliberately
+    // three-state: true = finished, false = under way, absent = not reported.
+    @SerialName("contextTokens") val contextTokens: Long? = null,
+    @SerialName("contextWindow") val contextWindow: Long? = null,
+    @SerialName("turnEnded") val turnEnded: Boolean? = null,
+    // This session's share of the period throughput counters (tok/s per row).
+    @SerialName("timedOutputTokens") val sessionTimedOutputTokens: Double? = null,
+    @SerialName("timedDurationMs") val sessionTimedDurationMs: Double? = null,
     @SerialName("models") val models: Map<String, Long> = emptyMap(),
     @SerialName("providers") val providers: Map<String, Long> = emptyMap()
 )
