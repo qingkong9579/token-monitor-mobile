@@ -2,6 +2,22 @@
 
 本应用随 [token-monitor](https://github.com/Javis603/token-monitor) 上游同步迭代。版本号独立于上游。
 
+## [0.4.0] — 2026-10-07
+
+同步上游 **token-monitor** v0.60 → v0.67.0（234 个上游提交），适配新的 provider 目录与会话级协议字段。
+
+### 新增
+
+- **额度目录扩充**：新增 **Cline**（ClinePass）、**Devin**、**StepFun**、**TypeSafe** 额度 provider 的名称与品牌色（上游纯黑品牌色在深色极光背景下按惯例提亮为浅灰）
+- **用量客户端扩充**：MiniMax Code（mcode）、fx、Muse Code（muse）的名称与标签
+- **会话行实时信息**（v0.60+ 协议字段，仅在采集设备实际读到时显示）：
+  - 每会话生成速率「≈ 312 tok/s」——该会话分摊的周期计时计数器（`timedOutputTokens` / `timedDurationMs`）
+  - 上下文占用「上下文 41% · 191K/950K」（`contextTokens` / `contextWindow`，0 表示未读到而非空上下文）
+
+### 兼容
+
+- 配额窗口的 wire 结构 v0.60–v0.67 无变化，额度显示无需调整；上游同期的会话标题同步、模型级速率映射等均由桌面端/采集端实现，App 天然兼容
+
 ## [0.3.1] — 2026-09-19
 
 ### 修复
